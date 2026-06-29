@@ -1,0 +1,27 @@
+﻿中间件实验四提交说明
+
+1. 目录说明
+- src/: 完整源码
+- bin/middleware-lab04-1.0.0.jar: 可执行文件
+- pom.xml: Maven构建文件
+- application.yml: 运行配置
+- run-dev.bat: 源码运行脚本
+- run-jar.bat: jar运行脚本
+
+2. 启动方式
+方式A（推荐）: 双击 run-dev.bat
+方式B（可执行包）: 双击 run-jar.bat
+
+3. 运行后访问
+- 聊天页面: http://localhost:8081/index.html
+- 健康检查: http://localhost:8081/actuator/health
+- API健康: http://localhost:8081/api/health
+- H2控制台: http://localhost:8081/h2-console
+  JDBC URL: jdbc:h2:file:./data/middleware04
+  User: sa
+  Password: (空)
+
+4. 核心验证SQL
+select id, source, intent, status, created_at from chat_events order by created_at desc;
+
+说明: 本包已集成聊天前端、WebSocket、RabbitMQ消息、持久化、健康检查、定时任务。

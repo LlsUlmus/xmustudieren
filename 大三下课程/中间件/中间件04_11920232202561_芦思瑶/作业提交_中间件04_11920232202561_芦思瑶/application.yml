@@ -1,0 +1,67 @@
+spring:
+  application:
+    name: middleware-lab04
+  datasource:
+    url: jdbc:h2:file:./data/middleware04;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  rabbitmq:
+    # 本机：保持默认 localhost:5672 + guest/guest
+    # 云端（如 CloudAMQP）：设置 RABBITMQ_HOST/PORT/USER/PASSWORD/VHOST，且通常 RABBITMQ_SSL=true
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASSWORD:guest}
+    virtual-host: ${RABBITMQ_VHOST:/}
+    ssl:
+      enabled: ${RABBITMQ_SSL:false}
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# 实验 Facility：定时清理等
+lab:
+  webhook:
+    # 与 POST /api/inbound/events 联调时使用；开发可设为 dev-insecure 并在配置里关闭校验（仅本地）
+    secret: ${WEBHOOK_SECRET:change-me}
+    auth-disabled: ${WEBHOOK_AUTH_DISABLED:false}
+  scheduled:
+    cleanup-cron: "0 0 3 * * *"
+    retention-days: 30
+  exp3-bridge:
+    enabled: ${EXP3_BRIDGE_ENABLED:false}
+    ws-url: ${EXP3_WS_URL:ws://localhost:8080/ws}
+    topic: ${EXP3_TOPIC:/topic/messages}
+    source-name: exp3-stomp
+
+# 消息中间件：聊天事件队列配置（后续 OpenClaw 仅调用 HTTP，不依赖此常量）
+messaging:
+  chat-event:
+    queue: lab04.chat.event.created
+    exchange: lab04.chat.event
+    routing-key: chat.event.created
+
+minimax:
+  api-key: ${MINIMAX_API_KEY:sk-cp-ZcGU3uVi3wGwPYSN8IE4UTz9kJO0_HU8D1auWFyKAPYD09qF428ne4eGUUNKxf-O1oQ6IqMPN4SgxSAQy8tSfPUvKoYlZjdoZItEw7lNCfvhxQCCSoOhNDk}
+  base-url: https://api.minimaxi.com/v1
+  model: MiniMax-M2.1

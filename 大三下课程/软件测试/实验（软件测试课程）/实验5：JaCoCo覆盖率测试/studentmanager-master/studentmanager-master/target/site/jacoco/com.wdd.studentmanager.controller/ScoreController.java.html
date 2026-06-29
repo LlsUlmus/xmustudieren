@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ScoreController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.controller</a> &gt; <span class="el_source">ScoreController.java</span></div><h1>ScoreController.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.controller;
+
+import com.wdd.studentmanager.domain.Score;
+import com.wdd.studentmanager.domain.ScoreStats;
+import com.wdd.studentmanager.domain.Student;
+import com.wdd.studentmanager.service.CourseService;
+import com.wdd.studentmanager.service.ScoreService;
+import com.wdd.studentmanager.service.SelectedCourseService;
+import com.wdd.studentmanager.service.StudentService;
+import com.wdd.studentmanager.util.AjaxResult;
+import com.wdd.studentmanager.util.Const;
+import com.wdd.studentmanager.util.PageBean;
+import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Classname ScoreController
+ * @Description 成绩控制器
+ * @Date 2019/7/3 11:38
+ * @Created by WDD
+ */
+@Controller
+@RequestMapping(&quot;/score&quot;)
+<span class="nc" id="L42">public class ScoreController {</span>
+
+    @Autowired
+    private ScoreService scoreService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private CourseService courseService;
+    @Autowired
+    private SelectedCourseService selectedCourseService;
+
+
+    @GetMapping(&quot;/score_list&quot;)
+    public String scoreList(){
+<span class="nc" id="L56">        return &quot;/score/scoreList&quot;;</span>
+    }
+
+
+    /**
+     * 异步加载成绩数据列表
+     * @param page
+     * @param rows
+     * @param studentid
+     * @param courseid
+     * @param from
+     * @param session
+     * @return
+     */
+    @RequestMapping(&quot;/getScoreList&quot;)
+    @ResponseBody
+    public Object getScoreList(@RequestParam(value = &quot;page&quot;, defaultValue = &quot;1&quot;)Integer page,
+                                    @RequestParam(value = &quot;rows&quot;, defaultValue = &quot;100&quot;)Integer rows,
+                                    @RequestParam(value = &quot;studentid&quot;, defaultValue = &quot;0&quot;)String studentid,
+                                    @RequestParam(value = &quot;courseid&quot;, defaultValue = &quot;0&quot;)String courseid,
+                                    String from, HttpSession session){
+<span class="nc" id="L77">        Map&lt;String,Object&gt; paramMap = new HashMap();</span>
+<span class="nc" id="L78">        paramMap.put(&quot;pageno&quot;,page);</span>
+<span class="nc" id="L79">        paramMap.put(&quot;pagesize&quot;,rows);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">        if(!studentid.equals(&quot;0&quot;))  paramMap.put(&quot;studentid&quot;,studentid);</span>
+<span class="nc bnc" id="L81" title="All 2 branches missed.">        if(!courseid.equals(&quot;0&quot;))  paramMap.put(&quot;courseid&quot;,courseid);</span>
+
+        //判断是老师还是学生权限
+<span class="nc" id="L84">        Student student = (Student) session.getAttribute(Const.STUDENT);</span>
+<span class="nc bnc" id="L85" title="All 2 branches missed.">        if(!StringUtils.isEmpty(student)){</span>
+            //是学生权限，只能查询自己的信息
+<span class="nc" id="L87">            paramMap.put(&quot;studentid&quot;,student.getId());</span>
+        }
+<span class="nc" id="L89">        PageBean&lt;Score&gt; pageBean = scoreService.queryPage(paramMap);</span>
+<span class="nc bnc" id="L90" title="All 4 branches missed.">        if(!StringUtils.isEmpty(from) &amp;&amp; from.equals(&quot;combox&quot;)){</span>
+<span class="nc" id="L91">            return pageBean.getDatas();</span>
+        }else{
+<span class="nc" id="L93">            Map&lt;String,Object&gt; result = new HashMap();</span>
+<span class="nc" id="L94">            result.put(&quot;total&quot;,pageBean.getTotalsize());</span>
+<span class="nc" id="L95">            result.put(&quot;rows&quot;,pageBean.getDatas());</span>
+<span class="nc" id="L96">            return result;</span>
+        }
+    }
+
+
+    /**
+     * 添加成绩
+     * @param score
+     * @return
+     */
+    @PostMapping(&quot;/addScore&quot;)
+    @ResponseBody
+    public AjaxResult addScore(Score score){
+<span class="nc" id="L109">        AjaxResult ajaxResult = new AjaxResult();</span>
+        //判断是否已录入成绩
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if(scoreService.isScore(score)){</span>
+            //true为已签到
+<span class="nc" id="L113">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L114">            ajaxResult.setMessage(&quot;已录入，请勿重复录入！&quot;);</span>
+        }else{
+<span class="nc" id="L116">            int count = scoreService.addScore(score);</span>
+<span class="nc bnc" id="L117" title="All 2 branches missed.">            if(count &gt; 0){</span>
+                //签到成功
+<span class="nc" id="L119">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L120">                ajaxResult.setMessage(&quot;录入成功&quot;);</span>
+            }else{
+<span class="nc" id="L122">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L123">                ajaxResult.setMessage(&quot;系统错误，请重新录入&quot;);</span>
+            }
+        }
+<span class="nc" id="L126">        return ajaxResult;</span>
+    }
+
+
+    /**
+     * 修改学生成绩
+     * @param score
+     * @return
+     */
+    @PostMapping(&quot;/editScore&quot;)
+    @ResponseBody
+    public AjaxResult editScore(Score score){
+<span class="nc" id="L138">        AjaxResult ajaxResult = new AjaxResult();</span>
+        try {
+<span class="nc" id="L140">            int count = scoreService.editScore(score);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if(count &gt; 0){</span>
+                //签到成功
+<span class="nc" id="L143">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L144">                ajaxResult.setMessage(&quot;修改成功&quot;);</span>
+            }else{
+<span class="nc" id="L146">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L147">                ajaxResult.setMessage(&quot;系统错误，请重新修改&quot;);</span>
+            }
+<span class="nc" id="L149">        } catch (Exception e) {</span>
+<span class="nc" id="L150">            e.printStackTrace();</span>
+<span class="nc" id="L151">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L152">            ajaxResult.setMessage(&quot;系统错误，请重新修改&quot;);</span>
+<span class="nc" id="L153">        }</span>
+<span class="nc" id="L154">        return ajaxResult;</span>
+    }
+
+    /**
+     * 删除学生成绩
+     * @param id
+     * @return
+     */
+    @PostMapping(&quot;/deleteScore&quot;)
+    @ResponseBody
+    public AjaxResult deleteScore(Integer id){
+<span class="nc" id="L165">        AjaxResult ajaxResult = new AjaxResult();</span>
+        try {
+<span class="nc" id="L167">            int count = scoreService.deleteScore(id);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">            if(count &gt; 0){</span>
+<span class="nc" id="L169">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L170">                ajaxResult.setMessage(&quot;删除成功&quot;);</span>
+            }else{
+<span class="nc" id="L172">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L173">                ajaxResult.setMessage(&quot;系统错误，请重新删除&quot;);</span>
+            }
+<span class="nc" id="L175">        } catch (Exception e) {</span>
+<span class="nc" id="L176">            e.printStackTrace();</span>
+<span class="nc" id="L177">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L178">            ajaxResult.setMessage(&quot;系统错误，请重新删除&quot;);</span>
+<span class="nc" id="L179">        }</span>
+<span class="nc" id="L180">        return ajaxResult;</span>
+    }
+
+    /**
+     * 导入xlsx表 并存入数据库
+     * @param importScore
+     * @param response
+     */
+    @PostMapping(&quot;/importScore&quot;)
+    @ResponseBody
+    public void importScore(@RequestParam(&quot;importScore&quot;) MultipartFile importScore, HttpServletResponse response){
+<span class="nc" id="L191">        response.setCharacterEncoding(&quot;UTF-8&quot;);</span>
+        try {
+<span class="nc" id="L193">            InputStream inputStream = importScore.getInputStream();</span>
+<span class="nc" id="L194">            XSSFWorkbook xssfWorkbook = new XSSFWorkbook(inputStream);</span>
+<span class="nc" id="L195">            XSSFSheet sheetAt = xssfWorkbook.getSheetAt(0);</span>
+<span class="nc" id="L196">            int count = 0;</span>
+<span class="nc" id="L197">            String errorMsg = &quot;&quot;;</span>
+<span class="nc bnc" id="L198" title="All 2 branches missed.">            for(int rowNum = 1; rowNum &lt;= sheetAt.getLastRowNum(); rowNum++){</span>
+<span class="nc" id="L199">                XSSFRow row = sheetAt.getRow(rowNum); // 获取第rowNum行</span>
+                //第0列
+<span class="nc" id="L201">                XSSFCell cell = row.getCell(0); // 获取第rowNum行的第0列 即坐标（rowNum，0）</span>
+<span class="nc bnc" id="L202" title="All 2 branches missed.">                if(cell == null){</span>
+<span class="nc" id="L203">                    errorMsg += &quot;第&quot; + rowNum + &quot;行学生缺失！\n&quot;;</span>
+<span class="nc" id="L204">                    continue;</span>
+                }
+                //第1列
+<span class="nc" id="L207">                cell = row.getCell(1);</span>
+<span class="nc bnc" id="L208" title="All 2 branches missed.">                if(cell == null){</span>
+<span class="nc" id="L209">                    errorMsg += &quot;第&quot; + rowNum + &quot;行课程缺失！\n&quot;;</span>
+<span class="nc" id="L210">                    continue;</span>
+                }
+                //第2列
+<span class="nc" id="L213">                cell = row.getCell(2);</span>
+<span class="nc bnc" id="L214" title="All 2 branches missed.">                if(cell == null){</span>
+<span class="nc" id="L215">                    errorMsg += &quot;第&quot; + rowNum + &quot;行成绩缺失！\n&quot;;</span>
+<span class="nc" id="L216">                    continue;</span>
+                }
+<span class="nc" id="L218">                double scoreValue = cell.getNumericCellValue();</span>
+                //第3列
+<span class="nc" id="L220">                cell = row.getCell(3);</span>
+<span class="nc" id="L221">                String remark = null;</span>
+<span class="nc bnc" id="L222" title="All 2 branches missed.">                if(cell != null){</span>
+<span class="nc" id="L223">                    remark = cell.getStringCellValue();</span>
+                }
+
+                //将学生，课程转换为id,存入数据库
+                // 1)首先获取对应的id
+<span class="nc" id="L228">                int studentId = studentService.findByName(row.getCell(0).getStringCellValue());</span>
+<span class="nc" id="L229">                int courseId = courseService.findByName(row.getCell(1).getStringCellValue());</span>
+                // 2)判断是否已存在数据库中
+<span class="nc" id="L231">                Score score = new Score();</span>
+<span class="nc" id="L232">                score.setStudentId(studentId);</span>
+<span class="nc" id="L233">                score.setCourseId(courseId);</span>
+<span class="nc" id="L234">                score.setScore(scoreValue);</span>
+<span class="nc" id="L235">                score.setRemark(remark);</span>
+<span class="nc bnc" id="L236" title="All 2 branches missed.">                if(!scoreService.isScore(score)){</span>
+                    // 3)存入数据库
+<span class="nc" id="L238">                    int i = scoreService.addScore(score);</span>
+<span class="nc bnc" id="L239" title="All 2 branches missed.">                    if(i &gt; 0){</span>
+<span class="nc" id="L240">                        count ++ ;</span>
+                    }
+<span class="nc" id="L242">                }else{</span>
+<span class="nc" id="L243">                    errorMsg += &quot;第&quot; + rowNum + &quot;行已录入，不重复录入！\n&quot;;</span>
+                }
+            }
+<span class="nc" id="L246">            errorMsg += &quot;成功录入&quot; + count + &quot;条成绩信息！&quot;;</span>
+<span class="nc" id="L247">            response.getWriter().write(&quot;&lt;div id='message'&gt;&quot;+errorMsg+&quot;&lt;/div&gt;&quot;);</span>
+
+<span class="nc" id="L249">        } catch (IOException e) {</span>
+<span class="nc" id="L250">            e.printStackTrace();</span>
+            try {
+<span class="nc" id="L252">                response.getWriter().write(&quot;&lt;div id='message'&gt;上传错误&lt;/div&gt;&quot;);</span>
+<span class="nc" id="L253">            } catch (IOException ex) {</span>
+<span class="nc" id="L254">                ex.printStackTrace();</span>
+<span class="nc" id="L255">            }</span>
+<span class="nc" id="L256">        }</span>
+
+<span class="nc" id="L258">    }</span>
+
+
+    /**
+     * 导出xlsx表
+     * @param response
+     * @param score
+     * @param session
+     */
+    @RequestMapping(&quot;/exportScore&quot;)
+    @ResponseBody
+    private void exportScore(HttpServletResponse response,Score score,HttpSession session) {
+        //获取当前登录用户类型
+<span class="nc" id="L271">        Student student = (Student) session.getAttribute(Const.STUDENT);</span>
+<span class="nc bnc" id="L272" title="All 2 branches missed.">        if(!StringUtils.isEmpty(student)){</span>
+            //如果是学生，只能查看自己的信息
+<span class="nc" id="L274">            score.setStudentId(student.getId());</span>
+        }
+        try {
+<span class="nc" id="L277">            response.setHeader(&quot;Content-Disposition&quot;, &quot;attachment;filename=&quot;+ URLEncoder.encode(&quot;score_list_sid_&quot;+score.getStudentId()+&quot;_cid_&quot;+score.getStudentId()+&quot;.xls&quot;, &quot;UTF-8&quot;));</span>
+<span class="nc" id="L278">            response.setHeader(&quot;Connection&quot;, &quot;close&quot;);</span>
+<span class="nc" id="L279">            response.setHeader(&quot;Content-Type&quot;, &quot;application/octet-stream&quot;);</span>
+<span class="nc" id="L280">            ServletOutputStream outputStream = response.getOutputStream();</span>
+<span class="nc" id="L281">            List&lt;Score&gt; scoreList = scoreService.getAll(score);</span>
+<span class="nc" id="L282">            XSSFWorkbook xssfWorkbook = new XSSFWorkbook();</span>
+<span class="nc" id="L283">            XSSFSheet createSheet = xssfWorkbook.createSheet(&quot;成绩列表&quot;);</span>
+<span class="nc" id="L284">            XSSFRow createRow = createSheet.createRow(0);</span>
+<span class="nc" id="L285">            createRow.createCell(0).setCellValue(&quot;学生&quot;);</span>
+<span class="nc" id="L286">            createRow.createCell(1).setCellValue(&quot;课程&quot;);</span>
+<span class="nc" id="L287">            createRow.createCell(2).setCellValue(&quot;成绩&quot;);</span>
+<span class="nc" id="L288">            createRow.createCell(3).setCellValue(&quot;备注&quot;);</span>
+            //实现将数据装入到excel文件中
+<span class="nc" id="L290">            int row = 1;</span>
+<span class="nc bnc" id="L291" title="All 2 branches missed.">            for( Score s:scoreList){</span>
+<span class="nc" id="L292">                createRow = createSheet.createRow(row++);</span>
+<span class="nc" id="L293">                createRow.createCell(0).setCellValue(s.getStudentName());</span>
+<span class="nc" id="L294">                createRow.createCell(1).setCellValue(s.getCourseName());</span>
+<span class="nc" id="L295">                createRow.createCell(2).setCellValue(s.getScore());</span>
+<span class="nc" id="L296">                createRow.createCell(3).setCellValue(s.getRemark());</span>
+<span class="nc" id="L297">            }</span>
+<span class="nc" id="L298">            xssfWorkbook.write(outputStream);</span>
+<span class="nc" id="L299">            outputStream.flush();</span>
+<span class="nc" id="L300">            outputStream.close();</span>
+<span class="nc" id="L301">        } catch (Exception e) {</span>
+<span class="nc" id="L302">            e.printStackTrace();</span>
+<span class="nc" id="L303">        }</span>
+<span class="nc" id="L304">    }</span>
+
+
+    /**
+     * 跳转统计页面
+     * @return
+     */
+    @RequestMapping(&quot;/scoreStats&quot;)
+    public String scoreStats(){
+<span class="nc" id="L313">        return &quot;/score/scoreStats&quot;;</span>
+    }
+
+
+    /**
+     * 统计成绩数据
+     * @param courseid
+     * @param searchType
+     * @return
+     */
+    @RequestMapping(&quot;/getScoreStatsList&quot;)
+    @ResponseBody
+    public Object getScoreStatsList(@RequestParam(value = &quot;courseid&quot;, defaultValue = &quot;0&quot;)Integer courseid,
+                                        String searchType){
+<span class="nc" id="L327">        AjaxResult ajaxResult = new AjaxResult();</span>
+<span class="nc bnc" id="L328" title="All 2 branches missed.">        if(searchType.equals(&quot;avg&quot;)){</span>
+<span class="nc" id="L329">            ScoreStats scoreStats = scoreService.getAvgStats(courseid);</span>
+
+<span class="nc" id="L331">            List&lt;Double&gt; scoreList = new ArrayList&lt;Double&gt;();</span>
+<span class="nc" id="L332">            scoreList.add(scoreStats.getMax_score());</span>
+<span class="nc" id="L333">            scoreList.add(scoreStats.getMin_score());</span>
+<span class="nc" id="L334">            scoreList.add(scoreStats.getAvg_score());</span>
+
+<span class="nc" id="L336">            List&lt;String&gt; avgStringList = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L337">            avgStringList.add(&quot;最高分&quot;);</span>
+<span class="nc" id="L338">            avgStringList.add(&quot;最低分&quot;);</span>
+<span class="nc" id="L339">            avgStringList.add(&quot;平均分&quot;);</span>
+
+<span class="nc" id="L341">            Map&lt;String, Object&gt; retMap = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L342">            retMap.put(&quot;courseName&quot;, scoreStats.getCourseName());</span>
+<span class="nc" id="L343">            retMap.put(&quot;scoreList&quot;, scoreList);</span>
+<span class="nc" id="L344">            retMap.put(&quot;avgList&quot;, avgStringList);</span>
+<span class="nc" id="L345">            retMap.put(&quot;type&quot;, &quot;success&quot;);</span>
+
+<span class="nc" id="L347">            return retMap;</span>
+        }
+
+<span class="nc" id="L350">        Score score = new Score();</span>
+<span class="nc" id="L351">        score.setCourseId(courseid);</span>
+<span class="nc" id="L352">        List&lt;Score&gt; scoreList = scoreService.getAll(score);</span>
+
+
+<span class="nc" id="L355">        List&lt;Integer&gt; numberList = new ArrayList&lt;Integer&gt;();</span>
+<span class="nc" id="L356">        numberList.add(0);</span>
+<span class="nc" id="L357">        numberList.add(0);</span>
+<span class="nc" id="L358">        numberList.add(0);</span>
+<span class="nc" id="L359">        numberList.add(0);</span>
+<span class="nc" id="L360">        numberList.add(0);</span>
+
+<span class="nc" id="L362">        List&lt;String&gt; rangeStringList = new ArrayList&lt;String&gt;();</span>
+<span class="nc" id="L363">        rangeStringList.add(&quot;60分以下&quot;);</span>
+<span class="nc" id="L364">        rangeStringList.add(&quot;60~70分&quot;);</span>
+<span class="nc" id="L365">        rangeStringList.add(&quot;70~80分&quot;);</span>
+<span class="nc" id="L366">        rangeStringList.add(&quot;80~90分&quot;);</span>
+<span class="nc" id="L367">        rangeStringList.add(&quot;90~100分&quot;);</span>
+
+<span class="nc" id="L369">        String courseName = &quot;&quot;;</span>
+
+<span class="nc bnc" id="L371" title="All 2 branches missed.">        for(Score sc : scoreList){</span>
+<span class="nc" id="L372">            courseName = sc.getCourseName();  //获取课程名</span>
+<span class="nc" id="L373">            double scoreValue = sc.getScore();//获取成绩</span>
+<span class="nc bnc" id="L374" title="All 2 branches missed.">            if(scoreValue &lt; 60){</span>
+<span class="nc" id="L375">                numberList.set(0, numberList.get(0)+1);</span>
+<span class="nc" id="L376">                continue;</span>
+            }
+<span class="nc bnc" id="L378" title="All 4 branches missed.">            if(scoreValue &lt;= 70 &amp;&amp; scoreValue &gt;= 60){</span>
+<span class="nc" id="L379">                numberList.set(1, numberList.get(1)+1);</span>
+<span class="nc" id="L380">                continue;</span>
+            }
+<span class="nc bnc" id="L382" title="All 4 branches missed.">            if(scoreValue &lt;= 80 &amp;&amp; scoreValue &gt; 70){</span>
+<span class="nc" id="L383">                numberList.set(2, numberList.get(2)+1);</span>
+<span class="nc" id="L384">                continue;</span>
+            }
+<span class="nc bnc" id="L386" title="All 4 branches missed.">            if(scoreValue &lt;= 90 &amp;&amp; scoreValue &gt; 80){</span>
+<span class="nc" id="L387">                numberList.set(3, numberList.get(3)+1);</span>
+<span class="nc" id="L388">                continue;</span>
+            }
+<span class="nc bnc" id="L390" title="All 4 branches missed.">            if(scoreValue &lt;= 100 &amp;&amp; scoreValue &gt; 90){</span>
+<span class="nc" id="L391">                numberList.set(4, numberList.get(4)+1);</span>
+<span class="nc" id="L392">                continue;</span>
+            }
+<span class="nc" id="L394">        }</span>
+<span class="nc" id="L395">        Map&lt;String, Object&gt; retMap = new HashMap&lt;String, Object&gt;();</span>
+<span class="nc" id="L396">        retMap.put(&quot;courseName&quot;, courseName);</span>
+<span class="nc" id="L397">        retMap.put(&quot;numberList&quot;, numberList);</span>
+<span class="nc" id="L398">        retMap.put(&quot;rangeList&quot;, rangeStringList);</span>
+<span class="nc" id="L399">        retMap.put(&quot;type&quot;, &quot;success&quot;);</span>
+<span class="nc" id="L400">        return retMap;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

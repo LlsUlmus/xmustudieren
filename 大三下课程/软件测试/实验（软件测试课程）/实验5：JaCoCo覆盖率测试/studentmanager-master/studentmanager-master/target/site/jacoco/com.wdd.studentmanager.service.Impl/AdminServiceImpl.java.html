@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.service.Impl</a> &gt; <span class="el_source">AdminServiceImpl.java</span></div><h1>AdminServiceImpl.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.service.Impl;
+
+import com.wdd.studentmanager.domain.Admin;
+import com.wdd.studentmanager.mapper.AdminMapper;
+import com.wdd.studentmanager.service.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * @Classname UserServiceImpl
+ * @Description None
+ * @Date 2019/6/25 11:08
+ * @Created by WDD
+ */
+@Service
+<span class="nc" id="L16">public class AdminServiceImpl implements AdminService {</span>
+
+    @Autowired
+    private AdminMapper adminMapper;
+
+    @Override
+    public Admin findByAdmin(Admin admin) {
+<span class="nc" id="L23">        return adminMapper.findByAdmin(admin);</span>
+    }
+
+    @Override
+    public int editPswdByAdmin(Admin admin) {
+<span class="nc" id="L28">        return adminMapper.editPswdByAdmin(admin);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

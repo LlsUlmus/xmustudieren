@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AttendanceController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.controller</a> &gt; <span class="el_source">AttendanceController.java</span></div><h1>AttendanceController.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.controller;
+
+import com.wdd.studentmanager.domain.Attendance;
+import com.wdd.studentmanager.domain.Course;
+import com.wdd.studentmanager.domain.SelectedCourse;
+import com.wdd.studentmanager.domain.Student;
+import com.wdd.studentmanager.service.AttendanceService;
+import com.wdd.studentmanager.service.CourseService;
+import com.wdd.studentmanager.service.SelectedCourseService;
+import com.wdd.studentmanager.util.AjaxResult;
+import com.wdd.studentmanager.util.Const;
+import com.wdd.studentmanager.util.DateFormatUtil;
+import com.wdd.studentmanager.util.PageBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.util.*;
+
+/**
+ * @Classname AttendanceController
+ * @Description None
+ * @Date 2019/7/1 11:57
+ * @Created by WDD
+ */
+@Controller
+@RequestMapping(&quot;/attendance&quot;)
+<span class="nc" id="L30">public class AttendanceController {</span>
+
+    @Autowired
+    private AttendanceService attendanceService;
+    @Autowired
+    private SelectedCourseService selectedCourseService;
+    @Autowired
+    private CourseService courseService;
+
+    @GetMapping(&quot;/attendance_list&quot;)
+    public String attendanceList(){
+<span class="nc" id="L41">        return &quot;/attendance/attendanceList&quot;;</span>
+    }
+
+
+    /**
+     * 异步获取考勤列表数据
+     * @param page
+     * @param rows
+     * @param studentid
+     * @param courseid
+     * @param type
+     * @param date
+     * @param from
+     * @param session
+     * @return
+     */
+    @RequestMapping(&quot;/getAttendanceList&quot;)
+    @ResponseBody
+    public Object getAttendanceList(@RequestParam(value = &quot;page&quot;, defaultValue = &quot;1&quot;)Integer page,
+                                 @RequestParam(value = &quot;rows&quot;, defaultValue = &quot;100&quot;)Integer rows,
+                                 @RequestParam(value = &quot;studentid&quot;, defaultValue = &quot;0&quot;)String studentid,
+                                 @RequestParam(value = &quot;courseid&quot;, defaultValue = &quot;0&quot;)String courseid,
+                                 String type,String date, String from, HttpSession session){
+<span class="nc" id="L64">        Map&lt;String,Object&gt; paramMap = new HashMap();</span>
+<span class="nc" id="L65">        paramMap.put(&quot;pageno&quot;,page);</span>
+<span class="nc" id="L66">        paramMap.put(&quot;pagesize&quot;,rows);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if(!studentid.equals(&quot;0&quot;))  paramMap.put(&quot;studentid&quot;,studentid);</span>
+<span class="nc bnc" id="L68" title="All 2 branches missed.">        if(!courseid.equals(&quot;0&quot;))  paramMap.put(&quot;courseid&quot;,courseid);</span>
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if(!StringUtils.isEmpty(type))  paramMap.put(&quot;type&quot;,type);</span>
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if(!StringUtils.isEmpty(date))  paramMap.put(&quot;date&quot;,date);</span>
+
+        //判断是老师还是学生权限
+<span class="nc" id="L73">        Student student = (Student) session.getAttribute(Const.STUDENT);</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if(!StringUtils.isEmpty(student)){</span>
+            //是学生权限，只能查询自己的信息
+<span class="nc" id="L76">            paramMap.put(&quot;studentid&quot;,student.getId());</span>
+        }
+<span class="nc" id="L78">        PageBean&lt;Attendance&gt; pageBean = attendanceService.queryPage(paramMap);</span>
+<span class="nc bnc" id="L79" title="All 4 branches missed.">        if(!StringUtils.isEmpty(from) &amp;&amp; from.equals(&quot;combox&quot;)){</span>
+<span class="nc" id="L80">            return pageBean.getDatas();</span>
+        }else{
+<span class="nc" id="L82">            Map&lt;String,Object&gt; result = new HashMap();</span>
+<span class="nc" id="L83">            result.put(&quot;total&quot;,pageBean.getTotalsize());</span>
+<span class="nc" id="L84">            result.put(&quot;rows&quot;,pageBean.getDatas());</span>
+<span class="nc" id="L85">            return result;</span>
+        }
+    }
+
+    /**
+     * 通过 选课信息中的课程id 查询 学生所选择的课程
+     * @param studentid
+     * @return
+     */
+    @RequestMapping(&quot;/getStudentSelectedCourseList&quot;)
+    @ResponseBody
+    public Object getStudentSelectedCourseList(@RequestParam(value = &quot;studentid&quot;, defaultValue = &quot;0&quot;)String studentid){
+        //通过学生id 查询 选课信息
+<span class="nc" id="L98">        List&lt;SelectedCourse&gt; selectedCourseList = selectedCourseService.getAllBySid(Integer.parseInt(studentid));</span>
+        //通过 选课信息中的课程id 查询 学生所选择的课程
+<span class="nc" id="L100">        List&lt;Integer&gt; ids = new ArrayList&lt;&gt;();</span>
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        for(SelectedCourse selectedCourse : selectedCourseList){</span>
+<span class="nc" id="L102">            ids.add(selectedCourse.getCourseId());</span>
+<span class="nc" id="L103">        }</span>
+<span class="nc" id="L104">        List&lt;Course&gt; courseList = courseService.getCourseById(ids);</span>
+<span class="nc" id="L105">        return courseList;</span>
+    }
+
+
+    /**
+     * 添加考勤签到
+     * @param attendance
+     * @return
+     */
+    @PostMapping(&quot;/addAttendance&quot;)
+    @ResponseBody
+    public AjaxResult addAttendance(Attendance attendance){
+<span class="nc" id="L117">        AjaxResult ajaxResult = new AjaxResult();</span>
+<span class="nc" id="L118">        attendance.setDate(DateFormatUtil.getFormatDate(new Date(),&quot;yyyy-MM-dd&quot;));</span>
+        //判断是否已签到
+<span class="nc bnc" id="L120" title="All 2 branches missed.">        if(attendanceService.isAttendance(attendance)){</span>
+            //true为已签到
+<span class="nc" id="L122">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L123">            ajaxResult.setMessage(&quot;已签到，请勿重复签到！&quot;);</span>
+        }else{
+<span class="nc" id="L125">            int count = attendanceService.addAtendance(attendance);</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">            if(count &gt; 0){</span>
+                //签到成功
+<span class="nc" id="L128">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L129">                ajaxResult.setMessage(&quot;签到成功&quot;);</span>
+            }else{
+<span class="nc" id="L131">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L132">                ajaxResult.setMessage(&quot;系统错误，请重新签到&quot;);</span>
+            }
+        }
+<span class="nc" id="L135">        return ajaxResult;</span>
+    }
+
+    /**
+     * 删除考勤签到
+     * @param id
+     * @return
+     */
+    @PostMapping(&quot;/deleteAttendance&quot;)
+    @ResponseBody
+    public AjaxResult deleteAttendance(Integer id){
+<span class="nc" id="L146">        AjaxResult ajaxResult = new AjaxResult();</span>
+        try {
+<span class="nc" id="L148">            int count = attendanceService.deleteAttendance(id);</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">            if(count &gt; 0){</span>
+<span class="nc" id="L150">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L151">                ajaxResult.setMessage(&quot;删除成功&quot;);</span>
+            }else{
+<span class="nc" id="L153">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L154">                ajaxResult.setMessage(&quot;删除失败&quot;);</span>
+            }
+<span class="nc" id="L156">        } catch (Exception e) {</span>
+<span class="nc" id="L157">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L158">            ajaxResult.setMessage(&quot;系统异常,请重试&quot;);</span>
+<span class="nc" id="L159">            e.printStackTrace();</span>
+<span class="nc" id="L160">        }</span>
+<span class="nc" id="L161">        return ajaxResult;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

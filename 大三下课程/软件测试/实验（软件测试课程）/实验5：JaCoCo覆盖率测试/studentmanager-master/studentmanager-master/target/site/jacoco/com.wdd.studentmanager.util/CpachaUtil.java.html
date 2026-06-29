@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CpachaUtil.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.util</a> &gt; <span class="el_source">CpachaUtil.java</span></div><h1>CpachaUtil.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.util;
+
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.util.Random;
+
+/**
+ * 验证码生成器
+ *
+ * @author wdd
+ */
+public class CpachaUtil {
+
+	/**
+	 * 验证码来源
+	 */
+<span class="nc" id="L17">	final private char[] code = {</span>
+			'2', '3', '4', '5', '6', '7', '8', '9',
+			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+			'k', 'm', 'n', 'p', 'q', 'r', 's', 't', 'u', 'v',
+			'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
+			'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R',
+			'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'
+	};
+	/**
+	 * 字体
+	 */
+<span class="nc" id="L28">	final private String[] fontNames = new String[]{</span>
+			&quot;黑体&quot;, &quot;宋体&quot;, &quot;Courier&quot;, &quot;Arial&quot;,
+			&quot;Verdana&quot;, &quot;Times&quot;, &quot;Tahoma&quot;, &quot;Georgia&quot;};
+	/**
+	 * 字体样式
+	 */
+<span class="nc" id="L34">	final private int[] fontStyles = new int[]{</span>
+			Font.BOLD, Font.ITALIC|Font.BOLD
+	};
+
+	/**
+	 * 验证码长度
+	 * 默认4个字符
+	 */
+<span class="nc" id="L42">	private int vcodeLen = 4;</span>
+	/**
+	 * 验证码图片字体大小
+	 * 默认17
+	 */
+<span class="nc" id="L47">	private int fontsize = 21;</span>
+	/**
+	 * 验证码图片宽度
+	 */
+<span class="nc" id="L51">	private int width = (fontsize+1)*vcodeLen+10;</span>
+	/**
+	 * 验证码图片高度
+	 */
+<span class="nc" id="L55">	private int height = fontsize+12;</span>
+	/**
+	 * 干扰线条数
+	 * 默认3条
+	 */
+<span class="nc" id="L60">	private int disturbline = 3;</span>
+
+
+<span class="nc" id="L63">	public CpachaUtil(){}</span>
+
+	/**
+	 * 指定验证码长度
+	 * @param vcodeLen 验证码长度
+	 */
+<span class="nc" id="L69">	public CpachaUtil(int vcodeLen) {</span>
+<span class="nc" id="L70">		this.vcodeLen = vcodeLen;</span>
+<span class="nc" id="L71">		this.width = (fontsize+1)*vcodeLen+10;</span>
+<span class="nc" id="L72">	}</span>
+
+	/**
+	 * 指定验证码长度、图片宽度、高度
+	 * @param vcodeLen
+	 * @param width
+	 * @param height
+	 */
+<span class="nc" id="L80">	public CpachaUtil(int vcodeLen, int width, int height) {</span>
+<span class="nc" id="L81">		this.vcodeLen = vcodeLen;</span>
+<span class="nc" id="L82">		this.width = width;</span>
+<span class="nc" id="L83">		this.height = height;</span>
+<span class="nc" id="L84">	}</span>
+
+	/**
+	 * 生成验证码图片
+	 * @param vcode 要画的验证码
+	 * @param drawline 是否画干扰线
+	 * @return
+	 */
+	public BufferedImage generatorVCodeImage(String vcode, boolean drawline){
+		//创建验证码图片
+<span class="nc" id="L94">		BufferedImage vcodeImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);</span>
+<span class="nc" id="L95">		Graphics g = vcodeImage.getGraphics();</span>
+		//填充背景色
+<span class="nc" id="L97">		g.setColor(new Color(246, 240, 250));</span>
+<span class="nc" id="L98">		g.fillRect(0, 0, width, height);</span>
+<span class="nc bnc" id="L99" title="All 2 branches missed.">		if(drawline){</span>
+<span class="nc" id="L100">			drawDisturbLine(g);</span>
+		}
+		//用于生成伪随机数
+<span class="nc" id="L103">		Random ran = new Random();</span>
+		//在图片上画验证码
+<span class="nc bnc" id="L105" title="All 2 branches missed.">		for(int i = 0;i &lt; vcode.length();i++){</span>
+			//设置字体
+<span class="nc" id="L107">			g.setFont(new Font(fontNames[ran.nextInt(fontNames.length)], fontStyles[ran.nextInt(fontStyles.length)], fontsize));</span>
+			//随机生成颜色
+<span class="nc" id="L109">			g.setColor(getRandomColor());</span>
+			//画验证码
+<span class="nc" id="L111">			g.drawString(vcode.charAt(i)+&quot;&quot;, i*fontsize+10, fontsize+5);</span>
+		}
+		//释放此图形的上下文以及它使用的所有系统资源
+<span class="nc" id="L114">		g.dispose();</span>
+
+<span class="nc" id="L116">		return vcodeImage;</span>
+	}
+	/**
+	 * 获得旋转字体的验证码图片
+	 * @param vcode
+	 * @param drawline 是否画干扰线
+	 * @return
+	 */
+	public BufferedImage generatorRotateVCodeImage(String vcode, boolean drawline){
+		//创建验证码图片
+<span class="nc" id="L126">		BufferedImage rotateVcodeImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);</span>
+<span class="nc" id="L127">		Graphics2D g2d = rotateVcodeImage.createGraphics();</span>
+		//填充背景色
+<span class="nc" id="L129">		g2d.setColor(new Color(246, 240, 250));</span>
+<span class="nc" id="L130">		g2d.fillRect(0, 0, width, height);</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">		if(drawline){</span>
+<span class="nc" id="L132">			drawDisturbLine(g2d);</span>
+		}
+		//在图片上画验证码
+<span class="nc bnc" id="L135" title="All 2 branches missed.">		for(int i = 0;i &lt; vcode.length();i++){</span>
+<span class="nc" id="L136">			BufferedImage rotateImage = getRotateImage(vcode.charAt(i));</span>
+<span class="nc" id="L137">			g2d.drawImage(rotateImage, null, (int) (this.height * 0.7) * i, 0);</span>
+		}
+<span class="nc" id="L139">		g2d.dispose();</span>
+<span class="nc" id="L140">		return rotateVcodeImage;</span>
+	}
+	/**
+	 * 生成验证码
+	 * @return 验证码
+	 */
+	public String generatorVCode(){
+<span class="nc" id="L147">		int len = code.length;</span>
+<span class="nc" id="L148">		Random ran = new Random();</span>
+<span class="nc" id="L149">		StringBuffer sb = new StringBuffer();</span>
+<span class="nc bnc" id="L150" title="All 2 branches missed.">		for(int i = 0;i &lt; vcodeLen;i++){</span>
+<span class="nc" id="L151">			int index = ran.nextInt(len);</span>
+<span class="nc" id="L152">			sb.append(code[index]);</span>
+		}
+<span class="nc" id="L154">		return sb.toString();</span>
+	}
+	/**
+	 * 为验证码图片画一些干扰线
+	 * @param g
+	 */
+	private void drawDisturbLine(Graphics g){
+<span class="nc" id="L161">		Random ran = new Random();</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">		for(int i = 0;i &lt; disturbline;i++){</span>
+<span class="nc" id="L163">			int x1 = ran.nextInt(width);</span>
+<span class="nc" id="L164">			int y1 = ran.nextInt(height);</span>
+<span class="nc" id="L165">			int x2 = ran.nextInt(width);</span>
+<span class="nc" id="L166">			int y2 = ran.nextInt(height);</span>
+<span class="nc" id="L167">			g.setColor(getRandomColor());</span>
+			//画干扰线
+<span class="nc" id="L169">			g.drawLine(x1, y1, x2, y2);</span>
+		}
+<span class="nc" id="L171">	}</span>
+	/**
+	 * 获取一张旋转的图片
+	 * @param c 要画的字符
+	 * @return
+	 */
+	private BufferedImage getRotateImage(char c){
+<span class="nc" id="L178">		BufferedImage rotateImage = new BufferedImage(height, height, BufferedImage.TYPE_INT_ARGB);</span>
+<span class="nc" id="L179">		Graphics2D g2d = rotateImage.createGraphics();</span>
+		//设置透明度为0
+<span class="nc" id="L181">		g2d.setColor(new Color(255, 255, 255, 0));</span>
+<span class="nc" id="L182">		g2d.fillRect(0, 0, height, height);</span>
+<span class="nc" id="L183">		Random ran = new Random();</span>
+<span class="nc" id="L184">		g2d.setFont(new Font(fontNames[ran.nextInt(fontNames.length)], fontStyles[ran.nextInt(fontStyles.length)], fontsize));</span>
+<span class="nc" id="L185">		g2d.setColor(getRandomColor());</span>
+<span class="nc" id="L186">		double theta = getTheta();</span>
+		//旋转图片
+<span class="nc" id="L188">		g2d.rotate(theta, height/2, height/2);</span>
+<span class="nc" id="L189">		g2d.drawString(Character.toString(c), (height-fontsize)/2, fontsize+5);</span>
+<span class="nc" id="L190">		g2d.dispose();</span>
+
+<span class="nc" id="L192">		return rotateImage;</span>
+	}
+	/**
+	 * @return 返回一个随机颜色
+	 */
+	private Color getRandomColor(){
+<span class="nc" id="L198">		Random ran = new Random();</span>
+<span class="nc" id="L199">		return new Color(ran.nextInt(220), ran.nextInt(220), ran.nextInt(220));</span>
+	}
+	/**
+	 * @return 角度
+	 */
+	private double getTheta(){
+<span class="nc bnc" id="L205" title="All 2 branches missed.">		return ((int) (Math.random()*1000) % 2 == 0 ? -1 : 1)*Math.random();</span>
+	}
+
+	/**
+	 * @return 验证码字符个数
+	 */
+	public int getVcodeLen() {
+<span class="nc" id="L212">		return vcodeLen;</span>
+	}
+	/**
+	 * 设置验证码字符个数
+	 * @param vcodeLen
+	 */
+	public void setVcodeLen(int vcodeLen) {
+<span class="nc" id="L219">		this.width = (fontsize+3)*vcodeLen+10;</span>
+<span class="nc" id="L220">		this.vcodeLen = vcodeLen;</span>
+<span class="nc" id="L221">	}</span>
+	/**
+	 * @return 字体大小
+	 */
+	public int getFontsize() {
+<span class="nc" id="L226">		return fontsize;</span>
+	}
+	/**
+	 * 设置字体大小
+	 * @param fontsize
+	 */
+	public void setFontsize(int fontsize) {
+<span class="nc" id="L233">		this.width = (fontsize+3)*vcodeLen+10;</span>
+<span class="nc" id="L234">		this.height = fontsize+15;</span>
+<span class="nc" id="L235">		this.fontsize = fontsize;</span>
+<span class="nc" id="L236">	}</span>
+	/**
+	 * @return 图片宽度
+	 */
+	public int getWidth() {
+<span class="nc" id="L241">		return width;</span>
+	}
+	/**
+	 * 设置图片宽度
+	 * @param width
+	 */
+	public void setWidth(int width) {
+<span class="nc" id="L248">		this.width = width;</span>
+<span class="nc" id="L249">	}</span>
+	/**
+	 * @return 图片高度
+	 */
+	public int getHeight() {
+<span class="nc" id="L254">		return height;</span>
+	}
+	/**
+	 * 设置图片高度
+	 * @param height
+	 */
+	public void setHeight(int height) {
+<span class="nc" id="L261">		this.height = height;</span>
+<span class="nc" id="L262">	}</span>
+	/**
+	 * @return 干扰线条数
+	 */
+	public int getDisturbline() {
+<span class="nc" id="L267">		return disturbline;</span>
+	}
+	/**
+	 * 设置干扰线条数
+	 * @param disturbline
+	 */
+	public void setDisturbline(int disturbline) {
+<span class="nc" id="L274">		this.disturbline = disturbline;</span>
+<span class="nc" id="L275">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

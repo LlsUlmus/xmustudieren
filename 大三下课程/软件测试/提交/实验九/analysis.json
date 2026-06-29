@@ -1,0 +1,321 @@
+{
+  "scenarios": {
+    "scenario1": {
+      "name": "场景1 - 性能测试",
+      "type": "性能测试（基准负载）",
+      "config": {
+        "threads": 15,
+        "loops": 20,
+        "ramp_up_sec": 10,
+        "total_requests": 300
+      },
+      "jmeter_stats": {
+        "Total": {
+          "transaction": "Total",
+          "sampleCount": 300,
+          "errorCount": 0,
+          "errorPct": 0.0,
+          "meanResTime": 1.053333333333333,
+          "medianResTime": 1.0,
+          "minResTime": 0.0,
+          "maxResTime": 22.0,
+          "pct1ResTime": 2.0,
+          "pct2ResTime": 2.0,
+          "pct3ResTime": 3.990000000000009,
+          "throughput": 22.911257064304262,
+          "receivedKBytesPerSec": 4.262373868756683,
+          "sentKBytesPerSec": 3.5911456344508936
+        },
+        "TX_Greeting_Complete": {
+          "transaction": "TX_Greeting_Complete",
+          "sampleCount": 300,
+          "errorCount": 0,
+          "errorPct": 0.0,
+          "meanResTime": 1.053333333333333,
+          "medianResTime": 1.0,
+          "minResTime": 0.0,
+          "maxResTime": 22.0,
+          "pct1ResTime": 2.0,
+          "pct2ResTime": 2.0,
+          "pct3ResTime": 3.990000000000009,
+          "throughput": 22.68431001890359,
+          "receivedKBytesPerSec": 4.22015300094518,
+          "sentKBytesPerSec": 3.5555736058601135
+        },
+        "GET /greeting": {
+          "transaction": "GET /greeting",
+          "sampleCount": 300,
+          "errorCount": 0,
+          "errorPct": 0.0,
+          "meanResTime": 1.053333333333333,
+          "medianResTime": 1.0,
+          "minResTime": 0.0,
+          "maxResTime": 22.0,
+          "pct1ResTime": 2.0,
+          "pct2ResTime": 2.0,
+          "pct3ResTime": 3.990000000000009,
+          "throughput": 22.911257064304262,
+          "receivedKBytesPerSec": 4.262373868756683,
+          "sentKBytesPerSec": 3.5911456344508936
+        }
+      },
+      "jtl_analysis": {
+        "available": true,
+        "sample_count": 300,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "throughput_tps": 22.92,
+        "elapsed_ms": {
+          "mean": 1.05,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 22.0,
+          "p90": 2.0,
+          "p95": 2.0,
+          "p99": 3.01
+        },
+        "latency_ms": {
+          "mean": 1.02,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 22.0,
+          "p90": 2.0,
+          "p95": 2.0,
+          "p99": 3.0
+        },
+        "connect_ms": {
+          "mean": 0.08,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 15.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "p99": 1.01
+        },
+        "network_ms": {
+          "mean": 0.93,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 7.0,
+          "p90": 2.0,
+          "p95": 2.0,
+          "p99": 3.0
+        },
+        "download_ms": {
+          "mean": 0.04,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 2.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "p99": 1.0
+        }
+      },
+      "server_monitor": {
+        "available": true,
+        "cpu_percent": {
+          "mean": 0.9,
+          "max": 5.0
+        },
+        "memory_mb": {
+          "mean": 1902.91,
+          "max": 1947.16,
+          "start": 1724.36,
+          "end": 1947.16,
+          "growth_mb": 222.8
+        }
+      },
+      "bottleneck": {
+        "summary": "整体性能良好，无明显硬件或架构瓶颈。",
+        "categories": [
+          {
+            "type": "网络连接",
+            "detail": "连接时间均值 0.08ms，Keep-Alive 生效，连接建立不是瓶颈。",
+            "severity": "低"
+          },
+          {
+            "type": "服务器处理",
+            "detail": "首字节等待均值 0.93ms，Spring Boot 接口处理较快。",
+            "severity": "低"
+          },
+          {
+            "type": "CPU 资源",
+            "detail": "压测期间 JVM 进程 CPU 峰值 5.0%，CPU 资源充足。",
+            "severity": "低"
+          },
+          {
+            "type": "内存泄漏风险",
+            "detail": "测试期间内存增长 222.8MB，需关注是否存在内存泄漏。",
+            "severity": "中"
+          },
+          {
+            "type": "功能/稳定性",
+            "detail": "错误率 0%，检查点（状态码、响应内容、响应时间）全部通过。",
+            "severity": "低"
+          }
+        ]
+      }
+    },
+    "scenario2": {
+      "name": "场景2 - 压力测试",
+      "type": "压力测试（高并发）",
+      "config": {
+        "threads": 50,
+        "loops": 30,
+        "ramp_up_sec": 5,
+        "total_requests": 1500
+      },
+      "jmeter_stats": {
+        "Total": {
+          "transaction": "Total",
+          "sampleCount": 1500,
+          "errorCount": 0,
+          "errorPct": 0.0,
+          "meanResTime": 0.6233333333333327,
+          "medianResTime": 1.0,
+          "minResTime": 0.0,
+          "maxResTime": 38.0,
+          "pct1ResTime": 1.0,
+          "pct2ResTime": 1.0,
+          "pct3ResTime": 2.0,
+          "throughput": 196.46365422396855,
+          "receivedKBytesPerSec": 36.54927451702685,
+          "sentKBytesPerSec": 30.793503397184022
+        },
+        "TX_Greeting_Complete": {
+          "transaction": "TX_Greeting_Complete",
+          "sampleCount": 1500,
+          "errorCount": 0,
+          "errorPct": 0.0,
+          "meanResTime": 0.6233333333333327,
+          "medianResTime": 1.0,
+          "minResTime": 0.0,
+          "maxResTime": 38.0,
+          "pct1ResTime": 1.0,
+          "pct2ResTime": 1.0,
+          "pct3ResTime": 2.0,
+          "throughput": 192.62874020803906,
+          "receivedKBytesPerSec": 35.835843192179276,
+          "sentKBytesPerSec": 30.19242306889688
+        },
+        "GET /greeting": {
+          "transaction": "GET /greeting",
+          "sampleCount": 1500,
+          "errorCount": 0,
+          "errorPct": 0.0,
+          "meanResTime": 0.6233333333333327,
+          "medianResTime": 1.0,
+          "minResTime": 0.0,
+          "maxResTime": 38.0,
+          "pct1ResTime": 1.0,
+          "pct2ResTime": 1.0,
+          "pct3ResTime": 2.0,
+          "throughput": 196.46365422396855,
+          "receivedKBytesPerSec": 36.54927451702685,
+          "sentKBytesPerSec": 30.793503397184022
+        }
+      },
+      "jtl_analysis": {
+        "available": true,
+        "sample_count": 1500,
+        "error_count": 0,
+        "error_rate": 0.0,
+        "throughput_tps": 196.49,
+        "elapsed_ms": {
+          "mean": 0.62,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 38.0,
+          "p90": 1.0,
+          "p95": 1.0,
+          "p99": 2.0
+        },
+        "latency_ms": {
+          "mean": 0.61,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 38.0,
+          "p90": 1.0,
+          "p95": 1.0,
+          "p99": 2.0
+        },
+        "connect_ms": {
+          "mean": 0.06,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 32.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "p99": 1.0
+        },
+        "network_ms": {
+          "mean": 0.56,
+          "median": 1.0,
+          "min": 0.0,
+          "max": 6.0,
+          "p90": 1.0,
+          "p95": 1.0,
+          "p99": 2.0
+        },
+        "download_ms": {
+          "mean": 0.01,
+          "median": 0.0,
+          "min": 0.0,
+          "max": 1.0,
+          "p90": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        }
+      },
+      "server_monitor": {
+        "available": true,
+        "cpu_percent": {
+          "mean": 1.86,
+          "max": 5.0
+        },
+        "memory_mb": {
+          "mean": 1907.41,
+          "max": 1960.55,
+          "start": 1725.41,
+          "end": 1943.7,
+          "growth_mb": 218.29
+        }
+      },
+      "bottleneck": {
+        "summary": "整体性能良好，无明显硬件或架构瓶颈。",
+        "categories": [
+          {
+            "type": "网络连接",
+            "detail": "连接时间均值 0.06ms，Keep-Alive 生效，连接建立不是瓶颈。",
+            "severity": "低"
+          },
+          {
+            "type": "服务器处理",
+            "detail": "首字节等待均值 0.56ms，Spring Boot 接口处理较快。",
+            "severity": "低"
+          },
+          {
+            "type": "CPU 资源",
+            "detail": "压测期间 JVM 进程 CPU 峰值 5.0%，CPU 资源充足。",
+            "severity": "低"
+          },
+          {
+            "type": "内存泄漏风险",
+            "detail": "测试期间内存增长 218.29MB，需关注是否存在内存泄漏。",
+            "severity": "中"
+          },
+          {
+            "type": "功能/稳定性",
+            "detail": "错误率 0%，检查点（状态码、响应内容、响应时间）全部通过。",
+            "severity": "低"
+          }
+        ]
+      }
+    }
+  },
+  "comparison": {
+    "throughput_change": 757.3,
+    "p95_change": -50.0,
+    "text": "压力测试相比性能测试：吞吐量变化 757.3%，95% 响应时间变化 -50.0%。"
+  }
+}

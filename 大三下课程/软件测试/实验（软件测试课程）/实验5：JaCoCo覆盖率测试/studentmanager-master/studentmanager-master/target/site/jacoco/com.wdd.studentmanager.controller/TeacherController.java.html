@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TeacherController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.controller</a> &gt; <span class="el_source">TeacherController.java</span></div><h1>TeacherController.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.controller;
+
+import com.wdd.studentmanager.domain.Teacher;
+import com.wdd.studentmanager.service.TeacherService;
+import com.wdd.studentmanager.util.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
+/**
+ * @Classname TeacherController
+ * @Description None
+ * @Date 2019/6/28 18:49
+ * @Created by WDD
+ */
+@Controller
+@RequestMapping(&quot;/teacher&quot;)
+<span class="nc" id="L30">public class TeacherController {</span>
+
+    @Autowired
+    private TeacherService teacherService;
+
+
+    @RequestMapping(&quot;/teacher_list&quot;)
+    public String teacherList(){
+<span class="nc" id="L38">        return &quot;/teacher/teacherList&quot;;</span>
+    }
+
+    /**
+     * 异步加载老师数据列表
+     * @param page
+     * @param rows
+     * @param teacherName
+     * @param clazzid
+     * @param from
+     * @param session
+     * @return
+     */
+    @PostMapping(&quot;/getTeacherList&quot;)
+    @ResponseBody
+    public Object getTeacherList(@RequestParam(value = &quot;page&quot;, defaultValue = &quot;1&quot;)Integer page,
+                                 @RequestParam(value = &quot;rows&quot;, defaultValue = &quot;100&quot;)Integer rows,
+                                 String teacherName,
+                                 @RequestParam(value = &quot;clazzid&quot;, defaultValue = &quot;0&quot;)String clazzid, String from, HttpSession session){
+<span class="nc" id="L57">        Map&lt;String,Object&gt; paramMap = new HashMap();</span>
+<span class="nc" id="L58">        paramMap.put(&quot;pageno&quot;,page);</span>
+<span class="nc" id="L59">        paramMap.put(&quot;pagesize&quot;,rows);</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        if(!StringUtils.isEmpty(teacherName))  paramMap.put(&quot;username&quot;,teacherName);</span>
+<span class="nc bnc" id="L61" title="All 2 branches missed.">        if(!clazzid.equals(&quot;0&quot;))  paramMap.put(&quot;clazzid&quot;,clazzid);</span>
+
+        //判断是老师还是学生权限
+<span class="nc" id="L64">        Teacher teacher = (Teacher) session.getAttribute(Const.TEACHER);</span>
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        if(!StringUtils.isEmpty(teacher)){</span>
+            //是老师权限，只能查询自己的信息
+<span class="nc" id="L67">            paramMap.put(&quot;teacherid&quot;,teacher.getId());</span>
+        }
+
+<span class="nc" id="L70">        PageBean&lt;Teacher&gt; pageBean = teacherService.queryPage(paramMap);</span>
+<span class="nc bnc" id="L71" title="All 4 branches missed.">        if(!StringUtils.isEmpty(from) &amp;&amp; from.equals(&quot;combox&quot;)){</span>
+<span class="nc" id="L72">            return pageBean.getDatas();</span>
+        }else{
+<span class="nc" id="L74">            Map&lt;String,Object&gt; result = new HashMap();</span>
+<span class="nc" id="L75">            result.put(&quot;total&quot;,pageBean.getTotalsize());</span>
+<span class="nc" id="L76">            result.put(&quot;rows&quot;,pageBean.getDatas());</span>
+<span class="nc" id="L77">            return result;</span>
+        }
+    }
+
+    /**
+     * 删除教师
+     * @param data
+     * @return
+     */
+    @PostMapping(&quot;/deleteTeacher&quot;)
+    @ResponseBody
+    public AjaxResult deleteTeacher(Data data){
+<span class="nc" id="L89">        AjaxResult ajaxResult = new AjaxResult();</span>
+        try {
+<span class="nc" id="L91">            File fileDir = UploadUtil.getImgDirFile();</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">            for(Integer id : data.getIds()){</span>
+<span class="nc" id="L93">                Teacher byId = teacherService.findById(id);</span>
+<span class="nc bnc" id="L94" title="All 2 branches missed.">                if(!byId.getPhoto().isEmpty()){</span>
+<span class="nc" id="L95">                    File file = new File(fileDir.getAbsolutePath() + File.separator + byId.getPhoto());</span>
+<span class="nc bnc" id="L96" title="All 2 branches missed.">                    if(file != null){</span>
+<span class="nc" id="L97">                        file.delete();</span>
+                    }
+                }
+<span class="nc" id="L100">            }</span>
+<span class="nc" id="L101">            int count = teacherService.deleteTeacher(data.getIds());</span>
+<span class="nc bnc" id="L102" title="All 2 branches missed.">            if(count &gt; 0){</span>
+<span class="nc" id="L103">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L104">                ajaxResult.setMessage(&quot;删除成功&quot;);</span>
+            }else{
+<span class="nc" id="L106">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L107">                ajaxResult.setMessage(&quot;删除失败&quot;);</span>
+            }
+<span class="nc" id="L109">        }catch (Exception e){</span>
+<span class="nc" id="L110">            e.printStackTrace();</span>
+<span class="nc" id="L111">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L112">            ajaxResult.setMessage(&quot;删除失败&quot;);</span>
+<span class="nc" id="L113">        }</span>
+<span class="nc" id="L114">        return ajaxResult;</span>
+    }
+
+    /**
+     * 添加教师
+     * @param files
+     * @param teacher
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(&quot;/addTeacher&quot;)
+    @ResponseBody
+    public AjaxResult addTeacher(@RequestParam(&quot;file&quot;) MultipartFile[] files, Teacher teacher) throws IOException {
+
+<span class="nc" id="L128">        AjaxResult ajaxResult = new AjaxResult();</span>
+<span class="nc" id="L129">        teacher.setSn(SnGenerateUtil.generateTeacherSn(teacher.getClazzId()));</span>
+
+        // 存放上传图片的文件夹
+<span class="nc" id="L132">        File fileDir = UploadUtil.getImgDirFile();</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">        for(MultipartFile fileImg : files){</span>
+
+            // 拿到文件名
+<span class="nc" id="L136">            String extName = fileImg.getOriginalFilename().substring(fileImg.getOriginalFilename().lastIndexOf(&quot;.&quot;));</span>
+<span class="nc" id="L137">            String uuidName = UUID.randomUUID().toString();</span>
+
+            try {
+                // 构建真实的文件路径
+<span class="nc" id="L141">                File newFile = new File(fileDir.getAbsolutePath() + File.separator +uuidName+ extName);</span>
+
+                // 上传图片到 -》 “绝对路径”
+<span class="nc" id="L144">                fileImg.transferTo(newFile);</span>
+
+<span class="nc" id="L146">            } catch (IOException e) {</span>
+<span class="nc" id="L147">                e.printStackTrace();</span>
+<span class="nc" id="L148">            }</span>
+<span class="nc" id="L149">            teacher.setPhoto(uuidName+extName);</span>
+        }
+        //保存学生信息到数据库
+        try{
+<span class="nc" id="L153">            int count = teacherService.addTeacher(teacher);</span>
+<span class="nc bnc" id="L154" title="All 2 branches missed.">            if(count &gt; 0){</span>
+<span class="nc" id="L155">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L156">                ajaxResult.setMessage(&quot;保存成功&quot;);</span>
+            }else{
+<span class="nc" id="L158">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L159">                ajaxResult.setMessage(&quot;保存失败&quot;);</span>
+            }
+<span class="nc" id="L161">        }catch (Exception e){</span>
+<span class="nc" id="L162">            e.printStackTrace();</span>
+<span class="nc" id="L163">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L164">            ajaxResult.setMessage(&quot;保存失败&quot;);</span>
+<span class="nc" id="L165">        }</span>
+
+<span class="nc" id="L167">        ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L168">        return ajaxResult;</span>
+    }
+
+    @PostMapping(&quot;/editTeacher&quot;)
+    @ResponseBody
+    public AjaxResult editTeacher(@RequestParam(&quot;file&quot;) MultipartFile[] files,Teacher teacher){
+<span class="nc" id="L174">        AjaxResult ajaxResult = new AjaxResult();</span>
+
+        // 存放上传图片的文件夹
+<span class="nc" id="L177">        File fileDir = UploadUtil.getImgDirFile();</span>
+<span class="nc bnc" id="L178" title="All 2 branches missed.">        for(MultipartFile fileImg : files){</span>
+
+<span class="nc" id="L180">            String name = fileImg.getOriginalFilename();</span>
+<span class="nc bnc" id="L181" title="All 2 branches missed.">            if(name.equals(&quot;&quot;)){</span>
+<span class="nc" id="L182">                break;</span>
+            }
+
+            // 拿到文件名
+<span class="nc" id="L186">            String extName = fileImg.getOriginalFilename().substring(fileImg.getOriginalFilename().lastIndexOf(&quot;.&quot;));</span>
+<span class="nc" id="L187">            String uuidName = UUID.randomUUID().toString();</span>
+
+            try {
+                // 构建真实的文件路径
+<span class="nc" id="L191">                File newFile = new File(fileDir.getAbsolutePath() + File.separator +uuidName+ extName);</span>
+                // 上传图片到 -》 “绝对路径”
+<span class="nc" id="L193">                fileImg.transferTo(newFile);</span>
+
+<span class="nc" id="L195">                Teacher byId = teacherService.findById(teacher.getId());</span>
+<span class="nc" id="L196">                File file = new File(fileDir.getAbsolutePath() + File.separator + byId.getPhoto());</span>
+<span class="nc bnc" id="L197" title="All 2 branches missed.">                if(file != null){</span>
+<span class="nc" id="L198">                    file.delete();</span>
+                }
+
+<span class="nc" id="L201">            } catch (IOException e) {</span>
+<span class="nc" id="L202">                e.printStackTrace();</span>
+<span class="nc" id="L203">            }</span>
+<span class="nc" id="L204">            teacher.setPhoto(uuidName+extName);</span>
+        }
+
+        try{
+<span class="nc" id="L208">            int count = teacherService.editTeacher(teacher);</span>
+<span class="nc bnc" id="L209" title="All 2 branches missed.">            if(count &gt; 0){</span>
+<span class="nc" id="L210">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L211">                ajaxResult.setMessage(&quot;修改成功&quot;);</span>
+            }else{
+<span class="nc" id="L213">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L214">                ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+            }
+<span class="nc" id="L216">        }catch(Exception e){</span>
+<span class="nc" id="L217">            e.printStackTrace();</span>
+<span class="nc" id="L218">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L219">            ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+<span class="nc" id="L220">        }</span>
+<span class="nc" id="L221">        return ajaxResult;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

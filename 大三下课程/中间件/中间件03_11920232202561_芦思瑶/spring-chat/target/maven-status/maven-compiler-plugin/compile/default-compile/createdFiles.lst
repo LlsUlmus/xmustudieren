@@ -1,0 +1,9 @@
+com\middleware\chat\config\WebSocketConfig.class
+com\middleware\chat\service\MiniMaxService.class
+com\middleware\chat\controller\ChatStompController.class
+com\middleware\chat\ChatApplication.class
+com\middleware\chat\config\WebMvcConfig.class
+com\middleware\chat\controller\ApiController.class
+com\middleware\chat\dto\ChatMessageOut.class
+com\middleware\chat\dto\SentimentRequest.class
+com\middleware\chat\dto\ChatMessageIn.class

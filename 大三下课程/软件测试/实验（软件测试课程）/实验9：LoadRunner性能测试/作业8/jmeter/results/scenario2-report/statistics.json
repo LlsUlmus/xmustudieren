@@ -1,0 +1,50 @@
+{
+  "Total" : {
+    "transaction" : "Total",
+    "sampleCount" : 1500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 0.7113333333333338,
+    "medianResTime" : 1.0,
+    "minResTime" : 0.0,
+    "maxResTime" : 36.0,
+    "pct1ResTime" : 1.0,
+    "pct2ResTime" : 2.0,
+    "pct3ResTime" : 3.0,
+    "throughput" : 198.09825673534073,
+    "receivedKBytesPerSec" : 36.76347687202853,
+    "sentKBytesPerSec" : 31.04970924953777
+  },
+  "TX_Greeting_Complete" : {
+    "transaction" : "TX_Greeting_Complete",
+    "sampleCount" : 1500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 0.7113333333333338,
+    "medianResTime" : 1.0,
+    "minResTime" : 0.0,
+    "maxResTime" : 36.0,
+    "pct1ResTime" : 1.0,
+    "pct2ResTime" : 2.0,
+    "pct3ResTime" : 3.0,
+    "throughput" : 194.95710943592408,
+    "receivedKBytesPerSec" : 36.18053637574734,
+    "sentKBytesPerSec" : 30.557369175656355
+  },
+  "GET /greeting" : {
+    "transaction" : "GET /greeting",
+    "sampleCount" : 1500,
+    "errorCount" : 0,
+    "errorPct" : 0.0,
+    "meanResTime" : 0.7113333333333338,
+    "medianResTime" : 1.0,
+    "minResTime" : 0.0,
+    "maxResTime" : 36.0,
+    "pct1ResTime" : 1.0,
+    "pct2ResTime" : 2.0,
+    "pct3ResTime" : 3.0,
+    "throughput" : 198.09825673534073,
+    "receivedKBytesPerSec" : 36.76347687202853,
+    "sentKBytesPerSec" : 31.04970924953777
+  }
+}

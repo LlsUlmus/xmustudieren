@@ -1,0 +1,125 @@
+════════════════════════════════════════════════════════════
+作业6 — 题目1：双重检查锁定单例（volatile、synchronized）
+════════════════════════════════════════════════════════════
+
+【作业要求（对照课件）】
+1）用 Java 实现具有双重检查锁定功能的单例模式，使用 volatile 与 synchronized。
+2）提交一个 Word 文档，内容包括：① 源码；② 系统运行截图。
+
+────────────────────────────────────────────────────────────
+一、设计说明（可放在源码前，一段话即可）
+────────────────────────────────────────────────────────────
+
+本程序采用双重检查锁定（Double-Checked Locking）：首次访问时用 volatile 修饰的静态变量保存唯一实例，保证多线程可见性；同步块内二次判空，避免重复创建。synchronized 与专用锁对象 INIT_LOCK 配合，保证初始化阶段互斥。SingletonTest 使用多线程并发获取实例，通过打印 identityHashCode（十六进制）验证所有线程得到同一对象。
+
+
+────────────────────────────────────────────────────────────
+二、源代码
+────────────────────────────────────────────────────────────
+
+【文件：Singleton.java】
+
+/**
+ * 线程安全单例（双重检查锁定）。
+ * volatile：新建完成后对其他线程可见，并约束与构造相关的重排序。
+ * synchronized：同一时刻只有一个线程执行初始化。
+ */
+public class Singleton {
+
+    /** 惰性初始化时的共享引用，必须由 volatile 修饰。 */
+    private static volatile Singleton instance;
+
+    /** 仅用于初始化互斥，避免占用类字面量锁空间。 */
+    private static final Object INIT_LOCK = new Object();
+
+    private Singleton() {}
+
+    public static Singleton getInstance() {
+        if (instance == null) {
+            synchronized (INIT_LOCK) {
+                if (instance == null) {
+                    instance = new Singleton();
+                }
+            }
+        }
+        return instance;
+    }
+}
+
+
+【文件：SingletonTest.java】
+
+import java.util.concurrent.CountDownLatch;
+
+/**
+ * 并发拉取单例：若 DCL 正确，所有线程打印的 identity hash 应一致。
+ */
+public class SingletonTest {
+
+    private static final int THREAD_COUNT = 8;
+
+    public static void main(String[] args) throws InterruptedException {
+        CountDownLatch ready = new CountDownLatch(THREAD_COUNT);
+        CountDownLatch startGate = new CountDownLatch(1);
+        Thread[] workers = new Thread[THREAD_COUNT];
+
+        for (int i = 0; i < THREAD_COUNT; i++) {
+            final int index = i + 1;
+            workers[i] = new Thread(() -> {
+                ready.countDown();
+                try {
+                    startGate.await();
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+                Singleton one = Singleton.getInstance();
+                System.out.printf("[%s] hash=%s%n",
+                        Thread.currentThread().getName(),
+                        Integer.toHexString(System.identityHashCode(one)));
+            }, "T-" + index);
+        }
+
+        for (Thread t : workers) {
+            t.start();
+        }
+        ready.await();
+        startGate.countDown();
+
+        for (Thread t : workers) {
+            t.join();
+        }
+    }
+}
+
+
+────────────────────────────────────────────────────────────
+三、程序运行结果（此处粘贴「控制台」截图）
+────────────────────────────────────────────────────────────
+
+操作步骤（任选其一）：
+  A）双击文件夹中的 run.bat；
+  B）在该文件夹打开终端，执行：javac Singleton.java SingletonTest.java
+     然后执行：java SingletonTest
+
+截图要求：须能看到命令或运行窗口标题，以及完整输出；多行 hash= 后面的十六进制应完全相同。
+
+【以下为一次运行的示例输出文字，便于核对；Word 里仍以截图为准】
+
+Compiling...
+Running SingletonTest...
+
+[T-5] hash=xxxxxxxx
+[T-3] hash=xxxxxxxx
+……（共 8 行）
+（每一行 hash= 后面的内容相同，表示同一单例实例）
+
+进程已结束，退出代码为 0
+
+
+════════════════════════════════════════════════════════════
+粘贴到 Word 的建议
+════════════════════════════════════════════════════════════
+1）从「作业要求」到「示例输出」按需复制；源码建议用 Word「插入 → 文本框」或「开始 → 样式」设为「正文」后选中代码 → 字体改为 Consolas/ Courier New，缩小字号。
+2）截图用 Win+Shift+S 截取 CMD/PowerShell 或终端窗口，粘贴到「三、程序运行结果」标题下方。
+3）若老师要求类名/输出与课件一致，可将打印改为 System.out.println("Instance 1: " + s.hashCode()); 等形式后再截图。

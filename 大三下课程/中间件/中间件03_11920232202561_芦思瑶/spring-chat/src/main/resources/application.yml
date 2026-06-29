@@ -1,0 +1,7 @@
+server:
+  port: 8080
+
+minimax:
+  api-key: ${MINIMAX_API_KEY:sk-cp-ZcGU3uVi3wGwPYSN8IE4UTz9kJO0_HU8D1auWFyKAPYD09qF428ne4eGUUNKxf-O1oQ6IqMPN4SgxSAQy8tSfPUvKoYlZjdoZItEw7lNCfvhxQCCSoOhNDk}
+  base-url: https://api.minimaxi.com/v1
+  model: MiniMax-M2.1

@@ -1,0 +1,8 @@
+server:
+  port: 8080
+
+minimax:
+  # 提交版无内置密钥：请设置环境变量 MINIMAX_API_KEY，或在本地改此处的默认值（勿提交真实 Key）
+  api-key: ${MINIMAX_API_KEY:}
+  base-url: https://api.minimaxi.com/v1
+  model: MiniMax-M2.1

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>会话</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { min-height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(145deg, #cfd9e8 0%, #d8e0ec 35%, #e8ecf4 70%, #dfe6f0 100%);
+      color: #1a1a1a;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app-wrap { max-width: 1320px; margin: 0 auto; padding: 20px 20px 28px; min-height: 100vh; }
+    .layout { display: grid; grid-template-columns: 1fr minmax(280px, 340px); gap: 18px; min-height: calc(100vh - 48px); }
+    @media (max-width: 1000px) { .layout { grid-template-columns: 1fr; } }
+    .chat-col {
+      display: flex; flex-direction: column; min-height: 0; background: #fff; border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(30, 50, 80, 0.08), 0 1px 0 rgba(255,255,255,.8) inset;
+      border: 1px solid rgba(255,255,255,.6); overflow: hidden;
+    }
+    .top { display: flex; align-items: center; gap: 12px; padding: 14px 18px; background: linear-gradient(180deg, #f8f9fc 0%, #eef1f7 100%); border-bottom: 1px solid rgba(0,0,0,.06); }
+    .top .brand { flex: 1; font-weight: 600; font-size: 1.12rem; color: #1c2533; }
+    .top select { font-size: .88rem; padding: 7px 11px; border-radius: 8px; border: 1px solid #c8ced8; background: #fff; }
+    .top .link { font-size: .88rem; padding: 8px 16px; border-radius: 999px; border: none; background: #07c160; color: #fff; cursor: pointer; font-weight: 500; }
+    .top .link.off { background: #8e8e93; }
+    #statusDot { width: 10px; height: 10px; border-radius: 50%; background: #ff3b30; }
+    #statusDot.on { background: #34c759; }
+    .hint { font-size: .8rem; color: #8e8e93; line-height: 1.4; padding: 8px 18px 4px; }
+    .hint.ok { color: #34c759; }
+    .nick-strip { display: flex; align-items: center; gap: 12px; padding: 6px 18px 12px; border-bottom: 1px solid rgba(0,0,0,.05); }
+    .nick-strip span { font-size: .88rem; color: #666; }
+    .nick-strip input { flex: 1; max-width: 280px; padding: 8px 11px; border-radius: 8px; border: 1px solid #d0d5de; background: #fafbfc; font-size: .92rem; }
+    #log { flex: 1; min-height: 220px; overflow-y: auto; padding: 14px 16px; background: linear-gradient(180deg, #fbfbfc 0%, #f5f6f8 100%); display: flex; flex-direction: column; gap: 12px; }
+    .msg { display: flex; align-items: flex-start; gap: 11px; max-width: 100%; }
+    .avatar { width: 40px; height: 40px; border-radius: 8px; background: linear-gradient(145deg, #5b9bd5, #3a7ab8); color: #fff; font-size: .95rem; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+    .card { flex: 1; min-width: 0; }
+    .meta { font-size: .72rem; color: #8e8e93; margin-bottom: 4px; display: flex; gap: 8px; }
+    .meta .nm { font-weight: 600; color: #4a6fa5; font-size: .82rem; }
+    .bubble { display: inline-block; max-width: 100%; padding: 9px 13px; border-radius: 4px 14px 14px 14px; background: #fff; border: 1px solid #e8eaef; box-shadow: 0 1px 2px rgba(0,0,0,.04); font-size: .92rem; line-height: 1.45; word-break: break-word; }
+    .trans { margin-top: 5px; padding: 7px 10px; border-radius: 8px; background: rgba(74, 111, 165, 0.09); font-size: .82rem; line-height: 1.4; color: #3d4f7c; border-left: 3px solid #4a6fa5; }
+    .bottom { padding: 12px 14px 14px; background: #f0f1f4; border-top: 1px solid rgba(0,0,0,.06); }
+    .bottom .row-in { display: flex; align-items: flex-end; gap: 10px; }
+    .bottom textarea { flex: 1; min-height: 44px; max-height: 140px; resize: vertical; padding: 10px 12px; border-radius: 10px; border: 1px solid #c8ced8; font-size: .92rem; line-height: 1.45; }
+    .bottom .send { min-width: 50px; height: 44px; padding: 0 14px; border-radius: 10px; border: none; background: #07c160; color: #fff; font-size: .9rem; cursor: pointer; }
+    .bottom .send:disabled { background: #c8c8cc; cursor: not-allowed; }
+    .tools-col { display: flex; flex-direction: column; gap: 14px; }
+    .tool-card { background: #fff; border-radius: 14px; padding: 14px 14px 12px; box-shadow: 0 4px 20px rgba(30, 50, 80, 0.07); border: 1px solid rgba(255,255,255,.7); display: flex; flex-direction: column; gap: 8px; }
+    .tool-card h3 { font-size: .82rem; font-weight: 600; color: #5a6570; padding-bottom: 2px; border-bottom: 1px solid #eef0f4; }
+    .tool-card textarea { width: 100%; padding: 8px 10px; border-radius: 8px; border: 1px solid #d0d5de; font-size: .82rem; background: #fafbfc; resize: vertical; }
+    .tool-card .go { align-self: flex-start; padding: 6px 14px; font-size: .82rem; border-radius: 8px; border: none; background: #4a6fa5; color: #fff; cursor: pointer; }
+    .sent-out { margin-top: 6px; min-height: 48px; max-height: 320px; overflow-y: auto; padding: 12px 14px; background: linear-gradient(165deg, #fafbfd 0%, #f3f5f9 100%); border-radius: 12px; border: 1px solid #e4e8f0; font-size: .86rem; line-height: 1.55; color: #2c3340; }
+    .sent-pill { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: .78rem; font-weight: 600; margin-bottom: 10px; }
+    .sent-pill.pos { background: linear-gradient(135deg, #d4f4e2, #b8e8c8); color: #0d5c2e; }
+    .sent-pill.neu { background: linear-gradient(135deg, #e8eaf0, #dce0ea); color: #4a5568; }
+    .sent-pill.neg { background: linear-gradient(135deg, #fde2e4, #f5c6cb); color: #9b1c2e; }
+  </style>
+</head>
+<body>
+  <div class="app-wrap">
+    <div class="layout">
+      <section class="chat-col">
+        <header class="top">
+          <span id="statusDot"></span>
+          <div class="brand">会话</div>
+          <select id="targetLang" aria-label="翻译为">
+            <option value="英语">English</option>
+            <option value="简体中文">中文</option>
+            <option value="日语">日本語</option>
+          </select>
+          <button type="button" class="link" id="btnConnect"></button>
+        </header>
+        <p class="hint" id="connHint">未连接，点击「连接」后加入会话</p>
+        <div class="nick-strip">
+          <span>昵称</span>
+          <input type="text" id="username" maxlength="16" autocomplete="off" placeholder="请输入昵称" />
+        </div>
+        <main id="log"></main>
+        <footer class="bottom">
+          <div class="row-in">
+            <textarea id="msg" rows="2" placeholder="发送消息..."></textarea>
+            <button type="button" class="send" id="btnSend" disabled>发送</button>
+          </div>
+        </footer>
+      </section>
+      <aside class="tools-col">
+        <div class="tool-card">
+          <h3>情感 · 回复建议</h3>
+          <textarea id="sentIn" rows="5" placeholder="输入一句话"></textarea>
+          <button type="button" class="go" id="btnSent">分析</button>
+          <div id="sentOut" class="sent-out" aria-live="polite"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+  <input type="hidden" id="apiBase" value="" />
+  <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

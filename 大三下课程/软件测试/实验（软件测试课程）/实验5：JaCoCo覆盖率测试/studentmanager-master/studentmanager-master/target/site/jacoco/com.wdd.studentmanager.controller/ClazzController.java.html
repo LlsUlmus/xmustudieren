@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ClazzController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.controller</a> &gt; <span class="el_source">ClazzController.java</span></div><h1>ClazzController.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.controller;
+
+import com.wdd.studentmanager.domain.Clazz;
+import com.wdd.studentmanager.service.ClazzService;
+import com.wdd.studentmanager.service.StudentService;
+import com.wdd.studentmanager.util.AjaxResult;
+import com.wdd.studentmanager.util.Data;
+import com.wdd.studentmanager.util.PageBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Classname ClazzController
+ * @Description 班级管理
+ * @Date 2019/6/26 9:08
+ * @Created by WDD
+ */
+@Controller
+@RequestMapping(&quot;/clazz&quot;)
+<span class="nc" id="L27">public class ClazzController {</span>
+
+    @Autowired
+    private ClazzService clazzService;
+    @Autowired
+    private StudentService studentService;
+
+    /**
+     * 跳转班级页面
+     * @return
+     */
+    @GetMapping(&quot;/clazz_list&quot;)
+    public String clazzList(){
+<span class="nc" id="L40">        return &quot;/clazz/clazzList&quot;;</span>
+    }
+
+    /**
+     * 异步加载班级列表
+     * @param page
+     * @param rows
+     * @param clazzName
+     * @return
+     */
+    @PostMapping(&quot;/getClazzList&quot;)
+    @ResponseBody
+    public Object getClazzList(@RequestParam(value = &quot;page&quot;, defaultValue = &quot;1&quot;)Integer page,
+                               @RequestParam(value = &quot;rows&quot;, defaultValue = &quot;100&quot;)Integer rows, String clazzName, String from){
+<span class="nc" id="L54">        Map&lt;String,Object&gt; paramMap = new HashMap();</span>
+<span class="nc" id="L55">        paramMap.put(&quot;pageno&quot;,page);</span>
+<span class="nc" id="L56">        paramMap.put(&quot;pagesize&quot;,rows);</span>
+<span class="nc bnc" id="L57" title="All 2 branches missed.">        if(!StringUtils.isEmpty(clazzName))  paramMap.put(&quot;name&quot;,clazzName);</span>
+<span class="nc" id="L58">        PageBean&lt;Clazz&gt; pageBean = clazzService.queryPage(paramMap);</span>
+<span class="nc bnc" id="L59" title="All 4 branches missed.">        if(!StringUtils.isEmpty(from) &amp;&amp; from.equals(&quot;combox&quot;)){</span>
+<span class="nc" id="L60">            return pageBean.getDatas();</span>
+        }else{
+<span class="nc" id="L62">            Map&lt;String,Object&gt; result = new HashMap();</span>
+<span class="nc" id="L63">            result.put(&quot;total&quot;,pageBean.getTotalsize());</span>
+<span class="nc" id="L64">            result.put(&quot;rows&quot;,pageBean.getDatas());</span>
+<span class="nc" id="L65">            return result;</span>
+        }
+    }
+
+    /**
+     * 添加班级
+     * @param clazz
+     * @return
+     */
+    @PostMapping(&quot;/addClazz&quot;)
+    @ResponseBody
+    public AjaxResult addClazz(Clazz clazz){
+<span class="nc" id="L77">        AjaxResult ajaxResult = new AjaxResult();</span>
+        try {
+<span class="nc" id="L79">            int count = clazzService.addClazz(clazz);</span>
+<span class="nc bnc" id="L80" title="All 2 branches missed.">            if(count &gt; 0){</span>
+<span class="nc" id="L81">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L82">                ajaxResult.setMessage(&quot;添加成功&quot;);</span>
+            }else{
+<span class="nc" id="L84">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L85">                ajaxResult.setMessage(&quot;添加失败&quot;);</span>
+            }
+<span class="nc" id="L87">        }catch (Exception e){</span>
+<span class="nc" id="L88">            e.printStackTrace();</span>
+<span class="nc" id="L89">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L90">            ajaxResult.setMessage(&quot;添加失败&quot;);</span>
+<span class="nc" id="L91">        }</span>
+<span class="nc" id="L92">        return ajaxResult;</span>
+    }
+
+    /**
+     * 删除班级
+     * @param data
+     * @return
+     */
+    @PostMapping(&quot;/deleteClazz&quot;)
+    @ResponseBody
+    public AjaxResult deleteClazz(Data data){
+<span class="nc" id="L103">        AjaxResult ajaxResult = new AjaxResult();</span>
+        try {
+<span class="nc" id="L105">            List&lt;Integer&gt; ids = data.getIds();</span>
+<span class="nc" id="L106">            Iterator&lt;Integer&gt; iterator = ids.iterator();</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">            while (iterator.hasNext()){  //判断是否存在课程关联学生</span>
+<span class="nc bnc" id="L108" title="All 2 branches missed.">                if(!studentService.isStudentByClazzId(iterator.next())){</span>
+<span class="nc" id="L109">                    ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L110">                    ajaxResult.setMessage(&quot;无法删除,班级下存在学生&quot;);</span>
+<span class="nc" id="L111">                    return ajaxResult;</span>
+                }
+            }
+<span class="nc" id="L114">            int count = clazzService.deleteClazz(data.getIds());</span>
+<span class="nc bnc" id="L115" title="All 2 branches missed.">            if(count &gt; 0){</span>
+<span class="nc" id="L116">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L117">                ajaxResult.setMessage(&quot;删除成功&quot;);</span>
+            }else{
+<span class="nc" id="L119">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L120">                ajaxResult.setMessage(&quot;删除失败&quot;);</span>
+            }
+<span class="nc" id="L122">        }catch (Exception e){</span>
+<span class="nc" id="L123">            e.printStackTrace();</span>
+<span class="nc" id="L124">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L125">            ajaxResult.setMessage(&quot;删除失败,该班级存在老师或学生&quot;);</span>
+<span class="nc" id="L126">        }</span>
+<span class="nc" id="L127">        return ajaxResult;</span>
+    }
+
+    /**
+     * 班级修改
+     * @param clazz
+     * @return
+     */
+    @PostMapping(&quot;/editClazz&quot;)
+    @ResponseBody
+    public AjaxResult editClazz(Clazz clazz){
+<span class="nc" id="L138">        AjaxResult ajaxResult = new AjaxResult();</span>
+        try {
+<span class="nc" id="L140">            int count = clazzService.editClazz(clazz);</span>
+<span class="nc bnc" id="L141" title="All 2 branches missed.">            if(count &gt; 0){</span>
+<span class="nc" id="L142">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L143">                ajaxResult.setMessage(&quot;修改成功&quot;);</span>
+            }else{
+<span class="nc" id="L145">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L146">                ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+            }
+<span class="nc" id="L148">        }catch (Exception e){</span>
+<span class="nc" id="L149">            e.printStackTrace();</span>
+<span class="nc" id="L150">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L151">            ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+<span class="nc" id="L152">        }</span>
+<span class="nc" id="L153">        return ajaxResult;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

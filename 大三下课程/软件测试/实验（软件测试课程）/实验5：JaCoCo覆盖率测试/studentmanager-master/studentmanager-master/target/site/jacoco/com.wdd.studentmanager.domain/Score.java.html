@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Score.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.domain</a> &gt; <span class="el_source">Score.java</span></div><h1>Score.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.domain;
+
+/**
+ * @Classname score
+ * @Description 成绩实体表
+ * @Date 2019/7/3 10:22
+ * @Created by WDD
+ */
+<span class="nc" id="L9">public class Score {</span>
+    private Integer id;
+    private Integer studentId;
+    private Integer courseId;
+    private double score;
+    private String remark;
+
+    //关联表
+    private String courseName;
+    private String studentName;
+
+    public Integer getId() {
+<span class="nc" id="L21">        return id;</span>
+    }
+
+    public void setId(Integer id) {
+<span class="nc" id="L25">        this.id = id;</span>
+<span class="nc" id="L26">    }</span>
+
+    public Integer getStudentId() {
+<span class="nc" id="L29">        return studentId;</span>
+    }
+
+    public void setStudentId(Integer studentId) {
+<span class="nc" id="L33">        this.studentId = studentId;</span>
+<span class="nc" id="L34">    }</span>
+
+    public Integer getCourseId() {
+<span class="nc" id="L37">        return courseId;</span>
+    }
+
+    public void setCourseId(Integer courseId) {
+<span class="nc" id="L41">        this.courseId = courseId;</span>
+<span class="nc" id="L42">    }</span>
+
+    public double getScore() {
+<span class="nc" id="L45">        return score;</span>
+    }
+
+    public void setScore(double score) {
+<span class="nc" id="L49">        this.score = score;</span>
+<span class="nc" id="L50">    }</span>
+
+    public String getRemark() {
+<span class="nc" id="L53">        return remark;</span>
+    }
+
+    public void setRemark(String remark) {
+<span class="nc" id="L57">        this.remark = remark;</span>
+<span class="nc" id="L58">    }</span>
+
+    public String getCourseName() {
+<span class="nc" id="L61">        return courseName;</span>
+    }
+
+    public void setCourseName(String courseName) {
+<span class="nc" id="L65">        this.courseName = courseName;</span>
+<span class="nc" id="L66">    }</span>
+
+    public String getStudentName() {
+<span class="nc" id="L69">        return studentName;</span>
+    }
+
+    public void setStudentName(String studentName) {
+<span class="nc" id="L73">        this.studentName = studentName;</span>
+<span class="nc" id="L74">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

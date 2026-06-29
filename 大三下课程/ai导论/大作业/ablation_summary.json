@@ -1,0 +1,37 @@
+{
+  "exp1_baseline": {
+    "best_f1": 0.7519653715469219,
+    "best_acc": 0.973428796838831,
+    "best_sensitivity": 0.7302372394888489,
+    "best_specificity": 0.9889333755881698,
+    "best_epoch": 26
+  },
+  "exp2_no_skip": {
+    "best_f1": 0.755174434847302,
+    "best_acc": 0.9736362033420138,
+    "best_sensitivity": 0.7355830586618848,
+    "best_specificity": 0.9888045986493429,
+    "best_epoch": 27
+  },
+  "exp3_attention": {
+    "best_f1": 0.7551853601579313,
+    "best_acc": 0.9730122884114584,
+    "best_sensitivity": 0.7568245005828363,
+    "best_specificity": 0.9867950125976845,
+    "best_epoch": 21
+  },
+  "exp4_dskd": {
+    "best_f1": 0.7513591669223927,
+    "best_acc": 0.9729557743778935,
+    "best_sensitivity": 0.7442748618346674,
+    "best_specificity": 0.9876213007503085,
+    "best_epoch": 23
+  },
+  "exp5_attn_dskd": {
+    "best_f1": 0.7514360028284567,
+    "best_acc": 0.9702481870298032,
+    "best_sensitivity": 0.8098353572465755,
+    "best_specificity": 0.9806440340148078,
+    "best_epoch": 24
+  }
+}

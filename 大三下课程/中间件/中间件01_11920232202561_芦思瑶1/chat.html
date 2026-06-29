@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Step4 JMS Chat</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #1f2937;
+            background: linear-gradient(145deg, #eef2ff, #f8fafc);
+        }
+
+        .app {
+            max-width: 980px;
+            margin: 24px auto;
+            padding: 0 16px;
+        }
+
+        .title {
+            margin: 0 0 16px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e3a8a;
+        }
+
+        .subtitle {
+            margin: 0 0 20px;
+            color: #475569;
+        }
+
+        .panel {
+            background: #ffffff;
+            border-radius: 14px;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+            padding: 16px;
+            margin-bottom: 14px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 90px 1fr auto auto;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .row.broadcast {
+            grid-template-columns: 90px 1fr auto;
+            margin-bottom: 0;
+        }
+
+        .label {
+            color: #334155;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.14);
+        }
+
+        button {
+            border: none;
+            border-radius: 10px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.08s, opacity 0.2s;
+            background: #4f46e5;
+        }
+
+        button:hover {
+            opacity: 0.92;
+        }
+
+        button:active {
+            transform: translateY(1px);
+        }
+
+        .btn-secondary {
+            background: #0ea5e9;
+        }
+
+        .btn-success {
+            background: #16a34a;
+        }
+
+        .status {
+            margin-top: 2px;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            background: #eef2ff;
+            color: #3730a3;
+            display: inline-block;
+        }
+
+        .chat-panel {
+            height: 420px;
+            overflow-y: auto;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            background: #f8fafc;
+            padding: 12px;
+        }
+
+        .bubble {
+            margin: 8px 0;
+            padding: 10px 12px;
+            border-radius: 12px;
+            background: #e2e8f0;
+            max-width: 85%;
+            line-height: 1.45;
+            font-size: 14px;
+        }
+
+        .bubble.self {
+            margin-left: auto;
+            background: #dbeafe;
+            border: 1px solid #bfdbfe;
+        }
+
+        .bubble.system {
+            background: #ede9fe;
+            border: 1px solid #ddd6fe;
+            color: #4c1d95;
+        }
+
+        .meta {
+            margin-top: 4px;
+            font-size: 12px;
+            color: #64748b;
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <h2 class="title">Step4 即时通讯</h2>
+    <p class="subtitle">JMS Queue + 心跳 watchdog + 存储转发</p>
+
+    <div class="panel">
+        <div class="row">
+            <span class="label">用户名</span>
+            <input id="user" placeholder="例如 alice">
+            <button class="btn-success" onclick="login()">上线</button>
+            <button class="btn-secondary" onclick="online()">在线用户</button>
+        </div>
+        <div id="status" class="status">状态：未上线</div>
+    </div>
+
+    <div class="panel">
+        <div class="row">
+            <span class="label">私聊</span>
+            <input id="to" placeholder="发送给谁，例如 bob">
+            <input id="msg" placeholder="输入消息内容">
+            <button onclick="sendMsg()">发送</button>
+        </div>
+
+        <div class="row broadcast">
+            <span class="label">群发</span>
+            <input id="groupMsg" placeholder="给所有在线用户发送消息">
+            <button onclick="broadcast()">群发</button>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="chat-panel" id="log"></div>
+    </div>
+</div>
+
+<script>
+    let currentUser = "";
+    let pollTimer = null;
+    let heartbeatTimer = null;
+
+    function setStatus(text) {
+        document.getElementById("status").textContent = `状态：${text}`;
+    }
+
+    function escapeHtml(str) {
+        return String(str)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+    }
+
+    function log(text, type = "system") {
+        const el = document.getElementById("log");
+        const time = new Date().toLocaleTimeString();
+        const klass = type === "self" ? "bubble self" : type === "incoming" ? "bubble" : "bubble system";
+        el.innerHTML += `
+            <div class="${klass}">
+                <div>${escapeHtml(text)}</div>
+                <div class="meta">${time}</div>
+            </div>
+        `;
+        el.scrollTop = el.scrollHeight;
+    }
+
+    function formBody(obj) {
+        return new URLSearchParams(obj).toString();
+    }
+
+    async function api(path, options = {}) {
+        try {
+            const r = await fetch(`http://localhost:8080${path}`, options);
+            const j = await r.json();
+            if (!r.ok || !j.ok) {
+                throw new Error(j.error || `请求失败(${r.status})`);
+            }
+            return j;
+        } catch (e) {
+            const msg = e && e.message ? e.message : "网络请求失败";
+            alert(`请求失败：${msg}\n请确认 run.bat 已启动且窗口不要关闭。`);
+            throw e;
+        }
+    }
+
+    async function login() {
+        const user = document.getElementById("user").value.trim();
+        if (!user) return alert("请输入用户名");
+        const j = await api("/register", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: formBody({username: user})
+        });
+        currentUser = user;
+        setStatus(`已上线：${user}`);
+        log(`用户 ${user} 已上线，开始接收消息。`);
+        startLoop();
+    }
+
+    async function sendMsg() {
+        if (!currentUser) return alert("请先上线");
+        const to = document.getElementById("to").value.trim();
+        const content = document.getElementById("msg").value.trim();
+        if (!to || !content) return alert("目标用户和消息不能为空");
+        await api("/send", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: formBody({from: currentUser, to, content})
+        });
+        log(`我 -> ${to}: ${content}`, "self");
+        document.getElementById("msg").value = "";
+    }
+
+    async function broadcast() {
+        if (!currentUser) return alert("请先上线");
+        const content = document.getElementById("groupMsg").value.trim();
+        if (!content) return alert("群发内容不能为空");
+        const j = await api("/broadcast", {
+            method: "POST",
+            headers: {"Content-Type": "application/x-www-form-urlencoded"},
+            body: formBody({from: currentUser, content})
+        });
+        log(`我 群发(${j.delivered}人): ${content}`, "self");
+        document.getElementById("groupMsg").value = "";
+    }
+
+    async function online() {
+        const j = await api("/online");
+        log(`在线用户: ${j.users.join(", ") || "无"}`);
+    }
+
+    async function poll() {
+        if (!currentUser) return;
+        let j;
+        try {
+            j = await api(`/poll?user=${encodeURIComponent(currentUser)}`);
+        } catch (e) {
+            return;
+        }
+        for (const m of j.messages) {
+            const tag = m.group ? " [群发]" : "";
+            log(`${m.from} -> ${m.to}: ${m.content}${tag}`, m.from === currentUser ? "self" : "incoming");
+        }
+    }
+
+    async function heartbeat() {
+        if (!currentUser) return;
+        try {
+            await api("/heartbeat", {
+                method: "POST",
+                headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                body: formBody({username: currentUser})
+            });
+        } catch (e) {
+            // 心跳失败不打断用户操作，由 watchdog 处理在线状态
+        }
+    }
+
+    function startLoop() {
+        if (pollTimer) clearInterval(pollTimer);
+        if (heartbeatTimer) clearInterval(heartbeatTimer);
+        pollTimer = setInterval(poll, 1000);
+        heartbeatTimer = setInterval(heartbeat, 10000);
+    }
+</script>
+</body>
+</html>

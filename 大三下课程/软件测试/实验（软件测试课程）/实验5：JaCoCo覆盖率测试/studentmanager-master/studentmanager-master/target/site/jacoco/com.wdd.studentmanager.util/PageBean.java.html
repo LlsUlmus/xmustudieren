@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PageBean.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.util</a> &gt; <span class="el_source">PageBean.java</span></div><h1>PageBean.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.util;
+
+import java.util.List;
+
+public class PageBean&lt;T&gt; {
+    private Integer pageno;  //第几页
+    private Integer pagesize; //每页条数
+    private List&lt;T&gt; datas;
+    private Integer totalno; //总共几页
+    private Integer totalsize; //总的条数
+
+<span class="fc" id="L12">    public PageBean(Integer pageno, Integer pagesize) {</span>
+<span class="pc bpc" id="L13" title="1 of 2 branches missed.">        if(pageno&lt;=0){</span>
+<span class="nc" id="L14">            this.pageno = 1;</span>
+        }else{
+<span class="fc" id="L16">            this.pageno = pageno;</span>
+        }
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">        if(pagesize&lt;=0){</span>
+<span class="nc" id="L19">            this.pagesize = 10;</span>
+        }else{
+<span class="fc" id="L21">            this.pagesize = pagesize;</span>
+        }
+<span class="fc" id="L23">        this.pageno = pageno;</span>
+<span class="fc" id="L24">        this.pagesize = pagesize;</span>
+<span class="fc" id="L25">    }</span>
+
+    public Integer getPageno() {
+<span class="nc" id="L28">        return pageno;</span>
+    }
+
+    public void setPageno(Integer pageno) {
+<span class="nc" id="L32">        this.pageno = pageno;</span>
+<span class="nc" id="L33">    }</span>
+
+    public Integer getPagesize() {
+<span class="nc" id="L36">        return pagesize;</span>
+    }
+
+    public void setPagesize(Integer pagesize) {
+<span class="nc" id="L40">        this.pagesize = pagesize;</span>
+<span class="nc" id="L41">    }</span>
+
+    public List getDatas() {
+<span class="fc" id="L44">        return datas;</span>
+    }
+
+    public void setDatas(List datas) {
+<span class="fc" id="L48">        this.datas = datas;</span>
+<span class="fc" id="L49">    }</span>
+
+    public Integer getTotalno() {
+<span class="nc" id="L52">        return totalno;</span>
+    }
+
+    public void setTotalno(Integer totalno) {
+<span class="nc" id="L56">        this.totalno = totalno;</span>
+<span class="nc" id="L57">    }</span>
+
+    public Integer getTotalsize() {
+<span class="fc" id="L60">        return totalsize;</span>
+    }
+
+    public void setTotalsize(Integer totalsize) {
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">        this.totalno = (totalsize%pagesize==0)?(totalsize/pagesize):(totalsize/pagesize+1);</span>
+<span class="fc" id="L65">        this.totalsize = totalsize;</span>
+<span class="fc" id="L66">    }</span>
+
+    /**
+     * 开始索引
+     */
+    public Integer getStartIndex(){
+<span class="nc" id="L72">        return (this.pageno-1)*this.pagesize;</span>
+    }
+
+
+    @Override
+    public String toString() {
+<span class="nc" id="L78">        return &quot;PageBean{&quot; +</span>
+                &quot;pageno=&quot; + pageno +
+                &quot;, pagesize=&quot; + pagesize +
+                &quot;, datas=&quot; + datas +
+                &quot;, totalno=&quot; + totalno +
+                &quot;, totalsize=&quot; + totalsize +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,18 @@
+本文件夹为一次性打包的「作业提交」副本。
+
+内容：
+  spring-chat\     Java 源码（src\main\java 等）与 pom.xml；提交版 application.yml 不含内置 Key
+  frontend\        静态前端
+  启动说明.txt     运行步骤
+  可执行\          spring-chat-1.0.0.jar、run-backend.bat
+
+启动后端：双击「可执行\run-backend.bat」，或命令行执行 java -jar spring-chat-1.0.0.jar
+
+说明：本副本中的密钥已清空，运行前请设置环境变量 MINIMAX_API_KEY，或在本地自行修改
+      spring-chat\src\main\resources\application.yml 后重新 mvn package 再替换 jar。
+      你工程根目录下的源码未改动，仍可使用本地原配置开发。
+
+关于 spring-chat\target：
+  该目录是 Maven 编译生成的（.class、打包过程文件等），不是「源码」；真正重要的代码都在
+  src\main\java 与 src\main\resources。删除 target 仅为减小压缩包体积，需要时随时可在本目录
+  执行 mvn package 重新生成。若你希望提交里附带完整编译结果，可自行保留 target（体积会变大）。

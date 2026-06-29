@@ -1,0 +1,51 @@
+本作业只保留：Java 后端（spring-chat）+ 静态前端（frontend），前后端分离。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+一、配置 MiniMax Key（二选一）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ① 编辑文件：spring-chat\src\main\resources\application.yml
+     把 minimax.api-key 改成你的 Key（不要用中文「粘贴」占位）。
+  ② 或在运行配置里加环境变量：MINIMAX_API_KEY=你的key
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+二、启动后端（必须先起，占用 8080）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  方式 A — IntelliJ IDEA
+    打开 spring-chat 目录（含 pom.xml），等待 Maven 拉依赖，
+    找到 com.middleware.chat.ChatApplication，右键 Run。
+
+  方式 B — 命令行
+    cd spring-chat
+    mvn spring-boot:run
+
+  成功标志：控制台出现 “Tomcat started on port 8080”。
+  浏览器访问 http://127.0.0.1:8080/api/health
+    若 keyConfigured 为 true，说明 Key 已读到。
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+三、启动前端（另开一个终端，不要关后端）
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  必须先 cd 进入 frontend 目录再开静态服务，否则浏览器会显示「目录列表」而不是聊天页。
+
+  进入 frontend 目录，用任意「静态文件服务器」在 3000 端口打开即可，例如：
+
+    cd frontend
+    python -m http.server 3000
+
+  或用 VS Code / Cursor 的 Live Server 插件打开 index.html（需允许访问 localhost:8080）。
+
+  浏览器打开：http://127.0.0.1:3000
+
+  操作顺序：
+    1）点「连接实时通道」
+    2）可再开 2～3 个浏览器标签，改不同昵称
+    3）任一页发送消息，其它页应同时出现原文+译文
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+四、常见问题
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  · 不要用 file:// 直接双击打开 index.html，SockJS 可能连不上后端。
+  · 若打开 http://127.0.0.1:3000 出现「Directory listing」和 frontend/、spring-chat/ 等文件夹名，
+    说明当前终端不在 frontend 目录，请先 cd frontend 再执行 python -m http.server 3000。
+  · JDK 建议 17～21；若用 JDK 24 出现告警，一般仍可运行。
+  · 端口被占用：改 application.yml 里 server.port，同时把前端 app.js 里后端地址一起改。

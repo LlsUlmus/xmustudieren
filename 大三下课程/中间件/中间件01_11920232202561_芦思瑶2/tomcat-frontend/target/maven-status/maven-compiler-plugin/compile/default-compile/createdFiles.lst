@@ -1,0 +1,5 @@
+midware\frontend\PublishServlet.class
+midware\frontend\IndexServlet.class
+midware\frontend\EventsServlet.class
+midware\frontend\BrokerBridge.class
+midware\frontend\FrontendMain.class

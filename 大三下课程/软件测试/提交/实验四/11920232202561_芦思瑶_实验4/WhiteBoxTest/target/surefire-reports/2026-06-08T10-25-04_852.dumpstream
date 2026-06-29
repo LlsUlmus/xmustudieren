@@ -1,0 +1,5 @@
+# Created at 2026-06-08T10:25:05.003
+Boot Manifest-JAR contains absolute paths in classpath 'E:\大三下提交\软件测试\实验（软件测试课程）\实验4：Junit进行单元白盒测试\WhiteBoxTest\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+

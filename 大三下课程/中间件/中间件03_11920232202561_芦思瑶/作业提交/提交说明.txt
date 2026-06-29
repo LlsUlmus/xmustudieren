@@ -1,0 +1,68 @@
+中间件作业 — 提交材料说明
+========================================
+学号姓名请体现在压缩包文件名中（与学校要求一致）。
+
+一、需要交给老师的两部分
+----------------------------------------
+
+【1】源码
+  请将下列内容打成一份 ZIP（不要包含 .idea、不要包含 spring-chat\target）：
+    · spring-chat\          （整个 Maven 工程目录）
+    · frontend\             （静态前端：index.html、app.js）
+    · 启动说明.txt          （项目根目录，运行步骤）
+    · 提交材料\             （可选：若希望老师同时收到说明与本文件夹，可一并打入）
+
+  说明：spring-chat\target 为编译产物，体积大且无必要，提交前请删除该文件夹。
+
+【2】可执行文件
+  本目录下「可执行」子文件夹中的：
+    spring-chat-1.0.0.jar
+  为 Spring Boot 可执行 Fat JAR（已含依赖），JDK 17 及以上可直接运行。
+
+二、如何运行可执行 JAR（给老师演示用）
+----------------------------------------
+  1）安装 JDK 17+，配置好 java 命令。
+  2）在「可执行」文件夹中打开命令行，执行：
+
+       Windows（PowerShell 示例）：
+         $env:MINIMAX_API_KEY="你的MiniMax密钥"
+         java -jar .\spring-chat-1.0.0.jar
+
+       或在「系统环境变量」中设置 MINIMAX_API_KEY 后执行：
+         java -jar spring-chat-1.0.0.jar
+
+  3）看到控制台出现 Tomcat started on port(s): 8080 即后端成功。
+  4）前端：另开终端进入 frontend 目录，执行
+         python -m http.server 3000
+     浏览器访问 http://127.0.0.1:3000 （不要用 file:// 直接打开页面）。
+  5）也可双击运行同目录下的 run-backend.bat 启动后端（需已配置密钥，见脚本内说明）。
+
+三、关键源码文件（便于查阅）
+----------------------------------------
+  后端（spring-chat\src\main\java\com\middleware\chat\）
+    ChatApplication.java       程序入口
+    config\WebSocketConfig.java   STOMP / SockJS 端点
+    config\WebMvcConfig.java      CORS 等 Web 配置
+    controller\ChatStompController.java   聊天消息 STOMP 处理
+    controller\ApiController.java         情感分析等 HTTP 接口
+    service\MiniMaxService.java           调用 MiniMax API（翻译、情感）
+    dto\ChatMessageIn.java、ChatMessageOut.java、SentimentRequest.java
+
+  配置与构建
+    spring-chat\pom.xml
+    spring-chat\src\main\resources\application.yml
+
+  前端
+    frontend\index.html
+    frontend\app.js
+
+四、提交前务必检查
+----------------------------------------
+  · 不要在提交的源码中保留真实的 MiniMax API Key。请将 application.yml 中的
+    minimax.api-key 改为占位符（例如 YOUR_KEY_HERE），或仅通过环境变量 MINIMAX_API_KEY
+    注入；老师评测时可用自己的 Key 或你单独说明。
+  · 确认 ZIP 内结构清晰，解压后能按「启动说明.txt」跑通。
+
+（本文件与「可执行」文件夹中的 JAR 为本次整理生成；重新编译 JAR 可在 spring-chat
+ 目录执行：mvn clean package -DskipTests，再把 target\spring-chat-1.0.0.jar
+ 复制到「提交材料\可执行」。）

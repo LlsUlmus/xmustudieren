@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>StudentServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.service.Impl</a> &gt; <span class="el_source">StudentServiceImpl.java</span></div><h1>StudentServiceImpl.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.service.Impl;
+
+import com.wdd.studentmanager.domain.Student;
+import com.wdd.studentmanager.mapper.StudenetMapper;
+import com.wdd.studentmanager.service.StudentService;
+import com.wdd.studentmanager.util.PageBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Classname StudentServiceImpl
+ * @Description None
+ * @Date 2019/6/27 14:12
+ * @Created by WDD
+ */
+@Service
+<span class="nc" id="L20">public class StudentServiceImpl implements StudentService {</span>
+
+    @Autowired
+    private StudenetMapper studenetMapper;
+
+    @Override
+    public PageBean&lt;Student&gt; queryPage(Map&lt;String, Object&gt; paramMap) {
+<span class="nc" id="L27">        PageBean&lt;Student&gt; pageBean = new PageBean&lt;&gt;((Integer) paramMap.get(&quot;pageno&quot;),(Integer) paramMap.get(&quot;pagesize&quot;));</span>
+
+<span class="nc" id="L29">        Integer startIndex = pageBean.getStartIndex();</span>
+<span class="nc" id="L30">        paramMap.put(&quot;startIndex&quot;,startIndex);</span>
+<span class="nc" id="L31">        List&lt;Student&gt; datas = studenetMapper.queryList(paramMap);</span>
+<span class="nc" id="L32">        pageBean.setDatas(datas);</span>
+
+<span class="nc" id="L34">        Integer totalsize = studenetMapper.queryCount(paramMap);</span>
+<span class="nc" id="L35">        pageBean.setTotalsize(totalsize);</span>
+<span class="nc" id="L36">        return pageBean;</span>
+    }
+
+    @Override
+    public int deleteStudent(List&lt;Integer&gt; ids) {
+<span class="nc" id="L41">        return studenetMapper.deleteStudent(ids);</span>
+    }
+
+    @Override
+    public int addStudent(Student student) {
+<span class="nc" id="L46">        return studenetMapper.addStudent(student);</span>
+    }
+
+    @Override
+    public Student findById(Integer sid) {
+<span class="nc" id="L51">        return studenetMapper.findById(sid);</span>
+    }
+
+    @Override
+    public int editStudent(Student student) {
+<span class="nc" id="L56">        return studenetMapper.editStudent(student);</span>
+    }
+
+    @Override
+    public Student findByStudent(Student student) {
+<span class="nc" id="L61">        return studenetMapper.findByStudent(student);</span>
+    }
+
+    @Override
+    public boolean isStudentByClazzId(Integer id) {
+<span class="nc" id="L66">        List&lt;Student&gt; studentList = studenetMapper.isStudentByClazzId(id);</span>
+<span class="nc bnc" id="L67" title="All 2 branches missed.">        if (studentList.isEmpty()){</span>
+<span class="nc" id="L68">            return true;</span>
+        }else{
+<span class="nc" id="L70">            return false;</span>
+        }
+    }
+
+    @Override
+    public int editPswdByStudent(Student student) {
+<span class="nc" id="L76">        return studenetMapper.editPswdByStudent(student);</span>
+    }
+
+    @Override
+    public int findByName(String name) {
+<span class="nc" id="L81">        return studenetMapper.findByName(name);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

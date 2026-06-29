@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IoC / DIP / DI 演示</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+    section { margin-bottom: 2rem; }
+    label { display: block; margin-top: 0.75rem; font-weight: 600; }
+    input, textarea, button { width: 100%; box-sizing: border-box; margin-top: 0.25rem; padding: 0.5rem; }
+    textarea { min-height: 4rem; font-family: inherit; }
+    button { cursor: pointer; margin-top: 1rem; background: #2563eb; color: #fff; border: none; border-radius: 6px; }
+    button:hover { background: #1d4ed8; }
+    pre { background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 8px; overflow: auto; font-size: 13px; }
+    .links a { margin-right: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>本机演示</h1>
+  <p>默认端口 <code>8080</code>，可在 <code>application.properties</code> 中修改 <code>server.port</code>。</p>
+  <section>
+    <h2>演示步骤（简）</h2>
+    <ol>
+      <li>启动程序，浏览器打开本页。</li>
+      <li>点开 <a href="/api/concepts" target="_blank">/api/concepts</a>，截图（文字说明）。</li>
+      <li>点开 <a href="/api/channels" target="_blank">/api/channels</a>，截图。</li>
+      <li>下面表单点<strong>发送</strong>；再把 channel 改成 <code>sms</code> 再发一次，各截一张。</li>
+      <li>IDE 打开 <code>NotificationController</code>、<code>NotificationServiceImpl</code>，截构造器注入源码。</li>
+    </ol>
+  </section>
+  <section>
+    <h2>查询</h2>
+    <p class="links">
+      <a href="/api/concepts" target="_blank">/api/concepts</a>
+      <a href="/api/channels" target="_blank">/api/channels</a>
+    </p>
+  </section>
+  <section>
+    <h2>发送通知（POST /api/notify）</h2>
+    <form id="f">
+      <label>channel（email 或 sms）</label>
+      <input name="channel" value="email" required />
+      <label>recipient</label>
+      <input name="recipient" value="demo@test.com" required />
+      <label>content</label>
+      <textarea name="content" required>测试</textarea>
+      <button type="submit">发送</button>
+    </form>
+    <pre id="out"></pre>
+  </section>
+  <script>
+    document.getElementById('f').onsubmit = async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const body = {
+        channel: fd.get('channel'),
+        recipient: fd.get('recipient'),
+        content: fd.get('content')
+      };
+      const el = document.getElementById('out');
+      try {
+        const res = await fetch('/api/notify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        const text = await res.text();
+        el.textContent = res.status + ' ' + res.statusText + '\n' + text;
+      } catch (err) {
+        el.textContent = '请求失败：' + err;
+      }
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SystemController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.controller</a> &gt; <span class="el_source">SystemController.java</span></div><h1>SystemController.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.controller;
+
+import com.wdd.studentmanager.domain.Admin;
+import com.wdd.studentmanager.domain.Student;
+import com.wdd.studentmanager.domain.Teacher;
+import com.wdd.studentmanager.service.AdminService;
+import com.wdd.studentmanager.service.StudentService;
+import com.wdd.studentmanager.service.TeacherService;
+import com.wdd.studentmanager.util.AjaxResult;
+import com.wdd.studentmanager.util.Const;
+import com.wdd.studentmanager.util.CpachaUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.*;
+
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+/**
+ * @Classname SystemController
+ * @Description None
+ * @Date 2019/6/24 19:25
+ * @Created by WDD
+ */
+@Controller
+@RequestMapping(&quot;/system&quot;)
+<span class="nc" id="L32">public class SystemController {</span>
+
+    @Autowired
+    private AdminService adminService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private TeacherService teacherService;
+
+    /**
+     * 跳转登录界面
+     * @return
+     */
+    @GetMapping(&quot;/login&quot;)
+    public String login(){
+<span class="nc" id="L47">        return &quot;/login&quot;;</span>
+    }
+
+    /**
+     * 登录表单提交 校验
+     * @return
+     */
+    @PostMapping(&quot;/login&quot;)
+    @ResponseBody
+    public AjaxResult submitlogin(String username, String password, String code, String type,
+                                  HttpSession session){
+<span class="nc" id="L58">        AjaxResult ajaxResult = new AjaxResult();</span>
+<span class="nc bnc" id="L59" title="All 2 branches missed.">        if(StringUtils.isEmpty(username)){</span>
+<span class="nc" id="L60">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L61">            ajaxResult.setMessage(&quot;请填写用户名&quot;);</span>
+<span class="nc" id="L62">            return ajaxResult;</span>
+        }
+<span class="nc bnc" id="L64" title="All 2 branches missed.">        if(StringUtils.isEmpty(password)){</span>
+<span class="nc" id="L65">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L66">            ajaxResult.setMessage(&quot;请填写密码&quot;);</span>
+<span class="nc" id="L67">            return ajaxResult;</span>
+        }
+<span class="nc bnc" id="L69" title="All 2 branches missed.">        if(StringUtils.isEmpty(code)){</span>
+<span class="nc" id="L70">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L71">            ajaxResult.setMessage(&quot;请填验证码&quot;);</span>
+<span class="nc" id="L72">            return ajaxResult;</span>
+        }
+<span class="nc bnc" id="L74" title="All 2 branches missed.">        if(StringUtils.isEmpty(session.getAttribute(Const.CODE))){</span>
+<span class="nc" id="L75">            ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L76">            ajaxResult.setMessage(&quot;会话时间过长，请刷新&quot;);</span>
+<span class="nc" id="L77">            return ajaxResult;</span>
+        }else{
+<span class="nc bnc" id="L79" title="All 2 branches missed.">            if(!code.equalsIgnoreCase((String) session.getAttribute(Const.CODE))){</span>
+<span class="nc" id="L80">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L81">                ajaxResult.setMessage(&quot;验证码错误&quot;);</span>
+<span class="nc" id="L82">                return ajaxResult;</span>
+            }
+        }
+        //数据库校验
+<span class="nc bnc" id="L86" title="All 4 branches missed.">        switch (type){</span>
+            case &quot;1&quot;:{ //管理员
+<span class="nc" id="L88">                Admin admin = new Admin();</span>
+<span class="nc" id="L89">                admin.setPassword(password);</span>
+<span class="nc" id="L90">                admin.setUsername(username);</span>
+<span class="nc" id="L91">                Admin ad = adminService.findByAdmin(admin);</span>
+<span class="nc bnc" id="L92" title="All 2 branches missed.">                if(StringUtils.isEmpty(ad)){</span>
+<span class="nc" id="L93">                    ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L94">                    ajaxResult.setMessage(&quot;用户名或密码错误&quot;);</span>
+<span class="nc" id="L95">                    return ajaxResult;</span>
+                }
+<span class="nc" id="L97">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L98">                session.setAttribute(Const.ADMIN,ad);</span>
+<span class="nc" id="L99">                session.setAttribute(Const.USERTYPE,&quot;1&quot;);</span>
+<span class="nc" id="L100">                break;</span>
+            }
+            case &quot;2&quot;:{
+<span class="nc" id="L103">                Student student = new Student();</span>
+<span class="nc" id="L104">                student.setPassword(password);</span>
+<span class="nc" id="L105">                student.setUsername(username);</span>
+<span class="nc" id="L106">                Student st = studentService.findByStudent(student);</span>
+<span class="nc bnc" id="L107" title="All 2 branches missed.">                if(StringUtils.isEmpty(st)){</span>
+<span class="nc" id="L108">                    ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L109">                    ajaxResult.setMessage(&quot;用户名或密码错误&quot;);</span>
+<span class="nc" id="L110">                    return ajaxResult;</span>
+                }
+<span class="nc" id="L112">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L113">                session.setAttribute(Const.STUDENT,st);</span>
+<span class="nc" id="L114">                session.setAttribute(Const.USERTYPE,&quot;2&quot;);</span>
+<span class="nc" id="L115">                break;</span>
+            }
+            case &quot;3&quot;:{
+<span class="nc" id="L118">                Teacher teacher = new Teacher();</span>
+<span class="nc" id="L119">                teacher.setPassword(password);</span>
+<span class="nc" id="L120">                teacher.setUsername(username);</span>
+<span class="nc" id="L121">                Teacher tr = teacherService.findByTeacher(teacher);</span>
+<span class="nc bnc" id="L122" title="All 2 branches missed.">                if(StringUtils.isEmpty(tr)){</span>
+<span class="nc" id="L123">                    ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L124">                    ajaxResult.setMessage(&quot;用户名或密码错误&quot;);</span>
+<span class="nc" id="L125">                    return ajaxResult;</span>
+                }
+<span class="nc" id="L127">                ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L128">                session.setAttribute(Const.TEACHER,tr);</span>
+<span class="nc" id="L129">                session.setAttribute(Const.USERTYPE,&quot;3&quot;);</span>
+<span class="nc" id="L130">                break;</span>
+            }
+        }
+<span class="nc" id="L133">        return ajaxResult;</span>
+    }
+
+    /**
+     * 显示 验证码
+     * @param request
+     * @param response
+     * @param vl
+     * @param w
+     * @param h
+     */
+    @GetMapping(&quot;/checkCode&quot;)
+    public void generateCpacha(HttpServletRequest request, HttpServletResponse response,
+                               @RequestParam(value=&quot;vl&quot;,defaultValue=&quot;4&quot;,required=false) Integer vl,
+                               @RequestParam(value=&quot;w&quot;,defaultValue=&quot;110&quot;,required=false) Integer w,
+                               @RequestParam(value=&quot;h&quot;,defaultValue=&quot;39&quot;,required=false) Integer h){
+<span class="nc" id="L149">        CpachaUtil cpachaUtil = new CpachaUtil(vl, w, h);</span>
+<span class="nc" id="L150">        String generatorVCode = cpachaUtil.generatorVCode();</span>
+<span class="nc" id="L151">        request.getSession().setAttribute(Const.CODE, generatorVCode);</span>
+<span class="nc" id="L152">        BufferedImage generatorRotateVCodeImage = cpachaUtil.generatorRotateVCodeImage(generatorVCode, true);</span>
+        try {
+<span class="nc" id="L154">            ImageIO.write(generatorRotateVCodeImage, &quot;gif&quot;, response.getOutputStream());</span>
+<span class="nc" id="L155">        } catch (IOException e) {</span>
+<span class="nc" id="L156">            e.printStackTrace();</span>
+<span class="nc" id="L157">        }</span>
+<span class="nc" id="L158">    }</span>
+
+    /**
+     * 跳转后台主页
+     * @return
+     */
+    @GetMapping(&quot;/index&quot;)
+    public String index(){
+<span class="nc" id="L166">        return &quot;/system/index&quot;;</span>
+    }
+
+
+    /**
+     * 登出
+     * @param session
+     * @return
+     */
+    @GetMapping(&quot;/logout&quot;)
+    public String logout(HttpSession session){
+<span class="nc" id="L177">        session.invalidate();</span>
+<span class="nc" id="L178">        return &quot;/login&quot;;</span>
+    }
+
+
+    /**
+     * 获取图片地址
+     * @param sid
+     * @param tid
+     * @return
+     */
+    @RequestMapping(&quot;/getPhoto&quot;)
+    @ResponseBody
+    public AjaxResult getPhoto(@RequestParam(value = &quot;sid&quot;,defaultValue = &quot;0&quot;) Integer sid,
+                               @RequestParam(value = &quot;tid&quot;,defaultValue = &quot;0&quot;)Integer tid){
+<span class="nc" id="L192">        AjaxResult ajaxResult = new AjaxResult();</span>
+<span class="nc bnc" id="L193" title="All 2 branches missed.">        if(sid != 0){</span>
+<span class="nc" id="L194">            Student student = studentService.findById(sid);</span>
+<span class="nc" id="L195">            ajaxResult.setImgurl(student.getPhoto());</span>
+<span class="nc" id="L196">            return ajaxResult;</span>
+        }
+<span class="nc bnc" id="L198" title="All 2 branches missed.">        if(tid!=0){</span>
+<span class="nc" id="L199">            Teacher teacher = teacherService.findById(tid);</span>
+<span class="nc" id="L200">            ajaxResult.setImgurl(teacher.getPhoto());</span>
+<span class="nc" id="L201">            return ajaxResult;</span>
+        }
+
+<span class="nc" id="L204">        return ajaxResult;</span>
+    }
+
+
+    @GetMapping(&quot;/personalView&quot;)
+    public String personalView(){
+<span class="nc" id="L210">        return &quot;/system/personalView&quot;;</span>
+    }
+
+
+    /**
+     * 修改密码
+     * @param password
+     * @param newpassword
+     * @param session
+     * @return
+     */
+    @PostMapping(&quot;/editPassword&quot;)
+    @ResponseBody
+    public AjaxResult editPassword(String password,String newpassword,HttpSession session){
+<span class="nc" id="L224">        AjaxResult ajaxResult = new AjaxResult();</span>
+<span class="nc" id="L225">        String usertype = (String) session.getAttribute(Const.USERTYPE);</span>
+<span class="nc bnc" id="L226" title="All 2 branches missed.">        if (usertype.equals(&quot;1&quot;)){</span>
+            //管理员
+<span class="nc" id="L228">            Admin admin = (Admin)session.getAttribute(Const.ADMIN);</span>
+<span class="nc bnc" id="L229" title="All 2 branches missed.">            if(!password.equals(admin.getPassword())){</span>
+<span class="nc" id="L230">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L231">                ajaxResult.setMessage(&quot;原密码错误&quot;);</span>
+<span class="nc" id="L232">                return ajaxResult;</span>
+            }
+<span class="nc" id="L234">            admin.setPassword(newpassword);</span>
+            try{
+<span class="nc" id="L236">                int count = adminService.editPswdByAdmin(admin);</span>
+<span class="nc bnc" id="L237" title="All 2 branches missed.">                if(count &gt; 0){</span>
+<span class="nc" id="L238">                    ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L239">                    ajaxResult.setMessage(&quot;修改成功,请重新登录&quot;);</span>
+                }else{
+<span class="nc" id="L241">                    ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L242">                    ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+                }
+<span class="nc" id="L244">            }catch (Exception e){</span>
+<span class="nc" id="L245">                e.printStackTrace();</span>
+<span class="nc" id="L246">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L247">                ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+<span class="nc" id="L248">            }</span>
+        }
+<span class="nc bnc" id="L250" title="All 2 branches missed.">        if(usertype.equals(&quot;2&quot;)){</span>
+            //学生
+<span class="nc" id="L252">            Student student = (Student)session.getAttribute(Const.STUDENT);</span>
+<span class="nc bnc" id="L253" title="All 2 branches missed.">            if(!password.equals(student.getPassword())){</span>
+<span class="nc" id="L254">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L255">                ajaxResult.setMessage(&quot;原密码错误&quot;);</span>
+<span class="nc" id="L256">                return ajaxResult;</span>
+            }
+<span class="nc" id="L258">            student.setPassword(newpassword);</span>
+            try{
+<span class="nc" id="L260">                int count = studentService.editPswdByStudent(student);</span>
+<span class="nc bnc" id="L261" title="All 2 branches missed.">                if(count &gt; 0){</span>
+<span class="nc" id="L262">                    ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L263">                    ajaxResult.setMessage(&quot;修改成功,请重新登录&quot;);</span>
+                }else{
+<span class="nc" id="L265">                    ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L266">                    ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+                }
+<span class="nc" id="L268">            }catch (Exception e){</span>
+<span class="nc" id="L269">                e.printStackTrace();</span>
+<span class="nc" id="L270">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L271">                ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+<span class="nc" id="L272">            }</span>
+        }
+<span class="nc bnc" id="L274" title="All 2 branches missed.">        if(usertype.equals(&quot;3&quot;)){</span>
+            //教师
+<span class="nc" id="L276">            Teacher teacher = (Teacher) session.getAttribute(Const.TEACHER);</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">            if(!password.equals(teacher.getPassword())){</span>
+<span class="nc" id="L278">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L279">                ajaxResult.setMessage(&quot;原密码错误&quot;);</span>
+<span class="nc" id="L280">                return ajaxResult;</span>
+            }
+<span class="nc" id="L282">            teacher.setPassword(newpassword);</span>
+            try{
+<span class="nc" id="L284">                int count = teacherService.editPswdByTeacher(teacher);</span>
+<span class="nc bnc" id="L285" title="All 2 branches missed.">                if(count &gt; 0){</span>
+<span class="nc" id="L286">                    ajaxResult.setSuccess(true);</span>
+<span class="nc" id="L287">                    ajaxResult.setMessage(&quot;修改成功,请重新登录&quot;);</span>
+                }else{
+<span class="nc" id="L289">                    ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L290">                    ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+                }
+<span class="nc" id="L292">            }catch (Exception e){</span>
+<span class="nc" id="L293">                e.printStackTrace();</span>
+<span class="nc" id="L294">                ajaxResult.setSuccess(false);</span>
+<span class="nc" id="L295">                ajaxResult.setMessage(&quot;修改失败&quot;);</span>
+<span class="nc" id="L296">            }</span>
+        }
+<span class="nc" id="L298">        return ajaxResult;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>

@@ -1,0 +1,26 @@
+【IntelliJ IDEA 运行步骤（中文环境）】
+
+1. 打开项目
+   文件 → 打开 → 选择本文件夹「作业13」
+
+2. 检查模块目录（只需做一次）
+   文件 → 项目结构 → 模块 → 作业13
+   - src 文件夹应为蓝色「源代码」
+   - resources 文件夹应为紫色/条纹「资源」
+   若 resources 不是资源目录：右键 resources → 将目录标记为 → 资源根目录
+
+3. 设置 UTF-8 编码（避免中文乱码）
+   文件 → 设置 → 编辑器 → 文件编码
+   - 全局编码、项目编码、属性文件默认编码：均选 UTF-8
+   - 勾选「透明 native-to-ascii 转换」可取消（属性文件已是中文注释时保持 UTF-8 即可）
+
+4. 运行程序
+   方式 A：顶部运行配置选「Client」，点绿色运行按钮
+   方式 B：打开 src/Client.java → 右键 → 运行 'Client.main()'
+
+5. 若控制台中文仍乱码
+   运行 → 编辑配置 → Client → 修改选项 → 添加 VM 选项（项目已预置）：
+   -Dfile.encoding=UTF-8 -Dsun.stdout.encoding=UTF-8 -Dsun.stderr.encoding=UTF-8
+
+6. 预期输出
+   依次显示 windows、mac、linux 三套 GUI 登录界面演示，中文正常显示。

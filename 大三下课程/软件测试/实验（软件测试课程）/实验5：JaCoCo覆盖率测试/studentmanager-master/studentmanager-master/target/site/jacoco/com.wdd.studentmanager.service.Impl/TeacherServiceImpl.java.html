@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="zh"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TeacherServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">studentmanager</a> &gt; <a href="index.source.html" class="el_package">com.wdd.studentmanager.service.Impl</a> &gt; <span class="el_source">TeacherServiceImpl.java</span></div><h1>TeacherServiceImpl.java</h1><pre class="source lang-java linenums">package com.wdd.studentmanager.service.Impl;
+
+import com.wdd.studentmanager.domain.Teacher;
+import com.wdd.studentmanager.mapper.TeacherMapper;
+import com.wdd.studentmanager.service.TeacherService;
+import com.wdd.studentmanager.util.PageBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Classname TeacherServiceImpl
+ * @Description None
+ * @Date 2019/6/28 18:56
+ * @Created by WDD
+ */
+@Service
+<span class="nc" id="L20">public class TeacherServiceImpl implements TeacherService {</span>
+
+    @Autowired
+    private TeacherMapper teacherMapper;
+
+    @Override
+    public PageBean&lt;Teacher&gt; queryPage(Map&lt;String, Object&gt; paramMap) {
+<span class="nc" id="L27">        PageBean&lt;Teacher&gt; pageBean = new PageBean&lt;&gt;((Integer) paramMap.get(&quot;pageno&quot;),(Integer) paramMap.get(&quot;pagesize&quot;));</span>
+
+<span class="nc" id="L29">        Integer startIndex = pageBean.getStartIndex();</span>
+<span class="nc" id="L30">        paramMap.put(&quot;startIndex&quot;,startIndex);</span>
+<span class="nc" id="L31">        List&lt;Teacher&gt; datas = teacherMapper.queryList(paramMap);</span>
+<span class="nc" id="L32">        pageBean.setDatas(datas);</span>
+
+<span class="nc" id="L34">        Integer totalsize = teacherMapper.queryCount(paramMap);</span>
+<span class="nc" id="L35">        pageBean.setTotalsize(totalsize);</span>
+<span class="nc" id="L36">        return pageBean;</span>
+    }
+
+    @Override
+    public int deleteTeacher(List&lt;Integer&gt; ids) {
+<span class="nc" id="L41">        return teacherMapper.deleteTeacher(ids);</span>
+    }
+
+    @Override
+    public int addTeacher(Teacher teacher) {
+<span class="nc" id="L46">        return teacherMapper.addTeacher(teacher);</span>
+    }
+
+    @Override
+    public Teacher findById(Integer tid) {
+<span class="nc" id="L51">        return teacherMapper.findById(tid);</span>
+    }
+
+    @Override
+    public int editTeacher(Teacher teacher) {
+<span class="nc" id="L56">        return teacherMapper.editTeacher(teacher);</span>
+    }
+
+    @Override
+    public Teacher findByTeacher(Teacher teacher) {
+<span class="nc" id="L61">        return teacherMapper.findByTeacher(teacher);</span>
+    }
+
+    @Override
+    public int editPswdByTeacher(Teacher teacher) {
+<span class="nc" id="L66">        return teacherMapper.editPswdByTeacher(teacher);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.12.202403310830</span></div></body></html>
