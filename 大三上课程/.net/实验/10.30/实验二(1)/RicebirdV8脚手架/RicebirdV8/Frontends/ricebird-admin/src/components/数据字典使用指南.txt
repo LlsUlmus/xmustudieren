@@ -1,0 +1,35 @@
+代码是：
+
+<dict-select prefix="是否显示前缀，如果是字符串，则前缀就是此字符串" dict="字典名称 || 一个字典实例" value-width="显示值时固定多少字"
+      v-model:value="level" @change="filter" remove="字典里要去掉的值，比如 全部 之类的" width="宽度"/>
+<dict-radio-button dict="字典名称 || 一个字典实例" v-model:value="level" remove="字典里要去掉的值，比如 全部 之类的"/>
+remove: 如果要去掉的是空字符串，那么就放一个含空字符串的数组
+
+字典实例的类型是
+{
+    name: string,
+    entries: [
+        {
+            DataKey: string,
+            DataValue: string,
+            Enable: boolean, // 启用性，不写为true
+            Visible: boolean, // 可见性，不写为true
+            label: VNode, // 可以不写
+            Group: string, // 可以不写，这个字段只要在数组里有任何一个就会使选择器分组。
+        },
+    ]
+}
+
+角色选择器使用
+<role-select v-model:value="roleId" empty="未选择角色" disableEmpty width="宽度" />
+empty: 代表着选择值为 Guid.Empty 时，label的名称。默认为“所有角色”。
+disableEmpty: 表示值为Guid.Empty的这一项不能选择
+disableSetFor: 表示对应setFor的值不能选择。0 - 适用于用户，1 - 适用于部门
+
+组织机构选择器
+<depart-select v-model:value="depart" prefix="部门" empty="根部门" schema="部门架构" disableEmpty />
+empty: 代表着选择值为 Guid.Empty 时，label的名称。默认为“所有部门”
+schema: 填写时，表现为数据字典选择，通常用于筛选学院等。不填写时，用以部门选择，是一个树选择器。
+prefix: 仅在schema填写时生效
+base: 显示此部门及此部门下的子部门，仅在schema不填写时生效
+disableEmpty: 表示值为Guid.Empty的这一项不能选择。如果schema有值，则Guid.Empty这一项不显示

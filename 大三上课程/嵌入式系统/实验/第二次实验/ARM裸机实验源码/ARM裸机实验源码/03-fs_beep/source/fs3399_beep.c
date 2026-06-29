@@ -1,0 +1,33 @@
+#include "fs_beep.h"
+
+int FsBeepInit()
+{
+	//设置GPIO1_C7为输出模式
+	GPIO1->SWPORTA_DDR |= (0x1 << 23);
+	return 0;
+}
+
+int FsBeepOn()
+{
+	//设置GPIO1_C7 输出高电平
+	GPIO1->SWPORTA_DR |= (0x1 << 23);
+	return 0;
+}
+
+int FsBeepOff()
+{
+	//设置GPIO1_C7 输出高电平
+	GPIO1->SWPORTA_DR &= (~(0x1 << 23));
+	return 0;
+}
+
+void delay(int val) 
+{
+    unsigned int i, j;
+    while(val--)
+    {   
+        for (i = 0; i < 5; i++)
+            for (j = 0; j < 1200; j++);
+    }   
+}
+

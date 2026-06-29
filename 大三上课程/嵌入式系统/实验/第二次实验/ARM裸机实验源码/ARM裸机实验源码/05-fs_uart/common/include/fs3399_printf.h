@@ -1,0 +1,11 @@
+#ifndef __FS3399_PRINTF_H__
+#define __FS3399_PRINTF_H__
+
+#include "fs3399_uart.h"
+
+#define  MAX_BYTE	64
+
+//封装的printf函数
+extern int printf(const char *fmt, ...);
+
+#endif /*__FS3399_PRINTF_H__*/

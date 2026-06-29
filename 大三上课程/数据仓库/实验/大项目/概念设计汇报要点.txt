@@ -1,0 +1,104 @@
+一、概念设计总体思路
+
+1. 建设目标
+（1）基于陌陌 30 万条聊天记录，构建面向聊天行为分析的数据仓库。
+（2）支持时间、空间、用户、设备等多维度的统计与可视化，为运营决策提供支撑。
+
+2. 设计原则
+（1）以“单条消息”为粒度：所有统计均可回溯到最细粒度事实。
+（2）面向分析主题：围绕消息量、活跃用户、地域分布、设备偏好等核心业务问题建模。
+（3）维度退化为宽表：在 Hive 中采用宽表减少 Join，提升查询性能。
+
+
+二、事实与粒度设计
+
+1. 事实粒度定义
+每一条聊天消息 = 一条事实记录。
+事实中包含发送方、接收方、时间、位置、设备、消息类型等完整信息。
+
+2. 核心事实表（概念层）
+事实表：F_CHAT_MSG（聊天消息事实表）
+
+（1）主要度量
+① 消息条数（COUNT(*)）。
+② 发送用户数 / 接收用户数（对发送账号、接收账号做去重计数）。
+③ 双方距离（distance，可用于空间分析）。
+
+（2）事实携带的关键字段（退化维度）
+① 时间维度字段：msg_time、msg_day、msg_hour。
+② 用户维度字段：sender_account、sender_name、sender_sex、sender_ip，receiver_account、receiver_name、receiver_sex、receiver_ip。
+③ 设备维度字段：sender_os、sender_phonetype、sender_network，receiver_os、receiver_phonetype、receiver_network。
+④ 地域维度字段：sender_gps、sender_lng、sender_lat。
+⑤ 消息维度字段：msg_type、message、distance。
+
+
+三、维度设计（概念层）
+
+1. 时间维度 D_TIME
+（1）字段：msg_day（消息日期）、msg_hour（消息小时）。
+（2）用途：每日消息总量、每小时趋势、活跃时段分析。
+（3）脚本体现：
+    在 tb_msg_etl 中通过 day(msg_time)、HOUR(msg_time) 生成 msg_day、msg_hour；
+    在 tb_rs_total_msg_cnt 中按 msg_day 聚合；
+    在 tb_rs_hour_msg_cnt 中按 msg_hour 聚合。
+
+2. 用户维度 D_USER
+（1）字段：账号（sender_account、receiver_account）、昵称（sender_name、receiver_name）、性别（sender_sex、receiver_sex）、IP（sender_ip、receiver_ip）。
+（2）用途：发送/接收人数统计、Top10 活跃用户、核心用户识别。
+（3）脚本体现：
+    在 tb_msg_etl 中保留发送方和接收方完整信息；
+    在 tb_rs_usr_cnt 中按 msg_day 统计 DISTINCT 发送/接收账号数；
+    在 tb_rs_s_user_top10、tb_rs_r_user_top10 中统计发送/接收 Top10 用户。
+
+3. 设备维度 D_DEVICE
+（1）字段：手机型号（sender_phonetype、receiver_phonetype）、操作系统（sender_os、receiver_os）、网络类型（sender_network、receiver_network）。
+（2）用途：手机型号分布、设备偏好分析，指导产品适配和商业化。
+（3）脚本体现：
+    在 tb_msg_etl 中直接存储设备相关字段；
+    在 tb_rs_sender_phone 中按 sender_phonetype 统计发送人的手机型号分布。
+
+4. 地域维度 D_LOCATION
+（1）字段：sender_gps、sender_lng、sender_lat。
+（2）用途：各地区消息量统计、用户地域分布热力图。
+（3）脚本体现：
+    在 tb_msg_etl 中通过 split(sender_gps, ',') 拆分经度和纬度；
+    在 tb_rs_loc_cnt 中按 msg_day、sender_lng、sender_lat 聚合，统计各地区发送消息总量。
+
+5. 消息类型维度 D_MSG_TYPE
+（1）字段：msg_type、message。
+（2）用途：不同消息类型的使用情况分析，为后续内容挖掘预留空间。
+（3）脚本体现：
+    在 tb_msg_etl 中保留消息类型和消息内容，当前结果表主要以数量统计为主。
+
+
+四、概念模型与脚本实现的对应关系
+
+1. 源数据层（ODS 概念）
+表：tb_msg_source
+说明：原始聊天记录表，对应“原始消息事实”，未进行清洗和维度扩展。
+
+2. 清洗明细层（DWD 概念）
+表：tb_msg_etl
+说明：清洗 + 维度扩展后的事实明细表，对应概念层的 F_CHAT_MSG。
+处理逻辑：
+（1）过滤 GPS 为空的脏数据（WHERE LENGTH(sender_gps) > 0）。
+（2）从 msg_time 提取 msg_day 和 msg_hour。
+（3）从 sender_gps 拆分出 sender_lng 和 sender_lat。
+
+3. 主题汇总层（DWS/ADS 概念）
+（1）时间主题：
+    tb_rs_total_msg_cnt：按 msg_day 统计每日消息总量；
+    tb_rs_hour_msg_cnt：按 msg_hour 统计每小时消息量、发送人数、接收人数。
+（2）空间主题：
+    tb_rs_loc_cnt：按 msg_day、sender_lng、sender_lat 统计各地区发送消息总量。
+（3）用户主题：
+    tb_rs_usr_cnt：按 msg_day 统计发送消息人数和接收消息人数；
+    tb_rs_s_user_top10：统计发送消息条数最多的 Top10 用户；
+    tb_rs_r_user_top10：统计接收消息条数最多的 Top10 用户。
+（4）设备主题：
+    tb_rs_sender_phone：统计发送人的手机型号分布。
+
+4. 汇报总结表述示例
+本项目在概念设计阶段，以“单条聊天消息”为事实粒度，围绕时间、用户、设备、地域等核心维度，构建了一个星型的聊天行为分析模型；在物理实现中，通过 tb_msg_etl 将各维度属性退化为宽事实表，并基于该事实表构建多个主题结果表，从而支持时间、空间、用户以及设备等多维度的统计分析与可视化展示。
+
+

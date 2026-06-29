@@ -1,0 +1,18 @@
+﻿@model Ricebird.Wechat.ViewModels.WechatLoginCallbackViewModel
+<html>
+<head>
+    <title>企业微信回调</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1">
+    <style>body { font-size: 18px;}</style>
+</head>
+<body>
+    <div id="res"></div>
+    <script>
+        let token = "@Model.Token";
+        localStorage.setItem("access_token", token);
+        localStorage.setItem("is_work_wechat", @(Model.IsWorkWechat ? "true" : "false"));
+        location.href = "@Html.Raw(Model.ToUrl)";
+    </script>
+</body>
+</html>

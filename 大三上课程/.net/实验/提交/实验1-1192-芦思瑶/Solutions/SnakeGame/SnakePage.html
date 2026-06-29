@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>贪吃蛇HTML渲染</title>
+    <style>
+        #gameContainer {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            background-color: #222;
+            margin: 0 auto;
+            border: 5px solid #666;
+        }
+
+        .snake-part {
+            position: absolute;
+            background-color: #0f0;
+            width: 20px;
+            height: 20px;
+        }
+
+        .food {
+            position: absolute;
+            background-color: #f00;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- 测试用的静态蛇身 -->
+        <div class="snake-part" style="left: 100px; top: 100px;"></div>
+        <div class="snake-part" style="left: 120px; top: 100px;"></div>
+        <div class="snake-part" style="left: 140px; top: 100px;"></div>
+        <div class="food" style="left: 200px; top: 150px;"></div>
+    </div>
+    <div id="debugInfo" style="color: white; background: black; padding: 10px; margin: 10px;">
+        调试信息将在这里显示...
+    </div>
+
+    <script type="text/javascript">
+        function updateGameUI(gridW, gridH, foodPosJson, snakeBodyJson) {
+            try {
+                var container = document.getElementById("gameContainer");
+                if (!container) {
+                    console.error("游戏容器未找到！");
+                    return;
+                }
+                
+                container.innerHTML = "";
+                console.log("【JS调试】参数：gridW=" + gridW + ", gridH=" + gridH);
+
+                var snakeBody = JSON.parse(snakeBodyJson);
+                var foodPos = JSON.parse(foodPosJson);
+                console.log("【JS调试】解析后蛇身：", snakeBody);
+                console.log("【JS调试】解析后食物：", foodPos);
+
+                for (var i = 0; i < snakeBody.length; i++) {
+                    var part = snakeBody[i];
+                    var snakePart = document.createElement("div");
+                    snakePart.className = "snake-part";
+                    var leftPos = (part.X * gridW);
+                    var topPos = (part.Y * gridH);
+                    snakePart.style.left = leftPos + "px";
+                    snakePart.style.top = topPos + "px";
+                    console.log("【JS调试】蛇身" + i + "位置：left=" + leftPos + "px, top=" + topPos + "px");
+                    container.appendChild(snakePart);
+                }
+
+                var food = document.createElement("div");
+                food.className = "food";
+                var foodLeftPos = (foodPos.X * gridW);
+                var foodTopPos = (foodPos.Y * gridH);
+                food.style.left = foodLeftPos + "px";
+                food.style.top = foodTopPos + "px";
+                console.log("【JS调试】食物位置：left=" + foodLeftPos + "px, top=" + foodTopPos + "px");
+                container.appendChild(food);
+                
+                console.log("【JS调试】渲染完成，容器子元素数量：" + container.children.length);
+                
+                // 更新调试信息显示
+                var debugDiv = document.getElementById("debugInfo");
+                if (debugDiv) {
+                    debugDiv.innerHTML = "网格尺寸: " + gridW + "x" + gridH + 
+                                       "<br>蛇身数量: " + snakeBody.length + 
+                                       "<br>蛇身位置: " + JSON.stringify(snakeBody) +
+                                       "<br>食物位置: " + JSON.stringify(foodPos) +
+                                       "<br>容器子元素: " + container.children.length;
+                }
+            } catch (e) {
+                console.error("updateGameUI error:", e);
+            }
+        }
+
+        function resetGameUI() {
+            try {
+                var container = document.getElementById("gameContainer");
+                if (container) {
+                    container.innerHTML = "";
+                }
+            } catch (e) {
+                console.error("resetGameUI error:", e);
+            }
+        }
+    </script>
+</body>
+</html>

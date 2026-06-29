@@ -1,0 +1,1906 @@
+{
+  "\u5141\u8BB8\u67E5\u770B\u7528\u6237\u9690\u79C1": {
+    "Name": "\u5141\u8BB8\u67E5\u770B\u7528\u6237\u9690\u79C1",
+    "LinkTo": "",
+    "ApiType": 2,
+    "Status": 1,
+    "DisplayOrder": 70025,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u9A8C\u8BC1\u8BC1\u4EF6\u53F7\u662F\u5426\u5B58\u5728": {
+    "Name": "\u9A8C\u8BC1\u8BC1\u4EF6\u53F7\u662F\u5426\u5B58\u5728",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70023,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u67E5\u8BE2\u4E2A\u4EBA\u4FE1\u606F": {
+    "Name": "\u67E5\u8BE2\u4E2A\u4EBA\u4FE1\u606F",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70013,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 1,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u7EC4\u7EC7\u5173\u7CFB": {
+    "Name": "\u5220\u9664\u7EC4\u7EC7\u5173\u7CFB",
+    "LinkTo": "\u4FDD\u5B58\u7528\u6237",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70007,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7EC4\u7EC7\u5173\u7CFB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u91CD\u65B0\u52A0\u8F7D\u83DC\u5355": {
+    "Name": "\u91CD\u65B0\u52A0\u8F7D\u83DC\u5355",
+    "LinkTo": "\u81EA\u52A8\u6784\u5EFA\u83DC\u5355",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70010,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u83DC\u5355\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 1,
+      "TotalEllapsed": 75,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u7F16\u8F91\u680F\u76EE": {
+    "Name": "\u7F16\u8F91\u680F\u76EE",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130007,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 1,
+      "TotalEllapsed": 200,
+      "UseSqlCount": 1,
+      "SqlUse": 1
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4FDD\u5B58\u5B57\u5178\u9879": {
+    "Name": "\u4FDD\u5B58\u5B57\u5178\u9879",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 30004,
+    "Module": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u6570\u636E\u5B57\u5178\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4FDD\u5B58\u89D2\u8272\u6743\u9650": {
+    "Name": "\u4FDD\u5B58\u89D2\u8272\u6743\u9650",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70016,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u89D2\u8272\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u9A8C\u8BC1\u7535\u5B50\u90AE\u7BB1\u662F\u5426\u5B58\u5728": {
+    "Name": "\u9A8C\u8BC1\u7535\u5B50\u90AE\u7BB1\u662F\u5426\u5B58\u5728",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70022,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u67E5\u770B\u65B0\u95FB\u5217\u8868": {
+    "Name": "\u67E5\u770B\u65B0\u95FB\u5217\u8868",
+    "LinkTo": "\u65B0\u95FB\u53D1\u5E03",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130001,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 3,
+      "TotalEllapsed": 525,
+      "UseSqlCount": 3,
+      "SqlUse": 6
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u680F\u76EE": {
+    "Name": "\u5220\u9664\u680F\u76EE",
+    "LinkTo": "\u7F16\u8F91\u680F\u76EE",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130009,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u91CD\u65B0\u6392\u5217\u83DC\u5355": {
+    "Name": "\u91CD\u65B0\u6392\u5217\u83DC\u5355",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70012,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u83DC\u5355\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 1,
+      "TotalEllapsed": 28,
+      "UseSqlCount": 1,
+      "SqlUse": 2
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u6279\u91CF\u5904\u7406\u90E8\u95E8": {
+    "Name": "\u6279\u91CF\u5904\u7406\u90E8\u95E8",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70005,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u90E8\u95E8\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "UEditor\u64CD\u4F5C": {
+    "Name": "UEditor\u64CD\u4F5C",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130012,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 1,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1": {
+    "Name": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "LinkTo": "",
+    "ApiType": 0,
+    "Status": 1,
+    "DisplayOrder": 130000,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u65B0\u95FB\u53D1\u5E03": {
+    "Name": "\u65B0\u95FB\u53D1\u5E03",
+    "LinkTo": "",
+    "ApiType": 2,
+    "Status": 1,
+    "DisplayOrder": 130014,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u6DFB\u52A0\u7EC4\u7EC7\u5173\u7CFB": {
+    "Name": "\u6DFB\u52A0\u7EC4\u7EC7\u5173\u7CFB",
+    "LinkTo": "\u4FDD\u5B58\u7528\u6237",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70008,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7EC4\u7EC7\u5173\u7CFB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u8E22\u9664\u7528\u6237": {
+    "Name": "\u8E22\u9664\u7528\u6237",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70004,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u767B\u5F55\u4E0E\u6388\u6743",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u9A8C\u8BC1\u624B\u673A\u53F7\u662F\u5426\u5B58\u5728": {
+    "Name": "\u9A8C\u8BC1\u624B\u673A\u53F7\u662F\u5426\u5B58\u5728",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70021,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4EFB\u52A1\u7BA1\u7406\u6A21\u5757": {
+    "Name": "\u4EFB\u52A1\u7BA1\u7406\u6A21\u5757",
+    "LinkTo": "",
+    "ApiType": 0,
+    "Status": 1,
+    "DisplayOrder": 90000,
+    "Module": "\u4EFB\u52A1\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u767B\u5F55": {
+    "Name": "\u767B\u5F55",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70002,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u767B\u5F55\u4E0E\u6388\u6743",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u65B0\u5EFA\u680F\u76EE": {
+    "Name": "\u65B0\u5EFA\u680F\u76EE",
+    "LinkTo": "\u7F16\u8F91\u680F\u76EE",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130008,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u83DC\u5355": {
+    "Name": "\u5220\u9664\u83DC\u5355",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70011,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u83DC\u5355\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u8BBE\u7F6E\u7528\u6237\u7684\u6839\u90E8\u95E8": {
+    "Name": "\u8BBE\u7F6E\u7528\u6237\u7684\u6839\u90E8\u95E8",
+    "LinkTo": "\u4FDD\u5B58\u7528\u6237",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70018,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u680F\u76EE\u5217\u8868": {
+    "Name": "\u83B7\u53D6\u680F\u76EE\u5217\u8868",
+    "LinkTo": "/manage/cms/categories",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130005,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 2,
+      "TotalEllapsed": 63,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u89D2\u8272": {
+    "Name": "\u83B7\u53D6\u89D2\u8272",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70014,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u89D2\u8272\u7BA1\u7406",
+    "AuthorizeLevel": 1,
+    "Success": {
+      "Count": 1,
+      "TotalEllapsed": 24,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u7EC4\u7EC7\u673A\u6784\u6811": {
+    "Name": "\u83B7\u53D6\u7EC4\u7EC7\u673A\u6784\u6811",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70001,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u90E8\u95E8\u7BA1\u7406",
+    "AuthorizeLevel": 1,
+    "Success": {
+      "Count": 1,
+      "TotalEllapsed": 39,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u67E5\u8BE2\u7528\u6237": {
+    "Name": "\u67E5\u8BE2\u7528\u6237",
+    "LinkTo": "/manage/security/users",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70009,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 3,
+      "TotalEllapsed": 454,
+      "UseSqlCount": 3,
+      "SqlUse": 6
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u67E5\u770B\u65B0\u95FB": {
+    "Name": "\u67E5\u770B\u65B0\u95FB",
+    "LinkTo": "\u65B0\u95FB\u53D1\u5E03",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130002,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757": {
+    "Name": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "LinkTo": "",
+    "ApiType": 0,
+    "Status": 1,
+    "DisplayOrder": 30000,
+    "Module": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u91CD\u65B0\u6784\u5EFA\u6570\u636E\u5B57\u5178": {
+    "Name": "\u91CD\u65B0\u6784\u5EFA\u6570\u636E\u5B57\u5178",
+    "LinkTo": "",
+    "ApiType": 2,
+    "Status": 1,
+    "DisplayOrder": 30007,
+    "Module": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u6279\u91CF\u7F16\u8F91\u680F\u76EE": {
+    "Name": "\u6279\u91CF\u7F16\u8F91\u680F\u76EE",
+    "LinkTo": "\u7F16\u8F91\u680F\u76EE",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130010,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u6CE8\u9500": {
+    "Name": "\u6CE8\u9500",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70003,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u767B\u5F55\u4E0E\u6388\u6743",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u7528\u6237": {
+    "Name": "\u5220\u9664\u7528\u6237",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70012,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u6570\u636E\u5B57\u5178": {
+    "Name": "\u5220\u9664\u6570\u636E\u5B57\u5178",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 30003,
+    "Module": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u6570\u636E\u5B57\u5178\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u5360\u4F4D\u7B26": {
+    "Name": "\u83B7\u53D6\u5360\u4F4D\u7B26",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130011,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u89D2\u8272\u5217\u8868": {
+    "Name": "\u83B7\u53D6\u89D2\u8272\u5217\u8868",
+    "LinkTo": "/manage/security/roles",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70013,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u89D2\u8272\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 2,
+      "TotalEllapsed": 38,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4FDD\u5B58\u7528\u6237": {
+    "Name": "\u4FDD\u5B58\u7528\u6237",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70015,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u90E8\u95E8": {
+    "Name": "\u5220\u9664\u90E8\u95E8",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70004,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u90E8\u95E8\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u7EC4\u7EC7\u5173\u7CFB": {
+    "Name": "\u83B7\u53D6\u7EC4\u7EC7\u5173\u7CFB",
+    "LinkTo": "/manage/security/relationships",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70006,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7EC4\u7EC7\u5173\u7CFB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4FDD\u5B58\u6570\u636E\u5B57\u5178": {
+    "Name": "\u4FDD\u5B58\u6570\u636E\u5B57\u5178",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 30002,
+    "Module": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u6570\u636E\u5B57\u5178\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757": {
+    "Name": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "LinkTo": "",
+    "ApiType": 0,
+    "Status": 1,
+    "DisplayOrder": 70000,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u6279\u91CF\u7F16\u8F91\u65B0\u95FB": {
+    "Name": "\u6279\u91CF\u7F16\u8F91\u65B0\u95FB",
+    "LinkTo": "\u7F16\u8F91\u65B0\u95FB",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130004,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u89D2\u8272": {
+    "Name": "\u5220\u9664\u89D2\u8272",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70018,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u89D2\u8272\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u65B0\u95FB\u5BA1\u6838": {
+    "Name": "\u65B0\u95FB\u5BA1\u6838",
+    "LinkTo": "",
+    "ApiType": 2,
+    "Status": 1,
+    "DisplayOrder": 130013,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4FDD\u5B58\u90E8\u95E8": {
+    "Name": "\u4FDD\u5B58\u90E8\u95E8",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70003,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u90E8\u95E8\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u81EA\u52A8\u6784\u5EFA\u83DC\u5355": {
+    "Name": "\u81EA\u52A8\u6784\u5EFA\u83DC\u5355",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70009,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u83DC\u5355\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 12,
+      "TotalEllapsed": 354,
+      "UseSqlCount": 12,
+      "SqlUse": 24
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5F3A\u5236\u91CD\u6784\u90E8\u95E8\u6811": {
+    "Name": "\u5F3A\u5236\u91CD\u6784\u90E8\u95E8\u6811",
+    "LinkTo": "",
+    "ApiType": 2,
+    "Status": 1,
+    "DisplayOrder": 70024,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u7F16\u8F91\u65B0\u95FB": {
+    "Name": "\u7F16\u8F91\u65B0\u95FB",
+    "LinkTo": "\u65B0\u95FB\u53D1\u5E03",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130003,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u8BBE\u7F6E\u7528\u6237\u7EC4\u7EC7\u673A\u6784\u5173\u7CFB": {
+    "Name": "\u8BBE\u7F6E\u7528\u6237\u7EC4\u7EC7\u673A\u6784\u5173\u7CFB",
+    "LinkTo": "\u4FDD\u5B58\u7528\u6237",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70019,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u91CD\u6392\u5B57\u5178\u9879": {
+    "Name": "\u91CD\u6392\u5B57\u5178\u9879",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 30006,
+    "Module": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u6570\u636E\u5B57\u5178\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u4EFB\u52A1\u5217\u8868": {
+    "Name": "\u83B7\u53D6\u4EFB\u52A1\u5217\u8868",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 90001,
+    "Module": "\u4EFB\u52A1\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u4EFB\u52A1\u7BA1\u7406",
+    "AuthorizeLevel": 1,
+    "Success": {
+      "Count": 3,
+      "TotalEllapsed": 134,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4FDD\u5B58\u89D2\u8272": {
+    "Name": "\u4FDD\u5B58\u89D2\u8272",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70015,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u89D2\u8272\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u680F\u76EE": {
+    "Name": "\u83B7\u53D6\u680F\u76EE",
+    "LinkTo": "\u65B0\u95FB\u53D1\u5E03",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 130006,
+    "Module": "\u5185\u5BB9\u7BA1\u7406\u670D\u52A1",
+    "ApiGroup": "\u65B0\u95FB\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 6,
+      "TotalEllapsed": 264,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u83DC\u5355\u9879": {
+    "Name": "\u83B7\u53D6\u83DC\u5355\u9879",
+    "LinkTo": "/manage/security/menus",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70007,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u83DC\u5355\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 5,
+      "TotalEllapsed": 138,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u7528\u6237\u6240\u5728\u90E8\u95E8": {
+    "Name": "\u5220\u9664\u7528\u6237\u6240\u5728\u90E8\u95E8",
+    "LinkTo": "\u4FDD\u5B58\u7528\u6237",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70017,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5220\u9664\u5B57\u5178\u9879": {
+    "Name": "\u5220\u9664\u5B57\u5178\u9879",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 30005,
+    "Module": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u6570\u636E\u5B57\u5178\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4FDD\u5B58\u83DC\u5355": {
+    "Name": "\u4FDD\u5B58\u83DC\u5355",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70008,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u83DC\u5355\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 1,
+      "TotalEllapsed": 52,
+      "UseSqlCount": 1,
+      "SqlUse": 2
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u9A8C\u8BC1\u7528\u6237\u8EAB\u4EFD": {
+    "Name": "\u9A8C\u8BC1\u7528\u6237\u8EAB\u4EFD",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70005,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u767B\u5F55\u4E0E\u6388\u6743",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 2,
+      "TotalEllapsed": 43,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 3,
+      "TotalEllapsed": 104,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u83DC\u5355\u5217\u8868": {
+    "Name": "\u83B7\u53D6\u83DC\u5355\u5217\u8868",
+    "LinkTo": "/manage/security/menus",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70006,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u83DC\u5355\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 9,
+      "TotalEllapsed": 301,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u6240\u6709\u63A5\u53E3": {
+    "Name": "\u83B7\u53D6\u6240\u6709\u63A5\u53E3",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70001,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u63A5\u53E3\u548C\u6743\u9650\u7BA1\u7406",
+    "AuthorizeLevel": 1,
+    "Success": {
+      "Count": 1,
+      "TotalEllapsed": 62,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u9A8C\u8BC1\u7528\u6237\u540D\u662F\u5426\u5B58\u5728": {
+    "Name": "\u9A8C\u8BC1\u7528\u6237\u540D\u662F\u5426\u5B58\u5728",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70020,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u590D\u5236\u89D2\u8272": {
+    "Name": "\u590D\u5236\u89D2\u8272",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70017,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u89D2\u8272\u7BA1\u7406",
+    "AuthorizeLevel": 3,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u4FDD\u5B58\u4E2A\u4EBA\u4FE1\u606F": {
+    "Name": "\u4FDD\u5B58\u4E2A\u4EBA\u4FE1\u606F",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70014,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 2,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u5B89\u5168\u7BA1\u7406\u6A21\u5757": {
+    "Name": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "LinkTo": "",
+    "ApiType": 0,
+    "Status": 1,
+    "DisplayOrder": 70000,
+    "Module": "\u5B89\u5168\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "",
+    "AuthorizeLevel": 0,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u7528\u6237": {
+    "Name": "\u83B7\u53D6\u7528\u6237",
+    "LinkTo": "/manage/security/users",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70016,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u7528\u6237\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u90E8\u95E8\u8282\u70B9": {
+    "Name": "\u83B7\u53D6\u90E8\u95E8\u8282\u70B9",
+    "LinkTo": "/manage/security/departs",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 70002,
+    "Module": "\u7EC4\u7EC7\u673A\u6784\u6A21\u5757",
+    "ApiGroup": "\u90E8\u95E8\u7BA1\u7406",
+    "AuthorizeLevel": 4,
+    "Success": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  },
+  "\u83B7\u53D6\u6570\u636E\u5B57\u5178": {
+    "Name": "\u83B7\u53D6\u6570\u636E\u5B57\u5178",
+    "LinkTo": "",
+    "ApiType": 1,
+    "Status": 1,
+    "DisplayOrder": 30001,
+    "Module": "\u914D\u7F6E\u7BA1\u7406\u6A21\u5757",
+    "ApiGroup": "\u6570\u636E\u5B57\u5178\u7BA1\u7406",
+    "AuthorizeLevel": 1,
+    "Success": {
+      "Count": 3,
+      "TotalEllapsed": 76,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Failure": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    },
+    "Exceptions": {
+      "Count": 0,
+      "TotalEllapsed": 0,
+      "UseSqlCount": 0,
+      "SqlUse": 0
+    }
+  }
+}

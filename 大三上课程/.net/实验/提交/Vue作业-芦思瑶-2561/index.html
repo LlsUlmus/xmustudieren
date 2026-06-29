@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue3 数字图形实验</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+            <h1>Vue3 模板语法数字图形实验</h1>
+            
+            <div class="controls">
+                <label>选择图形类型：</label>
+                <select v-model="patternType" @change="generatePattern">
+                    <option value="pyramid">金字塔</option>
+                    <option value="triangle">正三角形</option>
+                    <option value="inverted">倒三角形</option>
+                    <option value="diamond">对称钻石</option>
+                    <option value="pascal">杨辉三角</option>
+                    <option value="numberSquare">数字正方形</option>
+                    <option value="spiral">数字螺旋</option>
+                </select>
+                
+                <label>行数：</label>
+                <input type="number" v-model.number="rows" min="1" max="15" @input="generatePattern">
+            </div>
+
+            <div class="pattern-container">
+                <!-- 金字塔 -->
+                <div v-if="patternType === 'pyramid'" class="pattern">
+                    <div v-for="(row, i) in pyramidPattern" :key="i" class="row">
+                        <span v-for="(num, j) in row" :key="j" class="cell">{{ num }}</span>
+                    </div>
+                </div>
+
+                <!-- 正三角形 -->
+                <div v-if="patternType === 'triangle'" class="pattern">
+                    <div v-for="(row, i) in trianglePattern" :key="i" class="row">
+                        <span v-for="(num, j) in row" :key="j" class="cell">{{ num }}</span>
+                    </div>
+                </div>
+
+                <!-- 倒三角形 -->
+                <div v-if="patternType === 'inverted'" class="pattern">
+                    <div v-for="(row, i) in invertedPattern" :key="i" class="row">
+                        <span v-for="(num, j) in row" :key="j" class="cell">{{ num }}</span>
+                    </div>
+                </div>
+
+                <!-- 对称钻石 -->
+                <div v-if="patternType === 'diamond'" class="pattern diamond">
+                    <div v-for="(row, i) in diamondPattern" :key="i" class="row">
+                        <span v-for="(num, j) in row" :key="j" class="cell">{{ num }}</span>
+                    </div>
+                </div>
+
+                <!-- 杨辉三角 -->
+                <div v-if="patternType === 'pascal'" class="pattern pascal">
+                    <div v-for="(row, i) in pascalPattern" :key="i" class="row">
+                        <span v-for="(num, j) in row" :key="j" class="cell hexagon">{{ num }}</span>
+                    </div>
+                </div>
+
+                <!-- 数字正方形 -->
+                <div v-if="patternType === 'numberSquare'" class="pattern">
+                    <div v-for="(row, i) in numberSquarePattern" :key="i" class="row">
+                        <span v-for="(num, j) in row" :key="j" class="cell">{{ num }}</span>
+                    </div>
+                </div>
+
+                <!-- 数字螺旋 -->
+                <div v-if="patternType === 'spiral'" class="pattern">
+                    <div v-for="(row, i) in spiralPattern" :key="i" class="row">
+                        <span v-for="(num, j) in row" :key="j" class="cell" :class="{ 'highlight': num > 0 }">{{ num || '' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+

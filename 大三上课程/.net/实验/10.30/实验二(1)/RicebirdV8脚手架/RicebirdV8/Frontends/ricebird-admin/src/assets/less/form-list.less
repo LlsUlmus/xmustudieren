@@ -1,0 +1,29 @@
+@container-margin: 16px 16px 0 16px;
+.form-list-container {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 49px;
+
+    & > .header, & > .tab-container, & > .searcher-area, & > .btn-area, & > .ant-alert {
+        margin: @container-margin;
+        .search-input {
+            width: 300px;
+        }
+    }
+
+    & > .header {
+        .back-btn {
+            cursor: pointer;
+            margin-right: 16px;
+        }
+    }
+
+    & > .table-area {
+        margin: @container-margin;
+        .reflush {
+            color: @primary-color;
+            cursor: pointer;
+        }
+    }
+}

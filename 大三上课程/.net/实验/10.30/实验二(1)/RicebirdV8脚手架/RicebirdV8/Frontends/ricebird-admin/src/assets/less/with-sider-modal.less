@@ -1,0 +1,150 @@
+@import './helper.less';
+
+@sider-background: #f0f1f2;
+@dialog-height: 800px;
+@border-radius: 3px;
+
+.ant-modal.with-sider {
+    top: 50px;
+
+    .ant-modal-content {
+        border-radius: @border-radius;
+        padding: 0px;
+    }
+    .ant-modal-body {
+        height: @dialog-height;
+        padding: 0px;
+    }
+    .ant-menu {
+        background: transparent;
+        .tip-icon {
+            float: right;
+            height: 40px;
+            line-height: 40px;
+        }
+    }
+    .result-wrapper {
+        width: 100%;
+        height: @dialog-height;
+        display: table;
+    }
+    .ant-result {
+        display: table-cell;
+        vertical-align: middle;
+    }
+    .sider-modal-sider-wrapper {
+        background-color: @sider-background;
+        padding: 24px 0px 0px 0px;
+        height: @dialog-height;
+        overflow: hidden;
+        border-radius: @border-radius 0px 0px @border-radius;
+        box-sizing: border-box;
+        .sider-title {
+            padding: 0px 20px 20px 20px;
+            font-size: 18px;
+        }
+    }
+    .sider-container {
+        width: calc(100% - 256px);
+        height: @dialog-height;
+        padding: 20px;
+        position: relative;
+        .modal-sub-view {
+            height: calc(@dialog-height - 40px);
+            max-height: calc(@dialog-height - 40px);
+            overflow: hidden;
+            overflow: auto;
+            &.form-sub-view {
+                padding-bottom: 40px;
+                box-sizing: border-box;
+            }
+        }
+        .sub-view-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .footer-action {
+            position: absolute;
+            left: 0px;
+            bottom: 0px;
+            right: 10px;
+            text-align: right;
+            background: #fff;
+            .ant-btn {
+                margin-right: 10px;
+            }
+        }
+        
+        .ant-alert {
+            margin-bottom: 8px;
+        }
+
+        // .ant-form-item-label > label {
+        //     text-align: right;
+        //     width: 6em;
+        //     overflow: hidden;
+        //     white-space: normal;
+        //     display: inline-block;
+        //     padding-right: 1em;
+        //     line-height: 32px;
+        //     &::after {
+        //         display: inline-block;
+        //         content: '';
+        //         width: 100%;
+        //         overflow: hidden;
+        //     }
+        // }
+    }
+
+    .list-item {
+        border: rgba(0, 0, 0, 0.07) 1px solid;
+        padding: 0.75rem 1rem .75rem .5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        user-select: text;
+        line-height: 28px;
+    
+        .item-meta {
+            display: flex;
+            flex: 1 1;
+            align-items: flex-start;
+            max-width: 100%;
+    
+            .item-avatar {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+    
+                .icon {
+                    font-size: 24px;
+                }
+            }
+    
+            .item-content {
+                flex: 1 0;
+                width: 0;
+    
+                .meta-title {
+                    margin-bottom: 4px;
+                    line-height: 1.4;
+                }
+    
+                .meta-description {
+                    line-height: 1.4;
+                    color: @text-color-secondary;
+                }
+            }
+        }
+    
+        .item-actions {
+            flex: 0 0 auto;
+            margin-left: 48px;
+            padding: 0;
+            font-size: 0;
+            list-style: none;
+        }
+    }
+}

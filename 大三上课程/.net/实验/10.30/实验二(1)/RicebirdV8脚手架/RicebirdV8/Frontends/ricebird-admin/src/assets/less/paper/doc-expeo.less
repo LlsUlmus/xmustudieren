@@ -1,0 +1,96 @@
+@font-size-er-hao: 29px;
+@font-size-xiao-er: 25px;
+@font-size-san-hao: 22.4px;
+@font-size-xiao-san: 19.6px;
+@font-size-si-hao: 19.2px;
+@font-size-xiao-si: 16px;
+@font-family-song-ti: "宋体";
+@font-family-hei-ti: "黑体";
+@font-family-fang-song: "仿宋";
+.paper-container {
+  background: #e7ecf1;
+  padding: 20px 0px;
+
+  .page-div {
+    background: #fff;
+    padding: 60px 95px;
+    border: 1px #ababab solid;
+    min-height: 1122px;
+    width: 793px;
+    position: relative;
+    margin: 16px auto;
+  }
+
+  .doc {
+    padding: 96px 115px 0 115px;
+
+    th, h1, h2, h3, h4, h5, h6 {
+      font-weight: normal;
+    }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      text-align: center;
+      width: 100%;
+
+      tr.no-top {
+        td, th {
+          border-top: 0px;
+        }
+      }
+
+      td, th, textarea {
+        font-family: @font-family-song-ti;
+        font-size: @font-size-xiao-si;
+      }
+
+      td, th {
+        border: 1px solid #000;
+        padding: 2px 8px;
+        line-height: 1.4;
+        text-wrap: pretty;
+      }
+
+      td {
+        text-align: center;
+      }
+    }
+
+    h1 {
+      margin: 0 0 16px 0;
+      text-align: center;
+      line-height: 1.4;
+      font-family: @font-family-hei-ti;
+      font-weight: bold;
+      font-size: @font-size-er-hao;
+
+      .intent {
+        display: inline-block;
+        min-width: 2 * @font-size-er-hao;
+      }
+    }
+  }
+
+  .sign-and-date {
+    margin: 20px 96px 0 0;
+    text-align: right;
+    line-height: 2;
+    font-family: @font-family-fang-song;
+    font-weight: bold;
+    font-size: @font-size-xiao-si;
+    bottom: 0;
+
+    .space_4b {
+      display: inline-block;
+      min-width: 34px;
+      margin-right: 2px;
+    }
+
+    .space_2b {
+        display: inline-block;
+        min-width: 18px;
+        text-align: center;
+    }
+  }
+}

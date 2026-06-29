@@ -1,0 +1,277 @@
+@font-size-er-hao: 29px;
+@font-size-xiao-er: 24px;
+@font-size-san-hao: 21px;
+@font-size-xiao-san: 20px;
+@font-size-si-hao: 18px;
+@font-size-xiao-si: 16px;
+@font-size-wu-hao: 14px;
+@font-family-song-ti: "宋体";
+@font-family-hei-ti: "黑体";
+@font-family-fang-song: "仿宋";
+
+.paper-container {
+    background: #e7ecf1;
+    padding: 20px 0px;
+
+    .page-div {
+        background: #fff;
+        padding: 60px 95px;
+        border: 1px #ababab solid;
+        min-height: 1122px;
+        width: 793px;
+        position: relative;
+        margin: 16px auto;
+    }
+
+    .doc {
+        padding: 96px 115px 0 115px;
+    
+        th, h1, h2, h3, h4, h5, h6 {
+            font-weight: normal;
+        }
+    
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            text-align: center;
+        }
+        
+        th, td {
+            text-align: center;
+            text-wrap: pretty;
+            font-family: @font-family-song-ti;
+            font-size: @font-size-xiao-si;
+        }
+        
+        .front-page {
+            h1 {
+                margin: 24px 0 54px 0;
+                text-align: center;
+                line-height: 1.4;
+                font-family: @font-family-hei-ti;
+                font-size: @font-size-er-hao;
+                font-weight: bold;
+    
+                .intent {
+                    display: inline-block;
+                    min-width: 2 * @font-size-er-hao;
+                }
+            }
+        
+            table {
+                th, td {
+                    border: 0;
+                }
+                
+                th {
+                    padding-top: 10px;
+                    text-align: right;
+                    vertical-align: bottom;
+                    font-family: @font-family-hei-ti;
+                    font-size: @font-size-si-hao;
+                }
+        
+                td {
+                    width: 74%;
+                    padding-right: 24px;
+                    vertical-align: bottom;
+                    font-family: @font-family-song-ti;
+                    font-size: @font-size-san-hao;
+    
+                    &::after {
+                        content: "";
+                        display: block;
+                        border-bottom: 1px solid #000;
+                    }
+                }
+
+                &.amount {
+                    td {
+                        width: 18%;
+                        padding: 0;
+
+                        &:nth-child(2) {
+                            width: 16%;
+                        }
+                        &:nth-child(3) {
+                            width: 30%;
+                            text-align: right;
+                            &::after {
+                                border: none;
+                            }
+                        }
+                        &:nth-child(4) {
+                            width: 16%;
+                        }
+                        &:nth-child(5) {
+                            width: 12%;
+                            padding-right: 24px;
+                            text-align: right;
+                            &::after {
+                                border: none;
+                            }
+                        }
+                    }
+                }
+            }
+        
+            .office-sign {
+                margin: 170px auto;
+                text-align: center;
+                line-height: 2;
+                font-family: @font-family-fang-song;
+                font-size: @font-size-san-hao;
+                font-weight: bold;
+            }
+        }
+        
+        .rule-page {
+            h2 {
+                margin-bottom: 56px;
+                text-align: center;
+                letter-spacing: 12px;
+                font-family: @font-family-song-ti;
+                font-weight: bold;
+                font-size: @font-size-xiao-er;
+            }
+        
+            ul {
+                list-style: none;
+        
+                li {
+                    margin-bottom: 18px;
+                    text-indent: 2 * @font-size-xiao-san;
+                    line-height: 1.8;
+                    font-family: @font-family-fang-song;
+                    font-size: @font-size-xiao-san;
+                }
+            }
+        }
+        
+        [class$="section"] {
+            margin-bottom: 32px;
+            font-family: @font-family-song-ti;
+            font-size: @font-size-xiao-si;
+    
+            h2 {
+                margin-bottom: 16px;
+                font-family: @font-family-hei-ti;
+                font-size: @font-size-si-hao;
+            }
+    
+            td, th {
+                border: 1px solid #000;
+                padding: 2px 8px;
+                word-break: break-all;
+                text-wrap: pretty;
+                line-height: 1.4;
+                font-family: @font-family-song-ti;
+                font-size: @font-size-xiao-si;
+            }
+        
+            .outline-box {
+                border: 1px solid #000;
+                padding: 8px;
+                margin: 16px 0;
+
+                &.with-top {
+                    margin-top: 0;
+                }
+            }
+
+            .top-bar {
+                border: 1px solid #000;
+                border-bottom: 0;
+                padding: 5px 8px;
+                font-family: @font-family-song-ti;
+                font-size: @font-size-wu-hao;
+            }
+
+            .tip {
+                font-family: @font-family-song-ti;
+                font-size: @font-size-wu-hao;
+            }
+            
+            .sign-and-date {
+                margin: 20px 96px 0 0;
+                text-align: right;
+                line-height: 2;
+                font-family: @font-family-fang-song;
+                font-weight: bold;
+                font-size: @font-size-xiao-si;
+
+                .space_4b {
+                    display: inline-block;
+                    min-width: 34px;
+                    margin-right: 2px;
+                }
+        
+                .space_2b {
+                    display: inline-block;
+                    min-width: 18px;
+                    text-align: center;
+                }
+            }
+
+            .min-h100 {
+                min-height: 100px;
+            }
+
+            .min-h180 {
+                min-height: 180px;
+            }
+            img{
+                width: 100%;
+                object-fit: contain;
+            }
+        }
+
+        
+        .info-section {
+            table {
+                th, td {
+                    height: 45px;
+                    padding: 1px 5px;
+                }
+
+                tr.no-top {
+                    td, th {
+                        border-top: 0px;
+                    }
+                }
+
+                .ant-col {
+                    font-family: @font-family-song-ti;
+                }
+            }
+    
+            .member-table {
+                td, th {
+                    height: auto;
+                    padding: 8px 4px;
+                }
+
+                div {
+                    min-height: 24px;
+                }
+
+                .dir-vertical {
+                    writing-mode: vertical-rl;
+                }
+            }
+        }
+
+        .space_4b {
+            display: inline-block;
+            min-width: 34px;
+            margin-right: 2px;
+        }
+
+        .space_2b {
+            display: inline-block;
+            min-width: 14px;
+            text-align: center;
+        }
+    }
+}

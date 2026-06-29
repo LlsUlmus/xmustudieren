@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup Label="Globals">
+	  <SccProjectName>SAK</SccProjectName>
+	  <SccProvider>SAK</SccProvider>
+	  <SccAuxPath>SAK</SccAuxPath>
+	  <SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Version>8.1.0</Version>
+		<OutputType>Library</OutputType>
+		<Company>厦门米雀软件科技有限公司</Company>
+		<Authors>黄玺</Authors>
+		<Product>米雀框架V8微信服务</Product>
+		<Description>该库是为米雀框架提供微信和企业微信连接服务</Description>
+<Copyright>(c) 2023 厦门米雀软件科技有限公司 保留所有权利</Copyright>
+<Title>米雀框架V8</Title>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AngleSharp" Version="1.2.0" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
+		<PackageReference Include="SkiaSharp" Version="3.116.1" />
+		<PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Ricebird.Framework\Ricebird.Framework.csproj" />
+		<ProjectReference Include="..\Ricebird.Security\Ricebird.Security.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Models\" />
+	</ItemGroup>
+</Project>

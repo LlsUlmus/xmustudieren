@@ -1,0 +1,12 @@
+CC = gcc
+TARGET = hello
+OBJ = hello.o    # 新增变量：目标文件
+SRCS = hello.c
+HDRS = hello.h
+
+$(TARGET): $(OBJ)
+	$(CC) $(OBJ) -o $(TARGET)
+$(OBJ): $(SRCS) $(HDRS)
+	$(CC) -c $(SRCS) -o $(OBJ)
+clean:
+	rm -f $(TARGET) $(OBJ)

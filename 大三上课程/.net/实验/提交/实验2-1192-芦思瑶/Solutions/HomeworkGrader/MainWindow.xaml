@@ -1,0 +1,149 @@
+<Window x:Class="HomeworkGrader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="作业批改系统" Height="600" Width="1000"
+        WindowStartupLocation="CenterScreen">
+    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- 标题栏 -->
+        <Border Grid.Row="0" Background="#2E86AB" Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="作业批改系统" FontSize="24" FontWeight="Bold" Foreground="White"/>
+                <TextBlock Text="v1.0" FontSize="16" Foreground="LightGray" Margin="10,0,0,0" VerticalAlignment="Bottom"/>
+            </StackPanel>
+        </Border>
+
+        <!-- 主内容区 -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- 左侧功能面板 -->
+            <Border Grid.Column="0" Background="#F5F5F5" BorderBrush="#DDD" BorderThickness="0,0,1,0">
+                <StackPanel Margin="20">
+                    <TextBlock Text="功能菜单" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+                    
+                    <Button Content="📝 新建作业" Style="{StaticResource MenuButtonStyle}" 
+                            Command="{Binding CreateAssignmentCommand}" Margin="0,5"/>
+                    
+                    <Button Content="📊 批改作业" Style="{StaticResource MenuButtonStyle}" 
+                            Command="{Binding GradeAssignmentsCommand}" Margin="0,5"/>
+                    
+                    <Button Content="📈 统计分析" Style="{StaticResource MenuButtonStyle}" 
+                            Command="{Binding ViewStatisticsCommand}" Margin="0,5"/>
+                    
+                    <Button Content="📤 导出数据" Style="{StaticResource MenuButtonStyle}" 
+                            Command="{Binding ExportDataCommand}" Margin="0,5"/>
+                    
+                    <Separator Margin="0,20"/>
+                    
+                    <Button Content="🔄 刷新数据" Style="{StaticResource MenuButtonStyle}" 
+                            Command="{Binding LoadDataCommand}" Margin="0,5"/>
+                </StackPanel>
+            </Border>
+
+            <!-- 右侧内容区 -->
+            <Grid Grid.Column="1" Margin="20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- 统计信息 -->
+                <Border Grid.Row="0" Background="White" BorderBrush="#DDD" BorderThickness="1" 
+                        CornerRadius="5" Padding="15" Margin="0,0,0,15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding TotalAssignments}" FontSize="24" FontWeight="Bold" 
+                                       Foreground="#2E86AB" HorizontalAlignment="Center"/>
+                            <TextBlock Text="总作业数" FontSize="12" Foreground="Gray" HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding TotalSubmissions}" FontSize="24" FontWeight="Bold" 
+                                       Foreground="#A23B72" HorizontalAlignment="Center"/>
+                            <TextBlock Text="总提交数" FontSize="12" Foreground="Gray" HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding UngradedSubmissions}" FontSize="24" FontWeight="Bold" 
+                                       Foreground="#F18F01" HorizontalAlignment="Center"/>
+                            <TextBlock Text="待批改" FontSize="12" Foreground="Gray" HorizontalAlignment="Center"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding Path=TotalSubmissions, Converter={StaticResource GradedCountConverter}}" 
+                                       FontSize="24" FontWeight="Bold" Foreground="#C73E1D" HorizontalAlignment="Center"/>
+                            <TextBlock Text="已批改" FontSize="12" Foreground="Gray" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+
+                <!-- 作业列表 -->
+                <Border Grid.Row="1" Background="White" BorderBrush="#DDD" BorderThickness="1" 
+                        CornerRadius="5" Padding="15">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Text="作业列表" FontSize="16" FontWeight="Bold" 
+                                   Margin="0,0,0,15"/>
+
+                        <DataGrid Grid.Row="1" ItemsSource="{Binding Assignments}" 
+                                  SelectedItem="{Binding SelectedAssignment}"
+                                  AutoGenerateColumns="False" 
+                                  CanUserAddRows="False" 
+                                  CanUserDeleteRows="False"
+                                  GridLinesVisibility="Horizontal"
+                                  HeadersVisibility="Column"
+                                  AlternatingRowBackground="#F9F9F9">
+                            
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="作业标题" Binding="{Binding Title}" Width="200"/>
+                                <DataGridTextColumn Header="课程名称" Binding="{Binding CourseName}" Width="150"/>
+                                <DataGridTextColumn Header="班级" Binding="{Binding ClassName}" Width="150"/>
+                                <DataGridTextColumn Header="截止日期" Binding="{Binding DueDate, StringFormat=yyyy-MM-dd}" Width="100"/>
+                                <DataGridTextColumn Header="总分" Binding="{Binding TotalPoints}" Width="60"/>
+                                <DataGridTextColumn Header="提交数" Binding="{Binding Submissions.Count}" Width="60"/>
+                                <DataGridTextColumn Header="已批改" Binding="{Binding Path=Submissions.Count, Converter={StaticResource GradedCountConverter}}" Width="60"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- 状态栏 -->
+        <Border Grid.Row="2" Background="#F0F0F0" BorderBrush="#DDD" BorderThickness="0,1,0,0" Padding="10">
+            <TextBlock Text="{Binding StatusMessage}" FontSize="12" Foreground="Gray"/>
+        </Border>
+    </Grid>
+</Window>

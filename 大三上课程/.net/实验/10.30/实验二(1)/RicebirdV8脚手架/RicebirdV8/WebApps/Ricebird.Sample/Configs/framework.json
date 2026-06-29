@@ -1,0 +1,42 @@
+{
+  "SiteKey": "KD$2zYIwAHb8p@yo",
+  "OldKey": "",
+  "Domain": "",
+  "SystemId": "DFbXxX0",
+  "Database": {
+    "DataSource": "(localdb)\\MSSQLLocalDB",
+    "Catalog": "Sample",
+    "UserID": "",
+    "Password": "",
+    "UseIntegratedSecurity": true
+  },
+  "DiagnosticsDatabase": {
+    "DataSource": "(localdb)\\MSSQLLocalDB",
+    "Catalog": "Sample",
+    "UserID": "",
+    "Password": "",
+    "UseIntegratedSecurity": true
+  },
+  "WebAssemblyName": "Ricebird.Sample",
+  "EnvironmentName": "Development",
+  "UseHttps": false,
+  "ShowSqlInApi": false,
+  "AlwaysAllowGet": false,
+  "Modules": [
+    "Ricebird.Diagnostics",
+    "Ricebird.Clients",
+    "Ricebird.Configuration",
+    "Ricebird.Scedules",
+    "Ricebird.Organizations",
+    "Ricebird.FileStorage",
+    "Ricebird.Security",
+    "Ricebird.Sms",
+    "Ricebird.Scedules",
+    "Ricebird.ShortUrls",
+    "Ricebird.Wechat",
+    "Ricebird.Cms",
+    "Ricebird.Misc"
+  ],
+  "OptionSaveTo": 0,
+  "SaveKey": "framework"
+}

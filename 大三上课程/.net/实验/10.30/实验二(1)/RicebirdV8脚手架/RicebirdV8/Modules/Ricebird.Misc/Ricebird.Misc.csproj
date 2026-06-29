@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Version>8.1.0</Version>
+		<OutputType>Library</OutputType>
+		<Company>厦门米雀软件科技有限公司</Company>
+		<Authors>黄玺</Authors>
+		<Product>米雀框架V8</Product>
+		<Description>该库是为米雀框架提供</Description>
+<Copyright>(c) 2023 厦门米雀软件科技有限公司 保留所有权利</Copyright>
+<Title>米雀框架V8</Title>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\Ricebird.Framework\Ricebird.Framework.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+  		<Folder Include="Models\" />
+  		<Folder Include="Services\" />
+  		<Folder Include="Controllers\" />
+  		<Folder Include="ViewModels\" />
+	</ItemGroup>
+</Project>

@@ -1,0 +1,300 @@
+myshell 用户手册
+================
+
+1. 简介
+-------
+
+myshell 是一个简化版的命令行解释器（shell），可以在 Linux 平台上使用。
+它支持一组内部命令、执行外部程序、I/O 重定向以及后台执行，
+同时还支持从批处理文件读取命令。
+
+2. 编译与运行
+-------------
+
+(1) 编译
+在包含 makefile、myshell.c、utility.c、myshell.h 的目录下执行：
+
+    make
+
+完成后会生成名为：
+
+    myshell
+
+的可执行文件。
+
+(2) 交互模式
+在终端中执行：
+
+    ./myshell
+
+即可进入交互模式，myshell 会显示一个包含当前工作目录的提示符，
+用户可以直接输入命令。
+
+(3) 批处理模式
+myshell 也可以从批处理文件读取命令。假设批处理文件名为 batchfile，
+其中每一行是一个要执行的命令，则可以运行：
+
+    ./myshell batchfile
+
+myshell 会顺序执行文件中的每一行命令，直到文件结束或遇到 quit 命令。
+
+3. 提示符格式
+-------------
+
+myshell 的提示符形如：
+
+    /home/user> 
+
+即 “当前工作目录 + '>' + 空格”。当前工作目录的变化会实时反映在提示符中。
+
+4. 内部命令
+-----------
+
+myshell 支持以下内部命令。这些命令在 shell 内部实现，
+不会通过 exec 去调用外部程序。
+
+4.1 cd
+
+    cd <directory>
+    cd
+
+功能：
+    - 不带参数时，显示当前工作目录。
+    - 带参数 <directory> 时，把当前目录切换到 <directory>。
+
+说明：
+    - 若目录不存在，myshell 会显示错误信息。
+    - 成功切换目录后，会同步更新环境变量 PWD。
+
+示例：
+    cd /tmp
+    cd
+
+4.2 clr
+
+    clr
+
+功能：
+    - 清除屏幕内容，并将光标移到左上角。
+
+说明：
+    - 实现上使用 ANSI 转义序列，相当于终端里的 clear 效果。
+
+4.3 dir
+
+    dir <directory>
+    dir
+
+功能：
+    - 列出指定目录 <directory> 中的文件和子目录名称。
+    - 若省略 <directory>，默认列出当前目录的内容。
+
+说明：
+    - 类似于 "ls" 命令的简单版本。
+
+示例：
+    dir
+    dir /etc
+
+4.4 environ
+
+    environ
+
+功能：
+    - 列出当前进程的所有环境变量。
+
+说明：
+    - 每个环境变量形如 "NAME=value"。
+    - 其中会包含 myshell 设置的环境变量 shell。
+
+4.5 echo
+
+    echo <comment>
+
+功能：
+    - 在屏幕上输出 <comment> 并换行。
+
+说明：
+    - 命令行中多个空格和制表符在解析后可能被缩减为一个空格。
+    - 主要用于简单打印文本信息。
+
+示例：
+    echo hello world
+    echo this   is   a   test
+
+4.6 help
+
+    help
+
+功能：
+    - 显示 myshell 的用户手册（即本文件），并通过 more 命令分页显示。
+
+说明：
+    - 实现时，myshell 会调用外部程序 more，参数为 readme。
+    - 使用空格翻页，q 退出 more。
+
+4.7 pause
+
+    pause
+
+功能：
+    - 暂停 shell 的执行，直到用户按下回车键。
+
+说明：
+    - 常用于在批处理脚本中让用户“按任意键继续”的效果。
+
+4.8 quit
+
+    quit
+
+功能：
+    - 退出 myshell。
+
+说明：
+    - 在交互模式下结束 shell 进程。
+    - 在批处理模式下，也会提前终止对批处理文件后续命令的处理。
+
+5. 外部命令执行
+----------------
+
+myshell 支持执行系统中的其他可执行程序，例如：
+
+    ls
+    ls -l /etc
+    gcc main.c -o main
+
+执行规则：
+    - myshell 会把命令行解析为程序名和参数列表。
+    - 程序名会通过 PATH 环境变量在系统路径中查找（使用 execvp）。
+    - 若找不到命令，会显示错误信息。
+
+这些外部命令的行为与在原生 shell（如 /bin/bash）中类似。
+
+6. I/O 重定向
+--------------
+
+myshell 支持标准输入(stdin)和标准输出(stdout)的重定向。
+语法如下：
+
+    program arg1 arg2 < inputfile > outputfile
+    program arg1 arg2 < inputfile >> outputfile
+
+含义：
+    - "< inputfile" 表示把输入从文件 inputfile 中读取，
+      而不是从键盘（标准输入）读取。
+    - "> outputfile" 表示把输出重定向到文件 outputfile：
+        * 如果文件不存在，则创建；
+        * 如果文件存在，则覆盖原内容。
+    - ">> outputfile" 表示把输出追加到文件末尾：
+        * 如果文件不存在，则创建；
+        * 如果文件存在，则在末尾追加内容，不会覆盖已有内容。
+
+注意：
+    - 重定向符号 <、>、>> 与命令和参数之间用空格分隔。
+    - myshell 在解析时会识别这些符号，并在执行前设置合适的文件描述符。
+
+示例：
+    # 把当前目录列表写入 list.txt（覆盖写入）
+    dir . > list.txt
+
+    # 把当前目录列表追加到 list.txt（保留旧内容）
+    dir . >> list.txt
+
+    # 从 input.txt 读取输入，结果输出到 output.txt
+    some_program < input.txt > output.txt
+
+7. 后台执行
+-----------
+
+myshell 支持使用 "&" 符号让命令在后台执行。
+
+语法：
+
+    program arg1 arg2 &
+
+含义：
+    - 在命令行末尾添加 "&"，表示该命令在后台执行。
+    - myshell 启动该子进程后立即返回提示符，不会等待该命令结束。
+    - shell 会在屏幕上打印后台进程的 PID，方便用户观察或调试。
+
+示例：
+    # 后台执行一个长时间运行的程序
+    sleep 30 &
+
+注意：
+    - "&" 前后建议使用空格分隔。
+    - myshell 不实现高级的后台作业控制（如 jobs、fg、bg 等），
+      只是简单地在后台启动进程。
+
+8. 环境变量 shell
+------------------
+
+myshell 在启动时会设置一个环境变量：
+
+    shell=<pathname>/myshell
+
+其中 <pathname> 是 myshell 可执行文件的绝对路径。
+例如：
+
+    shell=/home/user/os-lab/myshell
+
+该变量可以在子进程（由 myshell 启动的外部程序）中看到，
+有助于调试和理解“程序环境”的概念。
+
+9. 批处理文件
+-------------
+
+myshell 可以从批处理文件读取命令，这类似于脚本执行。
+
+写法示例（文件名 batchfile）：
+
+    echo start batch
+    dir .
+    pause
+    echo done
+    quit
+
+运行方式：
+
+    ./myshell batchfile
+
+myshell 会按顺序执行文件中的每条命令。
+遇到 quit 或文件结束时退出。
+
+10. 使用建议
+------------
+
+1) 初次使用时，建议在交互模式下多尝试内部命令：
+
+    ./myshell
+    /home/user> pwd          # 在 myshell 中可以通过外部命令 pwd 查看
+    /home/user> cd /tmp
+    /home/user> dir
+    /home/user> environ
+    /home/user> echo hello world
+    /home/user> pause
+    /home/user> quit
+
+2) 熟悉 I/O 重定向和后台执行：
+
+    ./myshell
+    /home/user> dir . > files.txt
+    /home/user> echo append this >> files.txt
+    /home/user> sleep 10 &
+
+3) 阅读本 readme 文件：
+
+    ./myshell
+    /home/user> help
+
+你会看到本用户手册通过 more 分页显示，按空格翻页，按 q 退出。
+
+11. 限制与说明
+--------------
+
+- myshell 是教学用简化 shell，不支持管道(|)、命令替换、复杂通配符等高级功能。
+- 命令行解析基于空白分隔，不能解析带引号的参数（如包含空格的文件名）。
+- I/O 重定向和后台执行只对单个命令生效，不支持组合命令。
+
+
+

@@ -1,0 +1,267 @@
+==========================================
+工厂职工重新分配工作政策 - 结构化英语、判定表、判定树
+==========================================
+
+【推荐网站】
+1. PlantUML在线编辑器：http://www.plantuml.com/plantuml/uml/
+2. PlantText：https://www.planttext.com/
+3. Mermaid在线编辑器：https://mermaid.live/
+4. Draw.io（支持PlantUML）：https://app.diagrams.net/
+
+【使用方法】
+将下方代码复制到上述任一网站，即可自动生成对应的图形，然后可以导出为PNG、SVG等格式。
+
+==========================================
+1. 结构化英语描述（Structured English）
+==========================================
+
+IF 年龄 < 20 THEN
+    IF 文化程度 = 初中 THEN
+        新工作 = 脱产学习
+    ELSE IF 文化程度 = 高中 THEN
+        新工作 = 电工
+    END IF
+ELSE IF 年龄 >= 20 AND 年龄 <= 40 THEN
+    IF 文化程度 = 中学 THEN
+        IF 性别 = 男性 THEN
+            新工作 = 钳工
+        ELSE IF 性别 = 女性 THEN
+            新工作 = 车工
+        END IF
+    ELSE IF 文化程度 = 大学 THEN
+        新工作 = 技术员
+    END IF
+ELSE IF 年龄 > 40 THEN
+    IF 文化程度 = 中学 THEN
+        新工作 = 材料员
+    ELSE IF 文化程度 = 大学 THEN
+        新工作 = 技术员
+    END IF
+END IF
+
+==========================================
+2. 判定表（Decision Table）
+==========================================
+
+【表格形式 - 可直接复制到Word或Excel】
+
+| 条件/规则 | 规则1 | 规则2 | 规则3 | 规则4 | 规则5 | 规则6 |
+|---------|------|------|------|------|------|------|
+| 年龄 < 20 | Y | Y | N | N | N | N |
+| 年龄 20-40 | N | N | Y | Y | N | N |
+| 年龄 > 40 | N | N | N | N | Y | Y |
+| 文化程度 = 初中 | Y | N | N | N | N | N |
+| 文化程度 = 高中 | N | Y | N | N | N | N |
+| 文化程度 = 中学 | N | N | Y | N | Y | N |
+| 文化程度 = 大学 | N | N | N | Y | N | Y |
+| 性别 = 男性 | - | - | Y | - | - | - |
+| 性别 = 女性 | - | - | N | - | - | - |
+| **动作** | | | | | | |
+| 新工作 = 脱产学习 | Y | N | N | N | N | N |
+| 新工作 = 电工 | N | Y | N | N | N | N |
+| 新工作 = 钳工 | N | N | Y | N | N | N |
+| 新工作 = 车工 | N | N | N | N | N | N |
+| 新工作 = 技术员 | N | N | N | Y | N | Y |
+| 新工作 = 材料员 | N | N | N | N | Y | N |
+
+说明：Y=是，N=否，-=不适用
+
+【Mermaid格式 - 可生成表格图形】
+
+注意：Mermaid主要用于流程图，判定表建议直接使用表格格式或Word表格。
+
+【PlantUML活动图格式 - 可生成判定流程】
+
+@startuml
+skinparam defaultFontSize 12
+skinparam activity {
+    BackgroundColor #E8F4F8
+    BorderColor #4A90E2
+    FontSize 12
+}
+
+title 职工重新分配工作判定流程
+
+start
+:输入职工信息\n(年龄、文化程度、性别);
+
+if (年龄 < 20?) then (是)
+  if (文化程度 = 初中?) then (是)
+    :新工作 = 脱产学习;
+    stop
+  else (否 - 高中)
+    :新工作 = 电工;
+    stop
+  endif
+elseif (年龄 20-40?) then (是)
+  if (文化程度 = 中学?) then (是)
+    if (性别 = 男性?) then (是)
+      :新工作 = 钳工;
+      stop
+    else (否 - 女性)
+      :新工作 = 车工;
+      stop
+    endif
+  else (否 - 大学)
+    :新工作 = 技术员;
+    stop
+  endif
+else (否 - 年龄 > 40)
+  if (文化程度 = 中学?) then (是)
+    :新工作 = 材料员;
+    stop
+  else (否 - 大学)
+    :新工作 = 技术员;
+    stop
+  endif
+endif
+
+@enduml
+
+==========================================
+3. 判定树（Decision Tree）
+==========================================
+
+【PlantUML格式 - 可生成图形】
+
+@startuml
+skinparam defaultFontSize 12
+skinparam activity {
+    BackgroundColor #E8F4F8
+    BorderColor #4A90E2
+    FontSize 12
+}
+
+start
+:检查基本信息;
+
+if (年龄 < 20?) then (是)
+  if (文化程度 = 初中?) then (是)
+    :新工作 = 脱产学习;
+    stop
+  else (否 - 高中)
+    :新工作 = 电工;
+    stop
+  endif
+elseif (年龄 20-40?) then (是)
+  if (文化程度 = 中学?) then (是)
+    if (性别 = 男性?) then (是)
+      :新工作 = 钳工;
+      stop
+    else (否 - 女性)
+      :新工作 = 车工;
+      stop
+    endif
+  else (否 - 大学)
+    :新工作 = 技术员;
+    stop
+  endif
+else (否 - 年龄 > 40)
+  if (文化程度 = 中学?) then (是)
+    :新工作 = 材料员;
+    stop
+  else (否 - 大学)
+    :新工作 = 技术员;
+    stop
+  endif
+endif
+
+@enduml
+
+【Mermaid格式 - 可生成图形】
+
+flowchart TD
+    Start([检查基本信息]) --> Age{年龄}
+    
+    Age -->|年龄 < 20| Age1{文化程度}
+    Age1 -->|初中| Result1[新工作: 脱产学习]
+    Age1 -->|高中| Result2[新工作: 电工]
+    
+    Age -->|年龄 20-40| Age2{文化程度}
+    Age2 -->|中学| Gender{性别}
+    Gender -->|男性| Result3[新工作: 钳工]
+    Gender -->|女性| Result4[新工作: 车工]
+    Age2 -->|大学| Result5[新工作: 技术员]
+    
+    Age -->|年龄 > 40| Age3{文化程度}
+    Age3 -->|中学| Result6[新工作: 材料员]
+    Age3 -->|大学| Result7[新工作: 技术员]
+    
+    style Start fill:#E8F4F8,stroke:#4A90E2,stroke-width:2px
+    style Result1 fill:#D4EDDA,stroke:#28A745,stroke-width:2px
+    style Result2 fill:#D4EDDA,stroke:#28A745,stroke-width:2px
+    style Result3 fill:#D4EDDA,stroke:#28A745,stroke-width:2px
+    style Result4 fill:#D4EDDA,stroke:#28A745,stroke-width:2px
+    style Result5 fill:#D4EDDA,stroke:#28A745,stroke-width:2px
+    style Result6 fill:#D4EDDA,stroke:#28A745,stroke-width:2px
+    style Result7 fill:#D4EDDA,stroke:#28A745,stroke-width:2px
+
+【文本格式判定树 - 可直接使用】
+
+检查基本信息
+│
+├─ 年龄 < 20
+│  ├─ 文化程度 = 初中 → 新工作: 脱产学习
+│  └─ 文化程度 = 高中 → 新工作: 电工
+│
+├─ 年龄 20-40
+│  ├─ 文化程度 = 中学
+│  │  ├─ 性别 = 男性 → 新工作: 钳工
+│  │  └─ 性别 = 女性 → 新工作: 车工
+│  └─ 文化程度 = 大学 → 新工作: 技术员
+│
+└─ 年龄 > 40
+   ├─ 文化程度 = 中学 → 新工作: 材料员
+   └─ 文化程度 = 大学 → 新工作: 技术员
+
+==========================================
+【完整判定表（详细版）】
+==========================================
+
+【表格形式 - 包含所有条件组合】
+
+| 编号 | 年龄 | 文化程度 | 性别 | 新工作 |
+|-----|------|---------|------|--------|
+| 1 | < 20 | 初中 | - | 脱产学习 |
+| 2 | < 20 | 高中 | - | 电工 |
+| 3 | 20-40 | 中学 | 男性 | 钳工 |
+| 4 | 20-40 | 中学 | 女性 | 车工 |
+| 5 | 20-40 | 大学 | - | 技术员 |
+| 6 | > 40 | 中学 | - | 材料员 |
+| 7 | > 40 | 大学 | - | 技术员 |
+
+说明："-" 表示该条件不适用
+
+==========================================
+【使用说明】
+==========================================
+
+1. **结构化英语**：
+   - 可以直接复制文本格式到Word文档
+   - 保持IF-ELSE IF-THEN的缩进格式
+
+2. **判定表**：
+   - 表格格式：可直接复制到Word或Excel
+   - PlantUML格式：访问 http://www.plantuml.com/plantuml/uml/ 生成图形
+
+3. **判定树**：
+   - PlantUML格式：访问 http://www.plantuml.com/plantuml/uml/ 生成活动图形式的判定树
+   - Mermaid格式：访问 https://mermaid.live/ 生成流程图形式的判定树
+   - 文本格式：可直接复制到文档中
+
+4. **推荐使用顺序**：
+   - 结构化英语：用于理解逻辑流程
+   - 判定表：用于展示所有条件组合
+   - 判定树：用于可视化决策过程
+
+==========================================
+【示例：如何在Word中插入】
+==========================================
+
+1. 结构化英语：直接复制文本，使用等宽字体（如Courier New）
+2. 判定表：复制表格格式，在Word中插入表格后粘贴
+3. 判定树：
+   - 方法1：使用PlantUML或Mermaid生成图片后插入
+   - 方法2：使用Word的SmartArt图形手动绘制
+   - 方法3：直接使用文本格式的判定树
+

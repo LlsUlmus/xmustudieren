@@ -1,0 +1,40 @@
+﻿配置framework.json，正确填写数据库的链接字符串。
+检查本项目的依赖项，是否包含
+Microsoft.EntityFrameworkCore - v9.0.1
+Microsoft.EntityFrameworkCore.Tools - v9.0.1
+
+常用的程序包控制台指令：
+1. 业务迁移：add-migration -context RicebirdContext -outputdir Migrations\App 初始化数据库
+2. 审计迁移：add-migration -context DiagnosticsContext -outputdir Migrations\Diagnostic 初始化数据库
+
+移除最后一次迁移指令：
+Remove-Migration  -context RicebirdContext -Force
+添加数据字典
+迁移到指定版本：
+Update-Database  -context RicebirdContext <指定版本名称>
+完成指定后，手动删除不需要的Migration文件
+幂等迁移：Script-Migration -Idempotent
+
+------------
+
+运行一次：/debug/install/Index，并且记下维护密码，此密码未来需要交给客户。
+
+------------
+
+跨表有外键关系，以下代码写在外键表的OnModelCreating里：
+builder.Entity<外键表>()
+        .HasOneByType(主键表名字符串)
+        .WithMany()
+        .HasForeignKey(外键字段名字符串);
+
+----------
+
+请在全系统使用 SequentialGuid 而不是 Guid ！哪怕要生成随机的ID，也使用SequentialGuid.NewGuid
+
+-----
+SELECT * FROM Department WHERE SchemaName='学院'
+ORDER BY LEN([Name]) DESC
+
+------
+
+项目部署时，除了务必正确修改framework.json

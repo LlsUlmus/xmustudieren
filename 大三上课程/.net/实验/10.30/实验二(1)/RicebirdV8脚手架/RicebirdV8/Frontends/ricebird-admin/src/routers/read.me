@@ -1,0 +1,26 @@
+页面结构说明：
+
+{
+    display: "首页", // 用以显示在“菜单管理” -> “链接指向”。这里显示的是一级内容
+    value: "", // 无用，可以不写
+    icon: "",// 有用，要写
+
+    manual: true, // 写了true，则使用生成菜单时，不会自动生成
+
+    path: "", // 页面的母链接
+    name: "", // 该项的名称，必须填写
+    component: BasicLayout, // 母版类
+    children: [ // 子菜单
+        {
+            display: "首页", // 用以显示在“菜单管理” -> “链接指向”。这里显示的是二级内容
+            value: "/home", // 必须填写，这个是链接指向的url
+            landing: false, // 填写true时，说明这是登录之后的着陆页，全系统只有一个
+            login: false, // 填写true时，说明这个是登录页，全系统只有一个
+            as: '', // 填写as时，说明此页会打开另一个菜单。as填写的内容是其它菜单的value
+
+            path: "/home", // 页面的路径
+            name: "home", // 页面的名称
+            component: () => import(/* webpackChunkName: "HOME" */ "@vm/home/home"), // 页面的组件
+        }
+    ]
+},

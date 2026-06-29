@@ -1,0 +1,96 @@
+.table-form {
+    border-collapse: collapse;
+    margin-left: 0px;
+    background: transparent;
+    border-spacing: 0px;
+    width: 100%;
+    vertical-align: middle;
+    
+    caption {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: left;
+        margin-bottom: 8px;
+    }
+
+    tfoot input {
+        border: 1px solid #666;
+    }
+
+    tfoot tr td {
+        height: 20px;
+        line-height: 20px;
+        // text-align: center;
+        // padding: 7px;
+    }
+
+    .a-btn {
+        color: dodgerblue;
+        cursor: pointer;
+    }
+
+    th {
+        border: 1px solid #000;
+        vertical-align: middle;
+        line-height: 37px;
+        padding: 0px 7px;
+        text-align: left;
+    }
+
+    td {
+        border: 1px solid #000;
+        vertical-align: middle;
+        line-height: 37px;
+        padding: 0px 7px;
+
+        input, textarea {
+            border: none;
+            outline: none;
+            width: 100%;
+        }
+
+        textarea {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+
+        .ant-form-item {
+            margin-bottom: 0px;
+        }
+
+        &.required::after {
+            display: inline-block;
+            margin-inline-start: 4px;
+            color: #ff4d4f;
+            line-height: 1;
+            content: "*";
+        }
+        .ant-input-affix-wrapper, .ant-input-number-affix-wrapper {
+            padding-left: 0px;
+        }
+        .ant-select-selector {
+            padding-left: 0px !important;
+        }
+        .ant-picker {
+            width: 100%;
+        }
+    }
+
+    td.with-signature {
+        vertical-align: top;
+        position: relative;
+        padding-bottom: 90px;
+
+        .signature {
+            position: absolute;
+            bottom: 5px;
+            right: 14px;
+            left: 7px;
+            text-align: right;
+        }
+    }
+
+    .text-center {
+        text-align: center;
+    }
+} // .table-form

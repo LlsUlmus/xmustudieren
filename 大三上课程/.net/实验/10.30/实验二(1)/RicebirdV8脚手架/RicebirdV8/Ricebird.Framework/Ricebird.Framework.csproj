@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+	<PropertyGroup Label="Globals">
+	  <SccProjectName>SAK</SccProjectName>
+	  <SccProvider>SAK</SccProvider>
+	  <SccAuxPath>SAK</SccAuxPath>
+	  <SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<OutputType>Library</OutputType>
+		<Version>8.1.0</Version>
+		<Company>厦门米雀软件科技有限公司</Company>
+		<Authors>黄玺</Authors>
+		<Product>米雀框架V8.1基本库</Product>
+		<Description>该库是为米雀框架提供依赖的基本库。同时也提供了整个框架的初始化服务。
+米雀框架是一个MIS框架，为信息系统的开发提供了一整套完整的开发思路和开发理念。
+		</Description>
+		<Copyright>(c) 2023 厦门米雀软件科技有限公司 保留所有权利</Copyright>
+		<Title>厦门米雀基本库</Title>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>portable</DebugType>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Enums\**" />
+	  <Content Remove="Enums\**" />
+	  <EmbeddedResource Remove="Enums\**" />
+	  <None Remove="Enums\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="AngleSharp" Version="1.2.0" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.1" />
+	  <PackageReference Include="NPOI" Version="2.7.2" />
+	  <PackageReference Include="SkiaSharp" Version="3.116.1" />
+	  <PackageReference Include="System.Security.Cryptography.Pkcs" Version="9.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="Resource.resx">
+	    <Generator></Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
+
+</Project>

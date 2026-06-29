@@ -1,0 +1,229 @@
+.page-with-tree {
+    width: 100%;
+    height: @content-height;
+    overflow: hidden;
+    display: flex;
+
+    & > div {
+        flex: 1;
+        position: relative;
+        .ant-empty, .ant-result {
+            margin-top: 60px;
+        }
+    }
+
+    .ricebird-tree-section {
+        flex: none;
+    }
+}
+
+.ricebird-tree-area {
+    padding-bottom: @tree-node-height;
+    .ant-tree-treenode {
+        width: 100%;
+        height: @tree-node-height;
+        .ant-tree-switcher {
+            line-height: @tree-node-height;
+        }
+        .ant-tree-node-content-wrapper {
+            line-height: @tree-node-height;
+            flex: 1;
+            position: relative;
+            display: flex;
+            overflow: hidden;
+            .ant-tree-iconEle {
+                width: 20px;
+                line-height: @tree-node-height;
+                height: @tree-node-height;
+            }
+            .ant-tree-title {
+                flex: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: flex;
+                span.title {
+                    flex: 1;
+                }
+                .btn-area {
+                    display: none;
+                    .btn {
+                        width: 36px;
+                        height: 36px;                        
+                        margin: 0px;
+                        margin-right: 0px;
+                        text-align: center;
+                    }
+
+                    &.show-text {
+                        display: block;
+                        margin-right: 8px;
+                    }
+                }
+            }
+            &:hover,
+            &.ant-tree-node-selected {
+                background: transparent;
+            }
+            &:hover {
+                .btn-area {
+                    display: flex;
+                }
+            }
+        }
+        &.ant-tree-treenode-selected {
+            background-color: @tree-node-selected-background !important;
+            font-weight: 600;
+            .ant-tree-iconEle {
+                font-weight: 600;
+            }
+        }
+        &:hover {
+            background-color: @tree-node-hover-background;
+        }
+    }
+}
+
+.ricebird-tree-section {
+    width: 320px;
+    height: 100%;
+    overflow: hidden;
+    border-right: 1px solid @border-shadow;
+    display: flex;
+    flex-direction: column;
+
+    .tree-search-area {
+        width: 100%;
+        padding: 15px;
+        height: 62px;
+        display: flex;
+
+        .header {
+            line-height: 30px;
+            text-align: left;
+            width: 44%;
+        }
+
+        .searcher {
+            flex: 1;
+        }
+
+        .action-btn-area {
+            width: 64px;
+            display: flex;
+            margin-left: auto;
+            justify-content: flex-end;
+            .action-btn {
+                width: 32px;
+                height: 32px;
+                line-height: 32px;
+                text-align: center;
+                margin-left: 10px;
+                cursor: pointer;
+                border-radius: @border-radius-base;
+    
+                &:hover {
+                    background: @tree-node-hover-background;
+                }
+    
+                &.on-loading {
+                    cursor: default;
+
+                    svg {
+                        -webkit-animation: loadingCircle 1s infinite linear;
+                        animation: loadingCircle 1s infinite linear;
+                    }
+                }
+            }
+        }
+    }
+
+    .no-pt {
+        padding-top: 0px;
+        height: 45px;
+    }
+
+    .ricebird-tree-area {
+        // height: calc(100% - 62px);
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    .tree-radio {
+        line-height: 2;
+    }
+
+    .item {
+        width: 100%;
+        padding-left: 30px;
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        height: 36px !important;
+        line-height: 36px !important;
+        display: inline-block;
+
+        svg {
+            display: none;
+        }
+    }
+
+    .item:hover svg {
+        display: inline-block !important;
+    }
+
+    .btn-area {
+        line-height: 36px;
+        height: 36px;
+        float: right !important;
+
+        .btn {
+            margin: 10px;
+        }
+    }
+}
+
+.ant-select-tree-treenode {
+    width: 100%;
+    height: @tree-node-height;
+    .ant-select-tree-switcher {
+        line-height: @tree-node-height !important;
+    }
+    .ant-select-tree-node-content-wrapper {
+        line-height: @tree-node-height !important;
+        flex: 1;
+        position: relative;
+        display: flex;
+        overflow: hidden;
+        .ant-select-tree-iconEle {
+            width: 20px;
+            line-height: @tree-node-height;
+            height: @tree-node-height;
+        }
+        .ant-select-tree-title {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: flex;
+        }
+        &:hover,
+        &.ant-select-tree-node-selected {
+            background: transparent !important;
+        }
+        &:hover {
+            .btn-area {
+                display: flex;
+            }
+        }
+    }
+    &.ant-select-tree-treenode-selected {
+        background-color: @tree-node-selected-background !important;
+        font-weight: 600;
+        .ant-tree-iconEle {
+            font-weight: 600;
+        }
+    }
+    &:hover {
+        background-color: @tree-node-hover-background;
+    }
+}

@@ -1,0 +1,68 @@
+.review-modal {
+    height: 100%;
+    display: flex;
+    overflow: hidden;
+    overflow-x: auto;
+
+    .edit-pane {
+        flex: 1;
+        padding: 20px 32px;
+        min-width: 310px;
+        overflow: auto;
+
+        .proj-header {
+            padding-bottom: 24px;
+            border-bottom: 1px solid #f0f0f0;
+
+            .title {
+                color: #222;
+                font-size: 24px;
+                font-weight: bold;
+            }
+
+            .detail {
+                color: #666;
+                font-size: 14px;
+            }
+
+            .edit-btn {
+                width: fit-content;
+            }
+        }
+
+        .form-body {
+            .label {
+                padding-bottom: 4px;
+                color: #222;
+                font-size: 16px;
+                display: flex;
+                align-items: center;
+                text-wrap: nowrap;
+            }
+
+            .ant-input-number {
+                width: 100%;
+
+            }
+        }
+    }
+
+    .view-pane {
+        min-width: 825px;
+        overflow: auto;
+
+        .doc-nav {
+            display: none;
+        }
+
+        .paper-container {
+            padding: 15px;
+
+            .page-div {
+                width: 560px;
+                margin: 0;
+                margin-bottom: 16px;
+            }
+        }
+    }
+}

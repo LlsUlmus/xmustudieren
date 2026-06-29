@@ -1,0 +1,48 @@
+# Visual Studio / IDE
+.vs/
+*.user
+*.suo
+*.ipch
+.idea/
+
+# Build output
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]uild/
+[Ll]og/
+*.o
+*.obj
+*.exe
+*.dll
+*.pdb
+*.ilk
+*.lib
+*.exp
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+dist/
+*.egg-info/
+
+# Node
+node_modules/
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# NuGet
+*.nuget.props
+*.nuget.targets
+project.assets.json
+project.nuget.cache
+*.nuget.dgspec.json

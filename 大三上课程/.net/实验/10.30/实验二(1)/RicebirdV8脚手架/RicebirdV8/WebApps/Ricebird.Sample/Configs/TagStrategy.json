@@ -1,0 +1,484 @@
+{
+  "AvailableTags": [
+    {
+      "TagName": "span",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "p",
+      "IsBlockNode":  true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "strong",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "td",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title",
+        "width",
+        "valign",
+        "height",
+        "colspan",
+        "rowspan",
+        "align",
+        "col",
+        "row"
+      ]
+    },
+    {
+      "TagName": "br",
+      "IsSelfClose": true,
+      "Attributes": [
+      ]
+    },
+    {
+      "TagName": "sup",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "tr",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title",
+        "height",
+        "valign"
+      ]
+    },
+    {
+      "TagName": "th",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title",
+        "height",
+        "valign"
+      ]
+    },
+    {
+      "TagName": "img",
+      "ClassName": "ImageNode",
+      "IsSelfClose": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title",
+        "src",
+        "alt",
+        "border",
+        "word_img",
+        "align"
+      ]
+    },
+    {
+      "TagName": "em",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "sub",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "a",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title",
+        "target",
+        "href"
+      ]
+    },
+    {
+      "TagName": "li",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "table",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title",
+        "cellspacing",
+        "cellpadding",
+        "width",
+        "align",
+        "hspace",
+        "vspace",
+        "border",
+        "height"
+      ]
+    },
+    {
+      "TagName": "tbody",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "thead",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "tfoot",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "colgroup",
+      "Attributes": [
+      ]
+    },
+    {
+      "TagName": "h1",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "h2",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "h3",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "h4",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "h5",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "h6",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "ol",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "font",
+      "ReplaceTo": "span",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "pre",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "ins",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "b",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "ul",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "u",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "blockquote",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "hr",
+      "IsBlockNode": true,
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title",
+        "width"
+      ]
+    },
+    {
+      "TagName": "col",
+      "IsSelfClose": true,
+      "ClassName": "ColNode",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title",
+        "width",
+        "span"
+      ]
+    },
+    {
+      "TagName": "del",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "code",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "cite",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "center",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "i",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "text",
+      "ReplaceTo": "span",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "caption",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "section",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "article",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    },
+    {
+      "TagName": "main",
+      "Attributes": [
+        "style",
+        "class",
+        "id",
+        "name",
+        "title"
+      ]
+    }
+  ],
+  "OptionSaveTo": 0,
+  "SaveKey": "tagStrategy"
+}

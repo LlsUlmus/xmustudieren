@@ -1,0 +1,598 @@
+==========================================
+UML图表代码 - 电商管理平台
+==========================================
+
+【推荐网站】
+1. PlantUML在线编辑器：http://www.plantuml.com/plantuml/uml/
+2. PlantText：https://www.planttext.com/
+3. Mermaid在线编辑器：https://mermaid.live/
+4. Draw.io（支持PlantUML）：https://app.diagrams.net/
+
+【使用方法】
+将下方代码复制到上述任一网站，即可自动生成对应的UML图形，然后可以导出为PNG、SVG等格式。
+
+==========================================
+A.1 用例图（Use Case Diagram）- 电商管理平台
+==========================================
+
+@startuml
+left to right direction
+
+actor 平台管理员 as Admin
+actor 商户 as Merchant
+actor 服务商 as ServiceProvider
+actor 维修师傅 as Technician
+actor 顾客 as Customer
+
+rectangle "电商管理平台" {
+  ' 平台管理员用例
+  Admin --> (登录系统)
+  Admin --> (审核商户开户)
+  Admin --> (审核服务商开户)
+  Admin --> (审核商品)
+  Admin --> (审核活动)
+  Admin --> (管理顾客)
+  Admin --> (查询统计)
+  
+  ' 商户用例
+  Merchant --> (登录系统)
+  Merchant --> (商户开户)
+  Merchant --> (管理商品)
+  Merchant --> (管理订单)
+  Merchant --> (创建活动)
+  Merchant --> (处理售后)
+  Merchant --> (查看销售数据)
+  
+  ' 服务商用例
+  ServiceProvider --> (登录系统)
+  ServiceProvider --> (服务商注册)
+  ServiceProvider --> (管理服务合同)
+  ServiceProvider --> (管理账户信息)
+  
+  ' 维修师傅用例
+  Technician --> (登录系统)
+  Technician --> (接收服务订单)
+  Technician --> (确认收货)
+  Technician --> (完成维修服务)
+  
+  ' 顾客用例
+  Customer --> (登录系统)
+  Customer --> (浏览商品)
+  Customer --> (下单购买)
+  Customer --> (管理订单)
+  Customer --> (申请售后)
+  
+  ' 包含关系
+  (登录系统) ..> (验证身份) : <<include>>
+  (审核商户开户) ..> (查看申请信息) : <<include>>
+  (审核商品) ..> (查看商品信息) : <<include>>
+  (管理订单) ..> (查看订单详情) : <<include>>
+  (下单购买) ..> (选择商品) : <<include>>
+  (下单购买) ..> (支付订单) : <<include>>
+  
+  ' 扩展关系
+  (下单购买) ..> (使用优惠券) : <<extend>>
+  (创建活动) ..> (设置活动规则) : <<extend>>
+}
+
+@enduml
+
+==========================================
+B.1 类图（Class Diagram）- 电商管理平台核心类
+==========================================
+
+@startuml
+class 用户 {
+  -用户ID: String
+  -用户名: String
+  -密码: String
+  -手机号: String
+  -邮箱: String
+  -角色类型: String
+  -账户状态: Integer
+  -创建时间: DateTime
+  +登录(): Boolean
+  +登出(): void
+  +修改密码(): void
+  +获取用户信息(): UserInfo
+}
+
+class 商户 {
+  -商户ID: String
+  -商户名称: String
+  -营业执照号: String
+  -联系人: String
+  -联系电话: String
+  -审核状态: Integer
+  -账户状态: Integer
+  +提交开户申请(): void
+  +修改账户信息(): void
+  +管理商品(): void
+  +管理订单(): void
+}
+
+class 服务商 {
+  -服务商ID: String
+  -服务商名称: String
+  -营业执照号: String
+  -服务范围: String
+  -审核状态: Integer
+  +提交注册申请(): void
+  +管理服务合同(): void
+}
+
+class 商品 {
+  -商品ID: String
+  -商品名称: String
+  -商品价格: Decimal
+  -库存数量: Integer
+  -商品分类: String
+  -商品描述: String
+  -审核状态: Integer
+  -上架状态: Integer
+  +发布商品(): void
+  +修改商品信息(): void
+  +上下架商品(): void
+  +查询商品(): List<Product>
+}
+
+class 订单 {
+  -订单号: String
+  -顾客ID: String
+  -商户ID: String
+  -订单金额: Decimal
+  -订单状态: Integer
+  -支付状态: Integer
+  -创建时间: DateTime
+  +创建订单(): void
+  +支付订单(): void
+  +发货(): void
+  +确认收货(): void
+  +取消订单(): void
+}
+
+class 订单明细 {
+  -明细ID: String
+  -订单号: String
+  -商品ID: String
+  -商品数量: Integer
+  -商品单价: Decimal
+  -小计金额: Decimal
+}
+
+class 活动 {
+  -活动ID: String
+  -活动名称: String
+  -活动类型: Integer
+  -开始时间: DateTime
+  -结束时间: DateTime
+  -活动规则: String
+  -审核状态: Integer
+  +创建活动(): void
+  +修改活动(): void
+  +取消活动(): void
+}
+
+class 售后申请 {
+  -申请ID: String
+  -订单号: String
+  -申请类型: Integer
+  -申请原因: String
+  -处理状态: Integer
+  -创建时间: DateTime
+  +提交申请(): void
+  +处理申请(): void
+  +查询申请(): List<AfterSales>
+}
+
+' 关系定义
+用户 <|-- 商户
+用户 <|-- 服务商
+用户 <|-- 顾客
+
+商户 "1" --> "*" 商品 : 发布
+商户 "1" --> "*" 订单 : 接收
+商户 "1" --> "*" 活动 : 创建
+商户 "1" --> "*" 售后申请 : 处理
+
+顾客 "1" --> "*" 订单 : 创建
+订单 "1" --> "*" 订单明细 : 包含
+订单 "1" --> "*" 售后申请 : 关联
+活动 "1" --> "*" 商品 : 包含
+
+@enduml
+
+==========================================
+B.2.1 活动图1 - 商户开户审核流程（Activity Diagram）
+==========================================
+
+@startuml
+start
+:商户填写开户申请信息;
+:提交开户申请;
+:系统保存申请信息;
+:系统发送通知给管理员;
+:管理员登录系统;
+:管理员查看待审核申请列表;
+:选择商户开户申请;
+:查看申请详细信息;
+if (申请信息完整?) then (是)
+  if (资质证明齐全?) then (是)
+    if (符合平台要求?) then (是)
+      :管理员批准申请;
+      :更新商户状态为"已通过";
+      :创建商户账户;
+      :发送通知给商户;
+      :记录审核日志;
+      stop
+    else (否)
+      :管理员拒绝申请;
+      :更新申请状态为"已拒绝";
+      :填写拒绝原因;
+      :发送通知给商户;
+      stop
+    endif
+  else (否)
+    :管理员退回申请;
+    :更新申请状态为"待补充";
+    :填写补充材料要求;
+    :发送通知给商户;
+    stop
+  endif
+else (否)
+  :管理员退回申请;
+  :更新申请状态为"待补充";
+  :填写补充材料要求;
+  :发送通知给商户;
+  stop
+endif
+@enduml
+
+==========================================
+B.2.1 活动图2 - 订单处理流程（Activity Diagram）
+==========================================
+
+@startuml
+start
+:顾客浏览商品;
+:选择商品加入购物车;
+:填写收货地址;
+:选择支付方式;
+:提交订单;
+:系统创建订单;
+:订单状态为"待支付";
+if (顾客支付?) then (是)
+  :调用支付接口;
+  if (支付成功?) then (是)
+    :更新订单状态为"已支付";
+    :发送通知给商户;
+    :商户查看订单;
+    if (商户接单?) then (是)
+      :更新订单状态为"已接单";
+      :商户准备商品;
+      :商户发货;
+      :更新订单状态为"已发货";
+      :发送物流信息给顾客;
+      :顾客确认收货;
+      :更新订单状态为"已完成";
+      :记录交易完成;
+      stop
+    else (否)
+      :商户拒绝接单;
+      :更新订单状态为"已取消";
+      :退款给顾客;
+      stop
+    endif
+  else (否)
+    :支付失败;
+    :显示支付失败提示;
+    :订单保持"待支付"状态;
+    if (30分钟内未支付?) then (是)
+      :系统自动取消订单;
+      stop
+    else (否)
+      :允许重新支付;
+    endif
+  endif
+else (否)
+  :订单保持"待支付"状态;
+  if (30分钟内未支付?) then (是)
+    :系统自动取消订单;
+    stop
+  endif
+endif
+@enduml
+
+==========================================
+B.2.2 数据流图 - 顶层图（Data Flow Diagram - Level 0）
+==========================================
+
+@startuml
+skinparam componentStyle rectangle
+
+rectangle "电商管理平台" as System {
+  [用户管理] as UserMgt
+  [商品管理] as ProductMgt
+  [订单管理] as OrderMgt
+  [活动管理] as ActivityMgt
+  [售后管理] as AfterSalesMgt
+  [审核管理] as ReviewMgt
+}
+
+actor 平台管理员 as Admin
+actor 商户 as Merchant
+actor 顾客 as Customer
+database "数据库" as DB
+rectangle "支付系统" as PaymentSys
+rectangle "物流系统" as LogisticsSys
+
+Admin --> ReviewMgt : 审核操作
+Admin --> UserMgt : 用户管理操作
+
+Merchant --> ProductMgt : 商品信息
+Merchant --> OrderMgt : 订单处理
+Merchant --> ActivityMgt : 活动信息
+Merchant --> AfterSalesMgt : 售后处理
+
+Customer --> OrderMgt : 订单请求
+Customer --> AfterSalesMgt : 售后申请
+
+UserMgt --> DB : 用户数据
+ProductMgt --> DB : 商品数据
+OrderMgt --> DB : 订单数据
+ActivityMgt --> DB : 活动数据
+AfterSalesMgt --> DB : 售后数据
+ReviewMgt --> DB : 审核数据
+
+OrderMgt --> PaymentSys : 支付请求
+PaymentSys --> OrderMgt : 支付结果
+
+OrderMgt --> LogisticsSys : 物流查询
+LogisticsSys --> OrderMgt : 物流信息
+
+DB --> UserMgt : 用户数据
+DB --> ProductMgt : 商品数据
+DB --> OrderMgt : 订单数据
+DB --> ActivityMgt : 活动数据
+DB --> AfterSalesMgt : 售后数据
+DB --> ReviewMgt : 审核数据
+
+@enduml
+
+==========================================
+B.2.2 数据流图 - 第一层分解：订单管理模块（Data Flow Diagram - Level 1）
+==========================================
+
+@startuml
+skinparam componentStyle rectangle
+
+rectangle "订单管理模块" as OrderModule {
+  [接收订单请求] as ReceiveOrder
+  [验证订单信息] as ValidateOrder
+  [创建订单] as CreateOrder
+  [处理支付] as ProcessPayment
+  [更新订单状态] as UpdateStatus
+  [发送通知] as SendNotify
+}
+
+actor 顾客 as Customer
+actor 商户 as Merchant
+database "数据库" as DB
+rectangle "支付系统" as PaymentSys
+rectangle "通知系统" as NotifySys
+
+Customer --> ReceiveOrder : 订单请求
+ReceiveOrder --> ValidateOrder : 订单信息
+ValidateOrder --> CreateOrder : 有效订单
+CreateOrder --> DB : 保存订单
+CreateOrder --> ProcessPayment : 触发支付
+ProcessPayment --> PaymentSys : 支付请求
+PaymentSys --> ProcessPayment : 支付结果
+ProcessPayment --> UpdateStatus : 支付状态
+UpdateStatus --> DB : 更新订单
+UpdateStatus --> SendNotify : 触发通知
+SendNotify --> NotifySys : 通知信息
+
+Merchant --> UpdateStatus : 订单操作
+UpdateStatus --> DB : 更新订单状态
+
+DB --> ValidateOrder : 验证商品库存
+DB --> ValidateOrder : 验证用户信息
+
+@enduml
+
+==========================================
+B.2.3 状态图 - 订单状态转换（State Diagram）
+==========================================
+
+@startuml
+[*] --> 待支付 : 创建订单
+待支付 --> 已支付 : 支付成功
+待支付 --> 已取消 : 超时取消
+待支付 --> 已取消 : 用户取消
+
+已支付 --> 已接单 : 商户接单
+已支付 --> 已取消 : 商户拒绝
+已支付 --> 已退款 : 申请退款
+
+已接单 --> 已发货 : 商户发货
+已接单 --> 已取消 : 商户取消
+
+已发货 --> 已收货 : 顾客确认收货
+已发货 --> 售后中 : 申请售后
+
+已收货 --> 已完成 : 交易完成
+已收货 --> 售后中 : 申请售后
+
+售后中 --> 已退款 : 退款完成
+售后中 --> 已换货 : 换货完成
+售后中 --> 已维修 : 维修完成
+售后中 --> 已取消 : 取消售后
+
+已退款 --> [*] : 结束
+已取消 --> [*] : 结束
+已完成 --> [*] : 结束
+已换货 --> 已发货 : 重新发货
+已维修 --> 已完成 : 完成
+
+state 售后中 {
+  [*] --> 待审核
+  待审核 --> 处理中 : 同意申请
+  待审核 --> 已拒绝 : 拒绝申请
+  处理中 --> [*]
+  已拒绝 --> [*]
+}
+
+@enduml
+
+==========================================
+B.2.4 事件序列图 - 顾客下单支付流程（Sequence Diagram）
+==========================================
+
+@startuml
+actor 顾客 as Customer
+participant "商品页面" as ProductPage
+participant "订单服务" as OrderService
+participant "库存服务" as InventoryService
+participant "支付服务" as PaymentService
+participant "支付系统" as PaymentSystem
+participant "通知服务" as NotifyService
+database "数据库" as DB
+
+Customer -> ProductPage : 选择商品，点击购买
+ProductPage -> OrderService : 创建订单请求(商品ID,数量,用户ID)
+OrderService -> InventoryService : 检查库存(商品ID,数量)
+InventoryService -> DB : 查询商品库存
+DB --> InventoryService : 返回库存信息
+InventoryService --> OrderService : 库存充足
+
+OrderService -> DB : 创建订单记录
+DB --> OrderService : 返回订单号
+OrderService -> InventoryService : 扣减库存(商品ID,数量)
+InventoryService -> DB : 更新库存
+InventoryService --> OrderService : 扣减成功
+
+OrderService --> ProductPage : 返回订单信息
+ProductPage --> Customer : 显示订单确认页面
+
+Customer -> ProductPage : 确认订单，选择支付方式
+ProductPage -> PaymentService : 发起支付请求(订单号,金额,支付方式)
+PaymentService -> PaymentSystem : 调用支付接口(订单信息)
+PaymentSystem --> PaymentService : 返回支付结果
+
+alt 支付成功
+  PaymentService -> OrderService : 更新订单状态(订单号,已支付)
+  OrderService -> DB : 更新订单状态
+  OrderService -> NotifyService : 发送支付成功通知(商户ID)
+  NotifyService -> DB : 保存通知记录
+  PaymentService --> ProductPage : 返回支付成功
+  ProductPage --> Customer : 显示支付成功页面
+else 支付失败
+  PaymentService --> ProductPage : 返回支付失败
+  ProductPage --> Customer : 显示支付失败提示
+end
+
+@enduml
+
+==========================================
+【Mermaid格式代码（备选方案）】
+==========================================
+
+如果PlantUML不适用，可以使用Mermaid格式：
+
+【用例图 - Mermaid】
+graph TB
+    Admin[平台管理员] --> Login[登录系统]
+    Admin --> ReviewMerchant[审核商户]
+    Admin --> ReviewProduct[审核商品]
+    
+    Merchant[商户] --> Login
+    Merchant --> ManageProduct[管理商品]
+    Merchant --> ManageOrder[管理订单]
+    Merchant --> CreateActivity[创建活动]
+    
+    Customer[顾客] --> Login
+    Customer --> BrowseProduct[浏览商品]
+    Customer --> PlaceOrder[下单购买]
+    Customer --> ApplyAfterSales[申请售后]
+
+【类图 - Mermaid】
+classDiagram
+    class 用户 {
+        -String 用户ID
+        -String 用户名
+        -String 密码
+        +登录()
+        +登出()
+    }
+    class 商户 {
+        -String 商户ID
+        -String 商户名称
+        +管理商品()
+        +管理订单()
+    }
+    class 商品 {
+        -String 商品ID
+        -String 商品名称
+        -Decimal 价格
+        +发布商品()
+    }
+    class 订单 {
+        -String 订单号
+        -Decimal 金额
+        +创建订单()
+        +支付订单()
+    }
+    用户 <|-- 商户
+    商户 "1" --> "*" 商品
+    订单 "1" --> "*" 商品
+
+【活动图 - Mermaid】
+flowchart TD
+    Start([开始]) --> FillInfo[填写开户信息]
+    FillInfo --> Submit[提交申请]
+    Submit --> Review{管理员审核}
+    Review -->|通过| Approve[批准开户]
+    Review -->|拒绝| Reject[拒绝申请]
+    Review -->|退回| Return[退回补充]
+    Approve --> End([结束])
+    Reject --> End
+    Return --> FillInfo
+
+【序列图 - Mermaid】
+sequenceDiagram
+    participant C as 顾客
+    participant O as 订单服务
+    participant I as 库存服务
+    participant P as 支付服务
+    C->>O: 创建订单
+    O->>I: 检查库存
+    I-->>O: 库存充足
+    O->>O: 创建订单
+    O->>I: 扣减库存
+    O-->>C: 返回订单
+    C->>P: 发起支付
+    P-->>C: 支付结果
+
+==========================================
+【使用说明】
+==========================================
+
+1. PlantUML代码使用：
+   - 访问 http://www.plantuml.com/plantuml/uml/
+   - 将@startuml到@enduml之间的代码复制粘贴
+   - 点击"Submit"或自动生成图形
+   - 右键图片可保存为PNG或SVG格式
+
+2. Mermaid代码使用：
+   - 访问 https://mermaid.live/
+   - 将代码复制到左侧编辑区
+   - 右侧自动显示图形
+   - 可导出为PNG、SVG等格式
+
+3. 根据实际项目修改：
+   - 所有图表代码已根据电商管理平台项目定制
+   - 包含平台管理员、商户、服务商、维修师傅、顾客等角色
+   - 包含商品、订单、活动、售后等核心业务
+   - 可根据实际需求进一步调整
+

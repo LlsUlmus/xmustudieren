@@ -1,0 +1,242 @@
+.paper-container {
+    background: #e7ecf1;
+    padding: 20px 0px;
+
+    .page-div {
+        background: #fff;
+        padding: 60px 95px;
+        border: 1px #ababab solid;
+        min-height: 1122px;
+        width: 793px;
+        position: relative;
+        margin: 0px auto;
+
+        &.narrow {
+            padding: 30px 45px;
+        }
+
+        &.wide {
+            width: 1100px;
+            padding: 30px 60px;
+        }
+
+        h1.page-title {
+            text-align: center;
+            margin: 40px 0px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-section {
+            h2 {
+                margin: 50px 0 10px 0;
+                font-size: 18px;
+            }
+            .write-tip {
+                font-size: 14px;
+                color: #666;
+                word-break: break-all;
+            }
+            .readonly-box {
+                border: 1px solid #000;
+                min-height: 150px;
+                padding: 0 8px;
+                td, th {
+                    border: 1px solid #000;
+                }
+            }
+        }
+
+        .attachment {
+            padding: 10px 0;
+        }
+        
+        .section-attachment {
+            margin-bottom: 10px;
+        }
+        
+        .member-rows {
+            td {
+                height: 36px;
+            }
+
+            .ant-form-item-control-input {
+                .ant-input-number-input-wrap {
+                    input {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+
+        table {
+            &.main-table {
+                border-collapse: collapse;
+                margin-left: 0px;
+                background: transparent;
+                border-spacing: 0px;
+                width: 100%;
+                vertical-align: middle;
+            }
+
+            &.basic-info-table {
+                table-layout: fixed;
+
+                td,
+                th {
+                    border: 1px solid #000;
+                    padding: 0px 7px;
+                    text-align: left;
+                    vertical-align: middle;
+                    line-height: 1.8;
+                    font-weight: normal;
+
+                    input,
+                    textarea {
+                        border: none;
+                        outline: none;
+                        width: 100%;
+                    }
+
+                    textarea {
+                        padding-left: 0px;
+                        padding-right: 0px;
+                    }
+
+                    .ant-form-item {
+                        margin-bottom: 0px;
+                    }
+
+                    &.required::after {
+                        display: inline-block;
+                        margin-inline-start: 4px;
+                        color: #ff4d4f;
+                        line-height: 1;
+                        content: "*";
+                    }
+
+                    .ant-input,
+                    .ant-input-affix-wrapper,
+                    .ant-input-number-affix-wrapper {
+                        padding-left: 0px;
+                    }
+
+                    .ant-input-number,
+                    .ant-input-number-affix-wrapper {
+                        width: 100%;
+                    }
+
+                    .ant-select-selector {
+                        padding-left: 0px !important;
+                    }
+
+                    .ant-picker {
+                        width: 100%;
+                        padding: 0;
+                    }
+
+                    .v-center {
+                        align-content: center;
+                    }
+
+                    .h-center {
+                        text-align: center;
+                    }
+
+                    .ant-col {
+                        vertical-align: middle;
+                    }
+
+                    input.cb {
+                        width: auto;
+                        display: inline-block;
+                        margin-right: 5px;
+                    }
+
+                    label {
+                        margin-bottom: 0px !important;
+                    }
+
+                    .need-field {
+                        display: inline-block;
+                        margin-left: 3px;
+                        color: #ff4d4f;
+                        height: 12px;
+                        vertical-align: top;
+                    }
+                } // td, th
+
+                th {
+                    padding: 7px;
+                }
+
+                .write-tip {
+                    margin-top: 8px;
+                    color: #777;
+                    word-break: break-all;
+                    line-height: 1.5;
+                }
+            }
+
+            .no-top {
+                border-top: 0px;
+                td, th {
+                    border-top: 0px;
+                }
+            }
+
+            .text-center {
+                text-align: center;
+            }
+
+            .support-amount {
+                display: flex;
+                line-height: 2.8;
+                .ant-input-number {
+                    input {
+                        width: 180px;
+                        border-radius: 0;
+                        border-bottom: 1px solid #000;
+                    }
+                }
+                .ant-form-item {
+                    align-content: center;
+                }
+            }
+
+            .fund-arrange {
+                display: flex;
+                line-height: 2.8;
+                .total {
+                    display: inline-block;
+                    width: 130px;
+                    text-align: center;
+                }
+                .ant-input-number {
+                    input {
+                        width: 130px;
+                        border-radius: 0;
+                        border-bottom: 1px solid #000;
+                    }
+                }
+                .ant-form-item {
+                    align-content: center;
+                }
+            }
+        } // table
+
+        .submit-btn-area {
+            padding-top: 32px;
+        }
+
+        input::placeholder, textarea::placeholder, .ant-select-selection-placeholder {
+            color: #999;
+        }
+
+        .justify-between {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    // .page-div
+}
