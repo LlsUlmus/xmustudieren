@@ -15,7 +15,6 @@ x86/
 [Bb]uild/
 [Ll]og/
 *.o
-*.obj
 *.exe
 *.dll
 *.pdb
