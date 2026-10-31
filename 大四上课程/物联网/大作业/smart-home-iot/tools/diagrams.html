@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>系统图</title>
+<style>
+body { margin: 0; background: #fff; font-family: "Microsoft YaHei", sans-serif; }
+.fig { width: 1200px; padding: 20px; background: #fff; }
+svg text { font-family: "Microsoft YaHei", sans-serif; }
+</style></head>
+<body>
+<!-- 图1 系统总体架构 -->
+<div class="fig" id="arch">
+<svg viewBox="0 0 1200 660" width="1200" height="660">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker>
+  </defs>
+  <style>
+    .layer { fill: #f8fafc; stroke: #cbd5e1; stroke-width: 1.5; }
+    .lt { font-size: 18px; font-weight: 700; fill: #334155; }
+    .box { stroke-width: 1.5; rx: 10; }
+    .b1 { fill: #e0f2fe; stroke: #0284c7; } .b2 { fill: #fef3c7; stroke: #d97706; } .b3 { fill: #dcfce7; stroke: #16a34a; } .b4 { fill: #ede9fe; stroke: #7c3aed; }
+    .t { font-size: 15px; fill: #0f172a; text-anchor: middle; }
+    .s { font-size: 12.5px; fill: #475569; text-anchor: middle; }
+    .ln { stroke: #475569; stroke-width: 2; fill: none; marker-end: url(#a); }
+    .lb { font-size: 13px; fill: #b45309; font-weight: 600; text-anchor: middle; }
+  </style>
+  <!-- 感知层 -->
+  <rect class="layer" x="20" y="20" width="1160" height="150" rx="14"/>
+  <text class="lt" x="40" y="50">感知 / 设备层（devices/simulator.py · 客厅网关 livingroom-gateway-01）</text>
+  <rect class="box b1" x="50" y="68" width="250" height="84"/>
+  <text class="t" x="175" y="98">传感器（模拟）</text><text class="s" x="175" y="120">温度 · 湿度 · 光照 · 人体存在(PIR)</text><text class="s" x="175" y="140">室外温度 · 模拟时钟</text>
+  <rect class="box b1" x="330" y="68" width="300" height="84"/>
+  <text class="t" x="480" y="98">执行器（模拟）</text><text class="s" x="480" y="120">灯(亮度/色温) · 空调(模式/温度) · 风扇(档位)</text><text class="s" x="480" y="140">窗帘(开合度) · 音箱(曲目/音量)</text>
+  <rect class="box b1" x="660" y="68" width="250" height="84"/>
+  <text class="t" x="785" y="98">环境物理模型</text><text class="s" x="785" y="120">室内外热交换 · 空调制冷/制热</text><text class="s" x="785" y="140">日照曲线 × 窗帘 + 灯光 → 照度</text>
+  <rect class="box b1" x="940" y="68" width="220" height="84"/>
+  <text class="t" x="1050" y="98">仿真事件</text><text class="s" x="1050" y="120">人员进入/离开(含身份)</text><text class="s" x="1050" y="140">时间跳转 · 热浪/降温</text>
+
+  <!-- 通信 -->
+  <path class="ln" d="M420 172 L420 248"/><path class="ln" d="M520 248 L520 172"/>
+  <text class="lb" x="400" y="200" style="text-anchor:end">遥测 home/livingroom/telemetry（1 次/秒）</text>
+  <text class="lb" x="540" y="200" style="text-anchor:start">命令 home/livingroom/&lt;设备&gt;/set → ack 回执</text>
+  <text class="s" x="400" y="225" style="font-weight:700;fill:#0369a1;text-anchor:end">WebSocket /ws/device</text>
+
+  <!-- 中枢 -->
+  <rect class="layer" x="20" y="250" width="1160" height="190" rx="14"/>
+  <text class="lt" x="40" y="280">判断 / 中枢层（hub/server.py · aiohttp）</text>
+  <rect class="box b2" x="50" y="298" width="230" height="122"/>
+  <text class="t" x="165" y="328">设备接入与状态管理</text><text class="s" x="165" y="352">维护设备影子(最新状态)</text><text class="s" x="165" y="372">历史曲线缓存 · 命令编号</text><text class="s" x="165" y="392">回执匹配 · 离线检测</text>
+  <rect class="box b2" x="305" y="298" width="270" height="122"/>
+  <text class="t" x="440" y="328">自然语言理解 NLU（nlu.py）</text><text class="s" x="440" y="352">中文数字归一 · 子句切分</text><text class="s" x="440" y="372">设备/动作/参数关键词匹配</text><text class="s" x="440" y="392">场景识别 · 模糊表达结合环境推理</text>
+  <rect class="box b2" x="600" y="298" width="270" height="122"/>
+  <text class="t" x="735" y="328">规则引擎（rules.py）</text><text class="s" x="735" y="352">R1 人来灯亮 · R2 人走设备关</text><text class="s" x="735" y="372">R3 高温制冷 · R4 日落关窗帘 · R5 除湿</text><text class="s" x="735" y="392">上升沿触发 · 手动优先 60s</text>
+  <rect class="box b2" x="895" y="298" width="265" height="122"/>
+  <text class="t" x="1027" y="328">个性化 &amp; 事件流</text><text class="s" x="1027" y="352">用户画像：色温/亮度/空调/音乐</text><text class="s" x="1027" y="372">感知/判断/响应 事件日志</text><text class="s" x="1027" y="392">REST：/api/state /api/command</text>
+
+  <path class="ln" d="M420 442 L420 518"/><path class="ln" d="M520 518 L520 442"/>
+  <text class="lb" x="400" y="470" style="text-anchor:end">状态推送 state / event / dialog / ack</text>
+  <text class="lb" x="540" y="470" style="text-anchor:start">用户输入 text / control / sim / auto</text>
+  <text class="s" x="400" y="495" style="font-weight:700;fill:#0369a1;text-anchor:end">WebSocket /ws/ui ＋ HTTP</text>
+  <path class="ln" d="M1060 600 L1120 600 L1120 445" stroke-dasharray="6 5"/>
+  <text class="s" x="1175" y="648" style="text-anchor:end">curl / 测试脚本 → HTTP REST</text>
+
+  <!-- 应用层 -->
+  <rect class="layer" x="20" y="520" width="1000" height="110" rx="14"/>
+  <text class="lt" x="40" y="550">响应 / 交互层（web/ 浏览器界面）</text>
+  <rect class="box b3" x="50" y="562" width="220" height="56"/><text class="t" x="160" y="595">SVG 客厅动画场景</text>
+  <rect class="box b3" x="290" y="562" width="220" height="56"/><text class="t" x="400" y="595">设备卡片 · 按钮/滑块</text>
+  <rect class="box b4" x="530" y="562" width="220" height="56"/><text class="t" x="640" y="586">文字 + 🎤语音输入</text><text class="s" x="640" y="606">Web Speech API · 语音播报</text>
+  <rect class="box b3" x="770" y="562" width="230" height="56"/><text class="t" x="885" y="586">传感器曲线 · 规则 · 事件流</text><text class="s" x="885" y="606">感知→判断→响应 指示灯</text>
+</svg>
+</div>
+
+<!-- 图2 交互流程 -->
+<div class="fig" id="flow">
+<svg viewBox="0 0 1200 600" width="1200" height="600">
+  <defs><marker id="b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#475569"/></marker></defs>
+  <style>
+    .n { stroke-width: 1.6; }
+    .p { fill: #e0f2fe; stroke: #0284c7; } .j { fill: #fef3c7; stroke: #d97706; } .r { fill: #dcfce7; stroke: #16a34a; } .g { fill: #f1f5f9; stroke: #64748b; }
+    .t { font-size: 15px; fill: #0f172a; text-anchor: middle; }
+    .s { font-size: 12.5px; fill: #475569; text-anchor: middle; }
+    .ln { stroke: #475569; stroke-width: 2; fill: none; marker-end: url(#b); }
+    .yl { font-size: 13px; fill: #15803d; font-weight: 700; } .nl { font-size: 13px; fill: #b91c1c; font-weight: 700; }
+    .col { font-size: 20px; font-weight: 800; text-anchor: middle; }
+  </style>
+  <text class="col" x="190" y="34" fill="#0284c7">感 知</text>
+  <text class="col" x="600" y="34" fill="#d97706">判 断</text>
+  <text class="col" x="1010" y="34" fill="#16a34a">响 应</text>
+  <line x1="395" y1="15" x2="395" y2="590" stroke="#e2e8f0" stroke-width="2"/><line x1="805" y1="15" x2="805" y2="590" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- 路径 A：环境 -->
+  <rect class="n p" x="60" y="60" width="260" height="62" rx="10"/><text class="t" x="190" y="87">设备模拟器每秒采样</text><text class="s" x="190" y="108">温湿度 / 照度 / 人体存在 / 时间</text>
+  <path class="ln" d="M190 122 L190 160"/>
+  <rect class="n p" x="60" y="160" width="260" height="56" rx="10"/><text class="t" x="190" y="185">WebSocket 上报遥测</text><text class="s" x="190" y="204">中枢更新设备影子 + 曲线</text>
+  <path class="ln" d="M320 188 L470 188"/>
+  <polygon class="n j" points="600,140 730,188 600,236 470,188"/><text class="t" x="600" y="185">规则条件</text><text class="s" x="600" y="204">由假变真？</text>
+  <text class="nl" x="740" y="193">否 → 等待下一帧</text>
+  <path class="ln" d="M730 188 L760 188 L760 120 L470 120 L470 90" stroke-dasharray="0" style="display:none"/>
+  <path class="ln" d="M600 236 L600 290"/><text class="yl" x="612" y="275">是</text>
+  <polygon class="n j" points="600,290 730,335 600,380 470,335"/><text class="t" x="600" y="332">用户近 60s</text><text class="s" x="600" y="350">手动操作过该设备？</text>
+  <text class="nl" x="480" y="400">是 → 用户优先，跳过</text>
+  <path class="ln" d="M730 335 L900 335"/><text class="yl" x="760" y="325">否</text>
+
+  <!-- 路径 B：用户 -->
+  <rect class="n p" x="60" y="300" width="260" height="62" rx="10"/><text class="t" x="190" y="327">用户输入</text><text class="s" x="190" y="348">文字 / 🎤语音 / 按钮 / 快捷指令</text>
+  <path class="ln" d="M190 362 L190 450 L470 450"/>
+  <rect class="n j" x="470" y="420" width="260" height="150" rx="10"/>
+  <text class="t" x="600" y="446">NLU 意图识别</text>
+  <text class="s" x="600" y="470">① 问候/帮助　② 状态查询</text>
+  <text class="s" x="600" y="492">③ 场景(回家/观影/晚安…)＋用户偏好</text>
+  <text class="s" x="600" y="514">④ 设备控制：子句→设备→动作→参数</text>
+  <text class="s" x="600" y="536">⑤ 模糊表达(热/冷/暗)＋读取环境推理</text>
+  <text class="s" x="600" y="558">按钮操作直接生成命令</text>
+  <path class="ln" d="M730 495 L860 495 L860 375 L900 375"/>
+  <path class="ln" d="M730 470 L780 470 L780 560 L900 560"/>
+
+  <!-- 响应 -->
+  <rect class="n r" x="900" y="300" width="250" height="100" rx="10"/><text class="t" x="1025" y="328">下发设备命令</text><text class="s" x="1025" y="350">home/livingroom/&lt;dev&gt;/set</text><text class="s" x="1025" y="372">执行器动作 → ack 回执</text><text class="s" x="1025" y="390">→ 立即上报新状态</text>
+  <rect class="n r" x="900" y="520" width="250" height="62" rx="10"/><text class="t" x="1025" y="547">对话回复 + 判断过程</text><text class="s" x="1025" y="567">可选语音播报</text>
+  <path class="ln" d="M1025 300 L1025 236"/>
+  <rect class="n r" x="900" y="140" width="250" height="96" rx="10"/><text class="t" x="1025" y="168">界面动态更新</text><text class="s" x="1025" y="190">灯光/窗帘/风扇/空调动画</text><text class="s" x="1025" y="210">传感器曲线 · 事件流 · 卡片闪烁</text>
+  <path class="ln" d="M1025 140 L1025 70 L320 70" stroke-dasharray="6 5"/>
+  <text class="s" x="680" y="62">环境变化被再次感知（闭环）</text>
+</svg>
+</div>
+</body></html>

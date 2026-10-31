@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>绿源零碳产业园 · 能源互联网监测平台</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<link rel="stylesheet" href="/static/style.css">
+<script src="/static/echarts.min.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="logo">⚡</span>
+    <div>
+      <h1>绿源零碳产业园 · 能源互联网监测平台</h1>
+      <p>Zero-Carbon Park Energy Internet Monitoring Platform</p>
+    </div>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" data-view="board">实时看板</button>
+    <button class="tab" data-view="analysis">统计分析</button>
+    <button class="tab" data-view="alarm">告警中心 <span id="alarmBadge" class="badge hide">0</span></button>
+  </nav>
+  <div class="status">
+    <div class="clock"><small>仿真时钟</small><b id="simTime">--</b></div>
+    <div id="periodTag" class="period">--</div>
+    <div id="conn" class="conn off">● 未连接</div>
+    <button id="btnConsole" class="btn ghost">🛠 模拟控制台</button>
+  </div>
+</header>
+
+<div id="alarmBanner" class="banner hide"></div>
+
+<!-- ====================== 实时看板 ====================== -->
+<main id="view-board" class="view board">
+  <section class="col">
+    <div class="panel">
+      <h3>整体能耗概览</h3>
+      <div class="kpis" id="kpis"></div>
+    </div>
+    <div class="panel">
+      <h3>关键指标仪表盘</h3>
+      <div class="gauges">
+        <div id="gLoad" class="chart g"></div>
+        <div id="gPue" class="chart g"></div>
+        <div id="gSoc" class="chart g"></div>
+      </div>
+    </div>
+    <div class="panel grow">
+      <h3>今日电价时段 · 用电与电费</h3>
+      <div id="cPeriodMini" class="chart"></div>
+    </div>
+  </section>
+
+  <section class="col wide">
+    <div class="panel">
+      <h3>园区实时功率曲线 <small>负荷 / 光伏 / 储能 / 电网（近 12 小时）</small>
+        <span class="seg" id="rtSeg">
+          <button class="on" data-k="park">园区平衡</button><button data-k="dev">分对象功率</button>
+        </span>
+      </h3>
+      <div id="cRealtime" class="chart tall"></div>
+    </div>
+    <div class="panel">
+      <h3>监测对象 <small>点击卡片查看详情</small>
+        <span class="legend-s"><i class="s normal"></i>正常 <i class="s standby"></i>待机 <i class="s alarm"></i>告警 <i class="s offline"></i>中断</span>
+      </h3>
+      <div class="devices" id="devices"></div>
+    </div>
+    <div class="panel grow">
+      <h3>园区实时能流 <small>电源 → 10kV 母线 → 区域 → 监测对象（kW）</small></h3>
+      <div id="cFlow" class="chart flow"></div>
+    </div>
+  </section>
+
+  <section class="col">
+    <div class="panel">
+      <h3>今日能耗占比 <span class="seg" id="pieSeg"><button class="on" data-k="dev">按对象</button><button data-k="group">按区域</button></span></h3>
+      <div id="cPie" class="chart"></div>
+    </div>
+    <div class="panel">
+      <h3>能耗排名 <small>今日累计 kWh / 较昨日同期</small></h3>
+      <div id="cRank" class="chart"></div>
+    </div>
+    <div class="panel grow">
+      <h3>实时告警 <small id="alarmCount"></small><button class="btn mini" id="ackAll">全部确认</button></h3>
+      <ul class="alarms" id="alarmList"></ul>
+    </div>
+  </section>
+</main>
+
+<!-- ====================== 统计分析 ====================== -->
+<main id="view-analysis" class="view analysis hide">
+  <div class="panel span2">
+    <h3>① 分时段能耗统计与趋势 <small>今日 vs 昨日（逐小时，kWh）</small>
+      <a class="btn mini" href="/api/export.csv">导出 CSV</a></h3>
+    <div id="aHourly" class="chart tall"></div>
+  </div>
+  <div class="panel">
+    <h3>今日 vs 昨日同期</h3>
+    <div class="cmp" id="cmpBox"></div>
+  </div>
+  <div class="panel">
+    <h3>② 区域分组逐时能耗（堆叠）</h3>
+    <div id="aGroup" class="chart"></div>
+  </div>
+  <div class="panel">
+    <h3>③ 峰谷平时段用电与电费</h3>
+    <div id="aPeriod" class="chart"></div>
+  </div>
+  <div class="panel">
+    <h3>负荷特性分析 <small>峰谷差 / 负荷率</small></h3>
+    <table class="tbl" id="peakTbl"></table>
+  </div>
+  <div class="panel">
+    <h3>④ 各对象电费估算与排名 <small>按分时电价</small></h3>
+    <div id="aCost" class="chart"></div>
+  </div>
+  <div class="panel">
+    <h3>⑤ 光伏发电与用电对比 <small>自发自用</small></h3>
+    <div id="aPv" class="chart"></div>
+  </div>
+  <div class="panel">
+    <h3>⑥ 碳排放追踪 <small>kgCO₂，因子 0.5703</small></h3>
+    <div id="aCarbon" class="chart"></div>
+  </div>
+  <div class="panel">
+    <h3>⑦ 数据中心能效（PUE）</h3>
+    <div id="aPue" class="chart"></div>
+  </div>
+</main>
+
+<!-- ====================== 告警中心 ====================== -->
+<main id="view-alarm" class="view alarmview hide">
+  <div class="panel">
+    <h3>告警统计</h3>
+    <div class="kpis small" id="alarmKpi"></div>
+    <div id="aAlarmPie" class="chart"></div>
+    <h3 style="margin-top:8px">告警规则</h3>
+    <table class="tbl" id="ruleTbl"></table>
+  </div>
+  <div class="panel span2">
+    <h3>告警记录 <small>按时间倒序</small>
+      <span class="seg" id="alarmFilter"><button class="on" data-k="all">全部</button><button data-k="active">未恢复</button><button data-k="unacked">未确认</button></span>
+    </h3>
+    <table class="tbl alarm-tbl" id="alarmTbl"></table>
+  </div>
+</main>
+
+<!-- 设备详情 -->
+<div class="mask hide" id="detailMask">
+  <div class="dialog">
+    <div class="dlg-head"><h2 id="dTitle">--</h2><button class="x" data-close>✕</button></div>
+    <div class="dlg-body">
+      <div class="dinfo" id="dInfo"></div>
+      <div class="drow">
+        <div id="dChart" class="chart"></div>
+        <div id="dHour" class="chart"></div>
+      </div>
+      <div class="dctl" id="dCtl"></div>
+      <h4>该对象告警记录</h4>
+      <ul class="alarms" id="dAlarms"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- 模拟控制台 -->
+<aside class="drawer hide" id="console">
+  <div class="dlg-head"><h2>🛠 模拟控制台</h2><button class="x" data-close-console>✕</button></div>
+  <p class="tip">向模拟数据端下发异常注入指令，用于验证异常监测与告警功能。</p>
+  <label>监测对象<select id="fDev"></select></label>
+  <label>异常类型<select id="fType">
+    <option value="overload">功率超限</option>
+    <option value="surge">功率突变</option>
+    <option value="offline">监测数据中断</option>
+    <option value="cooling">制冷系统故障（PUE 升高）</option>
+    <option value="pv_fault">光伏逆变器故障</option>
+  </select></label>
+  <label>持续周期<input id="fTicks" type="number" value="8" min="1" max="60"></label>
+  <button class="btn" id="fGo">注入异常</button>
+  <h4>一键场景</h4>
+  <div class="quick">
+    <button class="btn ghost" data-q="ws_a,overload,10">注塑车间A 超限</button>
+    <button class="btn ghost" data-q="ev,offline,10">充电桩 数据中断</button>
+    <button class="btn ghost" data-q="dc_cool,cooling,10">制冷故障</button>
+    <button class="btn ghost" data-q="pv,pv_fault,10">光伏故障</button>
+    <button class="btn ghost" data-q="office,surge,2">办公楼 功率突变</button>
+    <button class="btn danger" data-q=",clear,0">清除全部异常</button>
+  </div>
+  <div id="toast" class="toast hide"></div>
+</aside>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

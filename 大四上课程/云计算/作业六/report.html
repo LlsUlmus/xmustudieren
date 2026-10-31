@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<title>作业六 云服务对比</title>
+<style>
+@page { size: A4; margin: 18mm 16mm 18mm 16mm; }
+:root { --ink:#1f2328; --muted:#57606a; --line:#c9d1d9; --head:#eef3f8; --accent:#1f4e79; --aws:#c26a00; --gcp:#1a73e8; --az:#0b6aa2; --orc:#b42318; --nv:#4d8a00; }
+* { box-sizing:border-box; }
+body { font-family:"Microsoft YaHei","PingFang SC","SimSun",sans-serif; color:var(--ink); background:#fff; font-size:10.5pt; line-height:1.65; margin:0; }
+h1 { font-size:20pt; text-align:center; margin:0 0 4mm; color:var(--accent); }
+h2 { font-size:14pt; color:var(--accent); border-bottom:2px solid var(--accent); padding-bottom:1mm; margin:7mm 0 3mm; break-after:avoid; }
+h3 { font-size:12pt; margin:5mm 0 2mm; break-after:avoid; }
+h4 { font-size:10.5pt; margin:3mm 0 1mm; break-after:avoid; color:var(--accent); }
+p { margin:1.5mm 0; text-align:justify; }
+table { width:100%; border-collapse:collapse; margin:2mm 0 3mm; font-size:9pt; line-height:1.5; }
+th, td { border:1px solid var(--line); padding:1.4mm 1.8mm; vertical-align:top; text-align:left; }
+th { background:var(--head); font-weight:bold; }
+td:first-child { font-weight:bold; background:#f8fafc; width:13%; white-space:nowrap; }
+tr { break-inside:avoid; }
+.cover { text-align:center; padding-top:30mm; page-break-after:always; }
+.cover .sub { font-size:15pt; margin:6mm 0 18mm; }
+.cover table { width:62%; margin:0 auto; font-size:11.5pt; }
+.cover td:first-child { width:30%; }
+.note { font-size:9pt; color:var(--muted); background:#f6f8fa; border-left:3px solid var(--line); padding:2mm 3mm; margin:2mm 0; }
+.scene { background:#f3f8f2; border-left:3px solid #2e7d32; padding:2mm 3mm; margin:2mm 0 4mm; break-inside:avoid; }
+.scene b { color:#2e7d32; }
+ul { margin:1mm 0 2mm; padding-left:6mm; } li { margin:0.6mm 0; }
+.aws{color:var(--aws);font-weight:bold}.gcp{color:var(--gcp);font-weight:bold}.az{color:var(--az);font-weight:bold}.orc{color:var(--orc);font-weight:bold}.nv{color:var(--nv);font-weight:bold}
+.toc li { list-style:none; }
+figure { margin:2mm 0 4mm; text-align:center; break-inside:avoid; }
+figcaption { font-size:9pt; color:var(--muted); }
+.pb { page-break-before:always; }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <h1 style="font-size:24pt">《云计算技术》课程作业六</h1>
+  <div class="sub">主流云服务商计算、存储与数据库服务对比<br><span style="font-size:12pt;color:#57606a">AWS · Google Cloud · Microsoft Azure · Oracle Cloud · NVIDIA</span></div>
+  <table>
+    <tr><td>课程名称</td><td>云计算技术</td></tr>
+    <tr><td>作业性质</td><td>个人独立完成</td></tr>
+    <tr><td>学　　号</td><td>__________________</td></tr>
+    <tr><td>姓　　名</td><td>__________________</td></tr>
+    <tr><td>专业班级</td><td>__________________</td></tr>
+    <tr><td>提交日期</td><td>2026 年 10 月</td></tr>
+  </table>
+</div>
+
+<h2>目录</h2>
+<ul class="toc">
+  <li>一、概述与对比方法</li>
+  <li>二、任务一：AWS / Google Cloud / Microsoft Azure 五组服务对比
+    <ul class="toc">
+      <li>2.1 计算服务：EC2 vs Compute Engine vs Azure VM（含托管 Kubernetes：EKS / GKE / AKS）</li>
+      <li>2.2 对象存储：S3 vs Cloud Storage vs Azure Blob Storage</li>
+      <li>2.3 无服务器计算：Lambda vs Cloud Run functions vs Azure Functions</li>
+      <li>2.4 关系型数据库：RDS/Aurora vs Cloud SQL/AlloyDB vs Azure SQL Database</li>
+      <li>2.5 NoSQL 数据库：DynamoDB(SimpleDB) vs Bigtable vs Cosmos DB</li>
+      <li>2.6 任务一汇总表</li>
+    </ul></li>
+  <li>三、任务二：AWS / Google Cloud / Microsoft / Oracle / NVIDIA 五家 AI 服务对比</li>
+  <li>四、综合场景方案与选型建议</li>
+  <li>五、总结</li>
+  <li>参考资料</li>
+</ul>
+
+<h2>一、概述与对比方法</h2>
+<p>云计算市场目前由 AWS、Microsoft Azure、Google Cloud 三家超大规模云厂商（Hyperscaler）主导，Oracle Cloud Infrastructure（OCI）凭借数据库与高性能 GPU 集群在 AI 时代快速增长，NVIDIA 则以 GPU 硬件、CUDA 软件栈和 DGX Cloud / NIM 等服务成为几乎所有 AI 云服务的底层供应者。本报告分两部分：</p>
+<ul>
+  <li><b>任务一</b>：选取计算、对象存储、无服务器、关系型数据库、NoSQL 五组功能相近的服务，从<b>技术架构、性能、规模、收费、目标用户</b>五个维度对 AWS、Google Cloud、Azure 进行横向对比，并为每组给出适合的实际应用场景。</li>
+  <li><b>任务二</b>：从<b>AI 算力（芯片/实例）、机器学习平台、大模型服务、预置 AI API、智能体与开发工具、收费模式、目标用户</b>等维度，对 AWS、Google Cloud、Microsoft、Oracle、NVIDIA 五家的 AI 服务进行对比。</li>
+</ul>
+<div class="note">说明：① 文中价格为各厂商官网公开目录价（美国东部 / us-central1 等基准区域、按需、美元）的参考量级，云厂商会频繁调价并存在区域差异，实际以官方价格计算器为准；② 部分产品近年更名（如 Cloud Functions → Cloud Run functions、SageMaker → SageMaker AI、Azure AI Foundry → Microsoft Foundry），文中以新名称为主并注明旧称；③ 题目示例中的 SimpleDB 已是 AWS 的遗留服务，新项目官方推荐 DynamoDB，故 NoSQL 组以 DynamoDB 为主、SimpleDB 作补充说明。</div>
+
+<h2>二、任务一：三大云服务组件对比</h2>
+
+<h3>2.1 计算服务：Amazon EC2 vs Google Compute Engine vs Azure Virtual Machines</h3>
+<p>IaaS 虚拟机是云计算最基础的服务。三家都提供按需、预留/承诺、抢占式（Spot）三类计费，差异主要在虚拟化底座、实例灵活度与折扣机制。题目示例中的 GKE 属于容器编排层，因此在本组末尾补充托管 Kubernetes（EKS / GKE / AKS）的对比。</p>
+<table>
+<tr><th>维度</th><th><span class="aws">AWS EC2</span></th><th><span class="gcp">Google Compute Engine</span></th><th><span class="az">Azure Virtual Machines</span></th></tr>
+<tr><td>技术架构</td><td>基于 <b>Nitro System</b>：将网络、存储、管理功能卸载到专用 Nitro 卡，轻量 Nitro Hypervisor，接近裸金属性能；自研 ARM 处理器 <b>Graviton</b>（Graviton4）；存储挂载 EBS 块存储；VPC 网络 + 安全组。</td><td>基于 KVM 加固的虚拟化和 <b>Titanium</b> 卸载架构；支持<b>实时迁移（Live Migration）</b>，宿主机维护时虚拟机不中断；自研 ARM 处理器 <b>Axion</b>；全球 VPC（单个 VPC 可跨区域）；Persistent Disk / Hyperdisk。</td><td>基于 <b>Hyper-V</b> 定制虚拟化，<b>Azure Boost</b> 将网络/存储卸载到专用硬件；自研 ARM 处理器 <b>Cobalt 100</b>；Managed Disks；VNet；与 Active Directory / Entra ID 深度集成。</td></tr>
+<tr><td>性能</td><td>实例族最丰富：通用 M/T、计算优化 C、内存优化 R/X/U、存储优化 I/D、加速 P/G/Inf/Trn；网络带宽最高可达数百 Gbps（EFA 支持 HPC/AI 集群）；Graviton 实例性价比通常比同代 x86 高约 20%–40%。</td><td>E2/N2/N4（通用）、C3/C4（计算）、M3/M4（内存）、A3/A4（GPU）、H3（HPC）；独有<b>自定义机器类型</b>，可按需指定 vCPU 与内存比例，避免资源浪费；网络单 VM 最高 200 Gbps 级。</td><td>B（突发）、D（通用）、E（内存）、F（计算）、M（超大内存，SAP HANA）、N（GPU）、H（HPC，InfiniBand）系列；Windows Server / SQL Server 工作负载优化突出。</td></tr>
+<tr><td>规模</td><td>全球区域与可用区数量最多（30+ 区域、100+ 可用区）；单实例最大可达数百 vCPU、数十 TB 内存（如 U7i 高内存实例）。</td><td>40+ 区域、120+ 可用区；单 VM 最高数百 vCPU、数十 TB 内存（M 系列）；全球骨干网络是一大优势。</td><td>60+ 区域（区域数最多），并有 Azure 中国（世纪互联运营）、政府云；单 VM 最大内存可达数十 TB（M 系列）。</td></tr>
+<tr><td>收费</td><td>按秒计费（Linux，最低 60 秒）；On-Demand、Savings Plans / Reserved Instances（1/3 年，最高约 72% 折扣）、Spot（最高约 90% 折扣，可能被回收）。参考：m7i.large（2 vCPU / 8 GiB）约 $0.10/小时。</td><td>按秒计费（最低 1 分钟）；<b>持续使用折扣（SUD）自动生效</b>，无需预付；承诺使用折扣（CUD）最高约 55%–70%；Spot VM 约 60%–91% 折扣。参考：e2-standard-2（2 vCPU / 8 GB）约 $0.067/小时。</td><td>按需计费；Reserved VM Instances（1/3 年，最高约 72%）、Savings Plan for Compute、Spot VM（最高约 90%）；<b>Azure Hybrid Benefit</b> 可复用本地 Windows/SQL Server 许可证，再省可观费用。参考：D2s v5（2 vCPU / 8 GiB）约 $0.096/小时。</td></tr>
+<tr><td>目标用户</td><td>各类规模企业与初创公司；需要最丰富实例选型、最成熟生态（Marketplace、第三方工具）的用户。</td><td>数据密集型、容器化、云原生团队；希望“少运维、自动折扣”、对网络性能敏感的用户。</td><td>以微软技术栈为主的传统企业（Windows、.NET、AD、SQL Server）；混合云（Azure Arc / Azure Stack）需求的政企客户。</td></tr>
+</table>
+
+<h4>补充：托管 Kubernetes（EKS vs GKE vs AKS）</h4>
+<table>
+<tr><th>维度</th><th><span class="aws">Amazon EKS</span></th><th><span class="gcp">Google GKE</span></th><th><span class="az">Azure AKS</span></th></tr>
+<tr><td>架构特点</td><td>托管控制平面跨 3 个可用区；数据面可选 EC2 节点组、Fargate（无服务器 Pod）、EKS Auto Mode；节点扩缩可用 Karpenter。</td><td>Kubernetes 源自 Google（Borg 经验）；<b>Autopilot</b> 模式下节点完全托管、按 Pod 资源计费；版本升级与集成最成熟。</td><td>控制平面免费层可用；与 Entra ID、Azure Monitor、Azure DevOps / GitHub Actions 集成；支持 Windows 节点池。</td></tr>
+<tr><td>规模</td><td>单集群支持数千节点（AWS 已演示 10 万节点级超大集群用于 AI 训练）。</td><td>Standard 集群最多 15,000 节点，Google 已演示 65,000 节点级集群。</td><td>单集群最多约 5,000 节点。</td></tr>
+<tr><td>收费</td><td>控制平面 $0.10/小时/集群 + 节点费用。</td><td>集群管理费 $0.10/小时（每个账单账号有一个免费额度）；Autopilot 按 Pod 申请的 vCPU/内存计费。</td><td>Free 层控制平面免费；Standard 层（带 SLA）$0.10/小时/集群。</td></tr>
+</table>
+<div class="scene"><b>适用场景：</b>① <b>电商“双11”/大促</b>：日常用 Savings Plans/预留实例承载基线流量，大促时用 Auto Scaling + Spot 实例弹性扩容 Web 层（EC2 + ALB）；② <b>微服务 SaaS 平台</b>：选择 GKE Autopilot，按 Pod 计费、免运维节点；③ <b>企业 ERP / .NET 应用上云</b>：Azure VM + Azure Hybrid Benefit 复用原有 Windows 与 SQL Server 许可，迁移成本最低；④ <b>科学计算 / 渲染</b>：GCE 自定义机型 + Spot VM 批量跑任务。</div>
+
+<h3>2.2 对象存储：Amazon S3 vs Google Cloud Storage vs Azure Blob Storage</h3>
+<table>
+<tr><th>维度</th><th><span class="aws">Amazon S3</span></th><th><span class="gcp">Google Cloud Storage</span></th><th><span class="az">Azure Blob Storage</span></th></tr>
+<tr><td>技术架构</td><td>Bucket + Object 扁平命名空间，REST API（S3 API 已成为业界事实标准，MinIO、Ceph、各国内云均兼容）；数据默认跨 ≥3 个可用区冗余；2020 年起提供<b>强读写一致性</b>；S3 Express One Zone 提供单可用区高性能目录桶；新增 S3 Tables（Iceberg）、S3 Vectors。</td><td>底层基于 Google 分布式文件系统 <b>Colossus</b>；位置类型分 region / dual-region / multi-region，dual-region 可选 Turbo Replication（15 分钟 RPO）；<b>全局强一致性</b>；同一套 API 访问所有存储类别，冷数据也毫秒级首字节。</td><td>Storage Account → Container → Blob 三级结构；Blob 分 Block / Append / Page 三类（Page Blob 支撑虚拟机磁盘）；开启<b>分层命名空间</b>即为 ADLS Gen2，可当 HDFS 兼容数据湖使用；冗余选项 LRS / ZRS / GRS / RA-GRS / GZRS 可自由选择。</td></tr>
+<tr><td>性能</td><td>每个前缀可支撑 ≥3,500 次写 / 5,500 次读每秒，前缀数量不限，可线性扩展；Express One Zone 延迟个位数毫秒、比标准 S3 快约 10 倍；Transfer Acceleration 利用 CloudFront 边缘加速上传。</td><td>自动按负载拆分键空间扩展吞吐；与 Google 全球网络、Cloud CDN 结合，跨洲访问性能好；支持 Anywhere Cache 等就近缓存。</td><td>单个存储账户默认支持每秒约 2 万次请求级别、出口带宽数十至上百 Gbps；Premium Block Blob（SSD）提供低延迟；与 Azure Synapse / Fabric / Databricks 配合进行分析。</td></tr>
+<tr><td>规模 / 可靠性</td><td>设计持久性 <b>99.999999999%（11 个 9）</b>；存储数百万亿（数百 trillion）个对象；单对象传统上限 5 TB（2025 年底 AWS 宣布提升至 50 TB）。</td><td>持久性 11 个 9；单对象上限 5 TiB；multi-region 可用性 SLA 99.95%。</td><td>LRS 11 个 9、ZRS 12 个 9、GRS/GZRS 16 个 9；单个 Block Blob 最大约 190 TiB。</td></tr>
+<tr><td>存储类别</td><td>Standard、Intelligent-Tiering（自动分层）、Standard-IA、One Zone-IA、Glacier Instant / Flexible Retrieval、Glacier Deep Archive、Express One Zone。</td><td>Standard、Nearline（≥30 天）、Coldline（≥90 天）、Archive（≥365 天）；<b>Autoclass</b> 自动分层。</td><td>Hot、Cool（≥30 天）、Cold（≥90 天）、Archive（≥180 天，离线，需“解冻”数小时）；生命周期管理策略。</td></tr>
+<tr><td>收费（参考）</td><td>Standard 约 $0.023/GB·月；Deep Archive 约 $0.00099/GB·月；PUT $0.005/千次、GET $0.0004/千次；公网流出约 $0.09/GB（每月前 100 GB 免费）。</td><td>Standard（单区域）约 $0.020/GB·月；Nearline $0.010、Coldline $0.004、Archive $0.0012；A 类操作约 $0.005/千次；流出约 $0.08–0.12/GB。</td><td>Hot（LRS）约 $0.018/GB·月；Cool $0.010、Cold $0.0036、Archive 约 $0.00099；写操作约 $0.0055/万次级；流出约 $0.087/GB。</td></tr>
+<tr><td>目标用户</td><td>几乎所有云上用户：静态网站、数据湖、备份归档、AI 训练数据集；生态与第三方工具支持最广。</td><td>大数据与 AI 用户（与 BigQuery、Vertex AI、Dataproc 无缝衔接）；需要多区域全局访问的内容分发场景。</td><td>微软生态企业、需要 HDFS 兼容数据湖（ADLS Gen2）与 Microsoft Fabric、Power BI 分析的用户。</td></tr>
+</table>
+
+<figure>
+<svg viewBox="0 0 640 230" width="92%" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft YaHei" font-size="11">
+  <text x="320" y="16" text-anchor="middle" font-size="12" font-weight="bold" fill="#1f2328">三家对象存储各类别目录价（美元 / GB·月，参考值）</text>
+  <line x1="60" y1="190" x2="620" y2="190" stroke="#8c959f"/>
+  <!-- y scale: 0.025 -> 150px; 1 unit = 6000 px -->
+  <g fill="#57606a" text-anchor="end"><text x="54" y="194">0</text><text x="54" y="134">0.010</text><text x="54" y="74">0.020</text></g>
+  <g stroke="#e1e4e8"><line x1="60" y1="130" x2="620" y2="130"/><line x1="60" y1="70" x2="620" y2="70"/></g>
+  <!-- groups: 热/标准, 低频, 冷, 归档 -->
+  <g>
+    <rect x="80" y="52" width="30" height="138" fill="#c26a00"/><rect x="112" y="70" width="30" height="120" fill="#1a73e8"/><rect x="144" y="82" width="30" height="108" fill="#0b6aa2"/>
+    <rect x="220" y="115" width="30" height="75" fill="#c26a00"/><rect x="252" y="130" width="30" height="60" fill="#1a73e8"/><rect x="284" y="130" width="30" height="60" fill="#0b6aa2"/>
+    <rect x="360" y="166" width="30" height="24" fill="#c26a00"/><rect x="392" y="166" width="30" height="24" fill="#1a73e8"/><rect x="424" y="168" width="30" height="22" fill="#0b6aa2"/>
+    <rect x="500" y="184" width="30" height="6" fill="#c26a00"/><rect x="532" y="183" width="30" height="7" fill="#1a73e8"/><rect x="564" y="184" width="30" height="6" fill="#0b6aa2"/>
+  </g>
+  <g fill="#1f2328" text-anchor="middle" font-size="9">
+    <text x="95" y="48">.023</text><text x="127" y="66">.020</text><text x="159" y="78">.018</text>
+    <text x="235" y="111">.0125</text><text x="267" y="126">.010</text><text x="299" y="126">.010</text>
+    <text x="375" y="162">.004</text><text x="407" y="162">.004</text><text x="439" y="164">.0036</text>
+    <text x="515" y="180">.00099</text><text x="547" y="179">.0012</text><text x="579" y="180">.00099</text>
+  </g>
+  <g fill="#1f2328" text-anchor="middle"><text x="127" y="206">标准 / 热</text><text x="267" y="206">低频（≥30天）</text><text x="407" y="206">冷（≥90天）</text><text x="547" y="206">深度归档</text></g>
+  <g font-size="10"><rect x="200" y="214" width="10" height="10" fill="#c26a00"/><text x="214" y="223">AWS S3</text><rect x="280" y="214" width="10" height="10" fill="#1a73e8"/><text x="294" y="223">Google GCS</text><rect x="375" y="214" width="10" height="10" fill="#0b6aa2"/><text x="389" y="223">Azure Blob</text></g>
+</svg>
+<figcaption>图 1　AWS“冷”档取 Glacier Instant Retrieval（$0.004），“归档”取 Glacier Deep Archive；三家冷存储均有最短存储期与取回费用。</figcaption>
+</figure>
+
+<div class="scene"><b>适用场景：</b>① <b>短视频 / 图片平台</b>：用户上传素材存 S3 Standard，配合 CloudFront 分发，30 天后由 Intelligent-Tiering 自动降级，降低 40% 以上存储成本；② <b>AI 训练数据湖</b>：原始数据放 GCS，直接被 BigQuery 外部表与 Vertex AI 训练读取；③ <b>企业合规归档（如银行影像、医疗 PACS）</b>：Azure Blob 采用 GRS 冗余 + 不可变存储（WORM）策略，满足监管保存年限要求，长期数据转入 Archive 层。</div>
+
+<h3>2.3 无服务器计算：AWS Lambda vs Google Cloud Run functions vs Azure Functions</h3>
+<table>
+<tr><th>维度</th><th><span class="aws">AWS Lambda</span></th><th><span class="gcp">Cloud Run functions（原 Cloud Functions）</span></th><th><span class="az">Azure Functions</span></th></tr>
+<tr><td>技术架构</td><td>函数运行在 <b>Firecracker</b> 微虚拟机中，毫秒级启动且强隔离；事件源极多（S3、DynamoDB Streams、SQS、Kinesis、API Gateway、EventBridge 等 200+ 服务）；支持 ZIP 包或最大 10 GB 容器镜像；Step Functions 编排工作流。</td><td>2024 年 Cloud Functions（第 2 代）并入 <b>Cloud Run</b>，底层为 Knative 风格容器平台；通过 Eventarc 接收 90+ 种事件源；<b>单实例可并发处理多个请求</b>（最高 1000），函数与容器服务可统一管理。</td><td>基于 Azure App Service / WebJobs 运行时；独有<b>触发器 + 绑定（Bindings）</b>模型，少量代码即可读写 Blob、Cosmos DB、Service Bus；<b>Durable Functions</b> 支持有状态长流程编排；托管计划有 Flex Consumption、Premium、Dedicated 等。</td></tr>
+<tr><td>性能与限制</td><td>内存 128 MB–10,240 MB（CPU 按内存比例分配，最高 6 vCPU）；最长执行 <b>15 分钟</b>；默认每区域并发 1,000（可申请提高）；SnapStart、预置并发（Provisioned Concurrency）缓解冷启动。</td><td>最高 8 vCPU / 32 GiB 内存；HTTP 函数最长 60 分钟，事件函数最长 9 分钟；最小实例数可消除冷启动；支持 GPU（Cloud Run GPU）。</td><td>Flex Consumption：内存可选 512 MB–4 GB、可配置“常备实例”，最大可扩展到上千实例；旧 Consumption 计划最长 10 分钟，Premium/Flex 可更长；Premium 计划提供预热实例与 VNet 集成。</td></tr>
+<tr><td>规模</td><td>每秒可新增上千并发执行环境，单账号可扩展到数万并发；是最早（2014）且使用最广的 FaaS。</td><td>自动扩缩到数千实例；依托 Cloud Run 统一的扩缩容与流量分割能力。</td><td>Flex Consumption 单应用可扩展到 1,000 实例；与 Logic Apps 结合覆盖低代码集成场景。</td></tr>
+<tr><td>收费（参考）</td><td>$0.20/百万次请求 + 约 $0.0000166667/GB·秒（x86，ARM 便宜约 20%）；免费额度每月 100 万次请求 + 40 万 GB·秒。</td><td>约 $0.40/百万次调用 + 按 vCPU·秒和 GiB·秒计费；免费额度每月 200 万次调用 + 18 万 vCPU·秒 + 36 万 GiB·秒；因可多并发共享实例，高并发 HTTP 场景往往更省。</td><td>Consumption：$0.20/百万次执行 + $0.000016/GB·秒，免费每月 100 万次 + 40 万 GB·秒；Flex Consumption 按需实例 + 常备实例分别计费。</td></tr>
+<tr><td>目标用户</td><td>深度使用 AWS 的团队；事件驱动后端、数据管道、IoT、自动化运维。</td><td>偏好容器和开放标准、希望函数与服务统一部署的开发者；Google 数据/AI 用户。</td><td>.NET / C# 开发者、企业集成（Office 365、Dynamics、Service Bus）场景；需要有状态编排的业务流程。</td></tr>
+</table>
+<div class="scene"><b>适用场景：</b>① <b>图片上传后自动生成缩略图 / 内容审核</b>：S3 上传事件触发 Lambda 调用 Rekognition，结果写入 DynamoDB，零服务器运维、按次付费；② <b>Webhook 与轻量 API</b>（如支付回调、聊天机器人）：Cloud Run functions 高并发共享实例，冷启动少、费用低；③ <b>企业审批 / 订单流程</b>：Azure Durable Functions 编排“提交→审批→通知→超时提醒”等长流程，并通过绑定直接写 Cosmos DB 与发送 Teams 消息。</div>
+
+<h3>2.4 关系型数据库：Amazon RDS / Aurora vs Cloud SQL / AlloyDB vs Azure SQL Database</h3>
+<table>
+<tr><th>维度</th><th><span class="aws">Amazon RDS / Aurora</span></th><th><span class="gcp">Cloud SQL / AlloyDB / Spanner</span></th><th><span class="az">Azure SQL Database（及 Azure Database for PostgreSQL/MySQL）</span></th></tr>
+<tr><td>技术架构</td><td><b>RDS</b>：托管 MySQL、PostgreSQL、MariaDB、Oracle、SQL Server、Db2 共 6 种引擎，主备 Multi-AZ 同步复制 + 只读副本。<b>Aurora</b>：云原生“计算存储分离”，日志即数据库，数据在 3 个可用区写 6 副本；Aurora Serverless v2 自动伸缩；Aurora DSQL 提供分布式无服务器 SQL。</td><td><b>Cloud SQL</b>：托管 MySQL、PostgreSQL、SQL Server，区域级 HA（跨可用区同步复制）；Enterprise Plus 版带数据缓存。<b>AlloyDB</b>：兼容 PostgreSQL 的分离式架构 + 列式引擎，适合 HTAP。<b>Spanner</b>：基于 TrueTime 的全球分布式强一致数据库。</td><td><b>Azure SQL Database</b>：基于最新 SQL Server 引擎的 PaaS，提供 vCore 与 DTU 两种购买模型；General Purpose（远程存储）、Business Critical（本地 SSD + Always On 可用性组）、<b>Hyperscale</b>（日志服务 + 页服务器分离架构）三层；另有 SQL Managed Instance 及 PostgreSQL/MySQL Flexible Server。</td></tr>
+<tr><td>性能</td><td>RDS 可配 io2 存储达数十万级 IOPS；Aurora 官方称吞吐为标准 MySQL 的 5 倍、PostgreSQL 的 3 倍；副本延迟通常低于 100 ms。</td><td>Cloud SQL Enterprise Plus 读性能显著提升；AlloyDB 官方称事务性能比标准 PostgreSQL 快 4 倍以上、分析查询快可达 100 倍。</td><td>Business Critical 提供低延迟本地存储与内存 OLTP；Hyperscale 快速备份/恢复与秒级扩展只读副本；智能查询处理与自动调优。</td></tr>
+<tr><td>规模</td><td>RDS 单实例存储最大 64 TiB；Aurora 存储自动增长至 128 TiB 级，最多 15 个只读副本，Global Database 支持跨区域（秒级复制延迟）。</td><td>Cloud SQL 最大 64 TB 存储、最多数十个读副本；Spanner 可水平扩展至 PB 级、提供 99.999% 可用性 SLA。</td><td>Hyperscale 单库最大 128 TB；Business Critical 可用性 SLA 最高 99.995%；弹性池（Elastic Pool）托管大量小型租户库。</td></tr>
+<tr><td>收费（参考）</td><td>按实例小时 + 存储 + IOPS + 备份；小型实例如 db.t4g.micro 约 $0.016/小时；Aurora I/O-Optimized 可免 I/O 费用；预留实例最高约 60%+ 折扣。</td><td>按 vCPU 与内存分别计费 + 存储（SSD 约 $0.17/GB·月）；HA 实例价格约为单实例 2 倍；CUD 1/3 年折扣 25%/52%。</td><td>vCore 模型按 vCore 小时 + 存储；<b>Serverless 计算层</b>按秒计费并可空闲自动暂停；Azure Hybrid Benefit 复用 SQL Server 许可最高省约 55%；DTU 基本层每月数美元起。</td></tr>
+<tr><td>目标用户</td><td>需要多引擎选择、商用数据库（Oracle、SQL Server）上云的企业；高并发互联网业务选 Aurora。</td><td>希望“开箱即用”的中小应用；需要 HTAP（AlloyDB）或全球一致性（Spanner）的金融、游戏、广告业务。</td><td>使用 SQL Server 的企业及 .NET 应用；SaaS 多租户（弹性池）；需要与 Power BI / Fabric 联动的业务。</td></tr>
+</table>
+<div class="scene"><b>适用场景：</b>① <b>电商订单与库存系统</b>：Aurora MySQL 多可用区部署，读写分离 + 只读副本承载商品查询，Global Database 支持海外站点；② <b>全球化手游的账户与虚拟货币</b>：Spanner 跨洲强一致事务，避免重复扣款；③ <b>企业内部 ERP / CRM 迁云</b>：原 SQL Server 数据库通过 Azure Database Migration Service 迁移至 Azure SQL Managed Instance / SQL Database，兼容性最好并复用许可证；④ <b>中小型 Web 应用 / 校园系统</b>：Cloud SQL for PostgreSQL 单实例起步，按需开启 HA。</div>
+
+<h3>2.5 NoSQL 数据库：Amazon DynamoDB（SimpleDB）vs Google Bigtable vs Azure Cosmos DB</h3>
+<table>
+<tr><th>维度</th><th><span class="aws">Amazon DynamoDB（附：SimpleDB）</span></th><th><span class="gcp">Google Cloud Bigtable</span></th><th><span class="az">Azure Cosmos DB</span></th></tr>
+<tr><td>数据模型 / 架构</td><td><b>键值 + 文档</b>模型，按分区键哈希自动分片，每个分区 3 副本跨可用区；完全无服务器，无需管理节点；DynamoDB Streams 捕获变更；Global Tables 多区域多活（支持多区域强一致）；DAX 内存缓存达微秒级。<br><i>SimpleDB</i>：2007 年推出的早期 NoSQL，单域 10 GB 上限、自动索引所有属性，现仅为遗留服务，新项目不推荐。</td><td><b>宽列（Wide-column）</b>模型，源自 2006 年 Bigtable 论文，是 HBase / Cassandra 的设计鼻祖；按行键字典序排序、分 tablet 存储于 Colossus，<b>计算节点与存储分离</b>，增删节点无需搬迁数据；兼容 HBase API，并支持 GoogleSQL 查询；多集群复制。</td><td><b>多模型</b>数据库：同一底层引擎提供 NoSQL（文档）、MongoDB、Apache Cassandra、Gremlin（图）、Table 等 API，另有分布式 PostgreSQL（Citus）；基于逻辑分区 + 物理分区自动扩展；<b>一键全球分布、多区域写入</b>；提供强一致、有界陈旧、会话、一致前缀、最终一致<b>五种一致性级别</b>。</td></tr>
+<tr><td>性能</td><td>任意规模下个位数毫秒延迟；亚马逊 Prime Day 期间峰值超过每秒 1 亿次请求。</td><td>个位数毫秒延迟；每个 SSD 节点约 1 万+ 行/秒读写，吞吐随节点数线性增长；非常适合高写入的时序与分析型扫描。</td><td>SLA 保证 P99 读写延迟 &lt;10 ms；吞吐以 <b>RU/s（请求单位）</b>度量，可预配或自动扩缩；内置向量检索。</td></tr>
+<tr><td>规模 / 可用性</td><td>表大小无上限，单项最大 400 KB；单区域 SLA 99.99%，Global Tables 99.999%。</td><td>可扩展至 PB 级、数千节点（支撑 Google 搜索、地图、Gmail 等服务）；多集群路由 SLA 99.999%。</td><td>单容器存储无上限、单文档最大 2 MB；多区域写入 SLA 99.999%；支撑 ChatGPT 等超大规模应用。</td></tr>
+<tr><td>收费（参考）</td><td><b>按需模式</b>：约 $0.625/百万写请求单位、$0.125/百万读请求单位（2024 年降价 50%）；<b>预置模式</b>：按 WCU/RCU 小时计费；存储 $0.25/GB·月；有永久免费额度 25 GB。</td><td>按节点小时计费，约 $0.65/节点·小时（约 $470/节点·月）+ SSD 存储约 $0.17/GB·月（HDD $0.026）；最低 1 个节点，<b>小数据量不划算</b>。</td><td>预置吞吐约 $0.008/小时/100 RU/s（单区域）；Serverless 约 $0.25/百万 RU；存储 $0.25/GB·月；有免费层（1000 RU/s + 25 GB）。</td></tr>
+<tr><td>目标用户</td><td>高并发 OLTP 型互联网应用：会话、购物车、用户画像、游戏状态；希望零运维的团队。</td><td>大数据量（TB–PB）、高吞吐写入的时序、IoT、广告、金融行情、推荐特征存储用户；Hadoop/HBase 迁移用户。</td><td>需要全球分布、多模型、可调一致性的企业；从 MongoDB / Cassandra 平滑迁移的用户；AI 应用（向量 + 文档一体化）。</td></tr>
+</table>
+<div class="scene"><b>适用场景：</b>① <b>用户行为日志分析（题目示例）</b>：前端埋点经 Pub/Sub → Dataflow 写入 <b>Bigtable</b>（行键设计为“用户ID#反转时间戳”），由 Cloud Run functions / Lambda 类函数做轻量聚合，实时查询用户近期行为，再定期导入 BigQuery 做离线报表；② <b>电商购物车与会话</b>：DynamoDB 按需模式，大促时自动承载流量洪峰，TTL 自动清理过期会话；③ <b>全球多人在线游戏 / 社交应用</b>：Cosmos DB 多区域写入 + 会话一致性，玩家就近读写、跨区数据同步；④ <b>IoT 传感器时序数据</b>：Bigtable 每秒百万级写入，配合 BigQuery 联邦查询。</div>
+
+<h3>2.6 任务一汇总表</h3>
+<table>
+<tr><th>类别</th><th><span class="aws">AWS</span></th><th><span class="gcp">Google Cloud</span></th><th><span class="az">Microsoft Azure</span></th><th>一句话结论</th></tr>
+<tr><td>计算</td><td>EC2</td><td>Compute Engine</td><td>Virtual Machines</td><td>AWS 选型最全；GCP 自定义机型与自动折扣最省心；Azure 对 Windows/混合云最友好</td></tr>
+<tr><td>容器</td><td>EKS</td><td>GKE</td><td>AKS</td><td>GKE 最成熟（Autopilot）；AKS 控制面可免费；EKS 生态集成最广</td></tr>
+<tr><td>对象存储</td><td>S3</td><td>Cloud Storage</td><td>Blob Storage</td><td>S3 API 是事实标准；GCS 多区域强一致；Azure 冗余选项最细、ADLS 数据湖</td></tr>
+<tr><td>无服务器</td><td>Lambda</td><td>Cloud Run functions</td><td>Azure Functions</td><td>Lambda 事件源最多；GCP 单实例多并发更省；Azure 绑定与 Durable 编排独特</td></tr>
+<tr><td>关系型</td><td>RDS / Aurora</td><td>Cloud SQL / AlloyDB / Spanner</td><td>Azure SQL Database</td><td>AWS 引擎最多；GCP Spanner 全球一致独一档；Azure SQL Server 兼容性最好</td></tr>
+<tr><td>NoSQL</td><td>DynamoDB</td><td>Bigtable（Firestore）</td><td>Cosmos DB</td><td>DynamoDB 零运维 OLTP；Bigtable 海量时序/分析；Cosmos DB 多模型 + 五级一致性</td></tr>
+</table>
+
+<h2 class="pb">三、任务二：五家 AI 相关服务对比</h2>
+<p>AI 云服务可以分为四层：<b>① 基础算力层</b>（GPU/自研 AI 芯片、高速互联集群）；<b>② 机器学习平台层</b>（数据标注、训练、调优、部署、MLOps）；<b>③ 大模型服务层</b>（基础模型 API、模型市场、RAG、智能体框架）；<b>④ 应用层</b>（预置视觉/语音/语言 API、Copilot 类产品）。NVIDIA 本身不是通用云厂商，但它为其余四家提供 GPU，同时以 DGX Cloud、NIM、NeMo 等软件和服务直接面向企业。</p>
+
+<h3>3.1 分层对比总表</h3>
+<table>
+<tr><th>维度</th><th><span class="aws">AWS</span></th><th><span class="gcp">Google Cloud</span></th><th><span class="az">Microsoft Azure</span></th><th><span class="orc">Oracle (OCI)</span></th><th><span class="nv">NVIDIA</span></th></tr>
+<tr><td>AI 算力</td><td>EC2 P5/P5e/P6（H100/H200/B200/GB200），UltraClusters + EFA 网络；自研训练芯片 <b>Trainium2/3</b>、推理芯片 <b>Inferentia2</b>；Project Rainier 超大 Trainium 集群。</td><td>自研 <b>TPU</b>（v5e、v5p、Trillium v6e、Ironwood v7），TPU Pod 互联；A3/A4 GPU VM（H100/B200/GB200）；“AI Hypercomputer”整体架构。</td><td>ND H100 v5 / ND H200 v5 / ND GB200 v6 等 GPU VM，InfiniBand 互联；自研 <b>Maia</b> AI 加速器与 Cobalt CPU；为 OpenAI 构建的超大规模超级计算机。</td><td>OCI Supercluster：RDMA 网络，Blackwell 集群可扩展到十万级 GPU 规模（Zettascale）；同时提供 AMD Instinct MI300X/MI355X；裸金属 GPU 实例；Stargate 等超大算力合作。</td><td>GPU 硬件本体：H100/H200、B200、GB200/GB300 NVL72 机柜；NVLink、InfiniBand/Spectrum-X 网络；<b>DGX Cloud</b>（部署在各大云上的 NVIDIA 托管 AI 超算）与 DGX Cloud Lepton 算力市场。</td></tr>
+<tr><td>ML 平台</td><td><b>Amazon SageMaker AI</b>（训练、HyperPod 分布式训练、推理端点、JumpStart）；SageMaker Unified Studio 统一数据与 AI。</td><td><b>Vertex AI</b>（AutoML、自定义训练、Pipelines、Feature Store、Model Registry）；BigQuery ML 用 SQL 建模。</td><td><b>Azure Machine Learning</b>（设计器、AutoML、MLOps、Responsible AI 仪表盘）；与 Microsoft Fabric 数据平台结合。</td><td><b>OCI Data Science</b>（Notebook、作业、模型部署）；Oracle Database 内置 ML（OML）；HeatWave AutoML。</td><td>CUDA、cuDNN、RAPIDS；<b>NeMo</b> 框架（大模型训练、微调、对齐）；TensorRT / TensorRT-LLM、Triton / Dynamo 推理服务；NVIDIA AI Enterprise 软件套件。</td></tr>
+<tr><td>大模型服务</td><td><b>Amazon Bedrock</b>：统一 API 调用 Anthropic Claude、Meta Llama、Mistral、Cohere、DeepSeek 及自研 <b>Amazon Nova</b> 等模型；知识库（RAG）、Guardrails、模型微调与评估；<b>Bedrock AgentCore</b> 部署智能体。</td><td><b>Vertex AI Model Garden</b>：自研 <b>Gemini</b> 系列（多模态、长上下文）、Imagen、Veo，及 Claude、Llama 等 200+ 模型；Agent Builder / Agent Development Kit（ADK）；Grounding with Google Search。</td><td><b>Microsoft Foundry（原 Azure AI Foundry）</b>：独家深度合作的 <b>Azure OpenAI</b>（GPT 系列、o 系列推理模型），以及 Llama、Mistral、DeepSeek、Grok 等上万模型目录；Foundry Agent Service；Azure AI Search 提供 RAG。</td><td><b>OCI Generative AI</b>：Cohere、Meta Llama、xAI Grok 等模型托管与微调；专用 AI 集群；<b>Oracle AI Database（23ai/26ai）</b>内置 AI 向量检索，可在数据库内直接做 RAG；Fusion/NetSuite 内嵌 AI Agents。</td><td><b>NIM</b> 推理微服务：将 Llama、Mistral、Nemotron 等模型打包成优化容器，可部署于任何云/本地；build.nvidia.com API 目录；<b>Nemotron</b> 开放模型；NeMo Guardrails、AI Blueprints（RAG、数字人等参考方案）。</td></tr>
+<tr><td>预置 AI API</td><td>Rekognition（图像/视频）、Transcribe（语音转文字）、Polly（TTS）、Comprehend（NLP）、Textract（文档）、Translate、Lex（对话）。</td><td>Vision AI、Speech-to-Text / Text-to-Speech、Natural Language、Translation、Document AI、Video AI。</td><td>Azure AI Services：Vision、Speech、Language、Translator、Document Intelligence、Content Safety。</td><td>OCI AI Services：Language、Speech、Vision、Document Understanding、Anomaly Detection。</td><td>Riva（语音）、Metropolis（视觉分析）、Clara（医疗）、Isaac（机器人）、Omniverse/Cosmos（物理 AI、仿真）。</td></tr>
+<tr><td>AI 应用 / 助手</td><td>Amazon Q（Q Developer 编程助手、Q Business 企业知识助手）、Kiro 智能体 IDE。</td><td>Gemini Enterprise（原 Agentspace）、Gemini Code Assist、Workspace 中的 Gemini。</td><td>Microsoft 365 Copilot、GitHub Copilot、Copilot Studio（低代码智能体）。</td><td>Oracle Fusion Cloud 应用中的 AI Agents、Oracle Health 临床 AI 助手。</td><td>面向开发者的 AI Workbench、ACE 数字人；主要通过合作伙伴提供终端应用。</td></tr>
+<tr><td>收费模式</td><td>GPU/Trainium 实例按小时（可用 Capacity Blocks 预约、Savings Plans）；Bedrock 按输入/输出 Token 计费，或预置吞吐量（Provisioned Throughput）、批处理 5 折。</td><td>TPU/GPU 按芯片小时，CUD 折扣；Gemini API 按 Token 计费（长上下文分档），支持上下文缓存、批量预测折扣。</td><td>GPU VM 按小时/预留；Azure OpenAI 按 Token 计费或 <b>PTU（预置吞吐单元）</b>按月包量；Copilot 按用户订阅（M365 Copilot 约 $30/用户·月）。</td><td>GPU 价格以“低于其他云”作卖点，网络流出费低（每月前 10 TB 免费）；Generative AI 按字符/Token 或专用集群单位小时计费；可用 Universal Credits。</td><td>NVIDIA AI Enterprise 按 GPU 订阅（约 $4,500/GPU·年）；DGX Cloud 按实例月租（推出时 8×H100 实例约 $36,999/月）；NIM 可免费开发试用，生产需 AI Enterprise 许可。</td></tr>
+<tr><td>核心优势</td><td>模型选择最多、企业级安全与生态最完善，自研芯片降低成本。</td><td>全栈自研（TPU + Gemini + 数据平台），多模态与长上下文领先，BigQuery 数据与 AI 一体化。</td><td>独家 OpenAI 模型、与 Office/Teams/GitHub 深度集成，企业办公 AI 落地最快。</td><td>数据库内置 AI、GPU 集群性价比与规模、网络费用低，适合已有 Oracle 数据库/ERP 的企业。</td><td>掌握底层算力与 CUDA 生态，软件可“一次开发、任何云/本地部署”，避免单一云锁定。</td></tr>
+<tr><td>目标用户</td><td>希望多模型对比、构建生成式 AI 应用的各类企业与初创公司。</td><td>数据驱动企业、AI 原生初创公司、需要大规模训练的研究机构。</td><td>Microsoft 365 / Azure 企业客户、开发者、希望快速使用 GPT 模型的团队。</td><td>大型企业（金融、电信、医疗）、需要大规模 GPU 训练的 AI 公司（如 OpenAI、xAI 等）。</td><td>AI 研究团队、模型开发商、需要私有化/混合部署的企业、各云厂商与 OEM 合作伙伴。</td></tr>
+</table>
+
+<h3>3.2 重点分析</h3>
+<h4>（1）算力之争：GPU vs 自研芯片</h4>
+<p>NVIDIA GPU 仍是训练大模型的主流选择，四家云厂商都提供最新的 Hopper/Blackwell 实例。但为降低成本与供应依赖，AWS（Trainium/Inferentia）、Google（TPU）、Microsoft（Maia）都在推进自研加速器：Google TPU 最为成熟，Gemini 系列即在 TPU 上训练；AWS Trainium 被 Anthropic 等大规模采用。Oracle 不做自研芯片，而是同时采购 NVIDIA 与 AMD GPU，以超大集群规模与低网络费用取胜。NVIDIA 则通过 NVLink、InfiniBand 等互联技术和 CUDA 软件生态构建护城河。</p>
+<h4>（2）大模型平台：开放模型市场 vs 自研/独家模型</h4>
+<p>AWS Bedrock 强调“模型中立”，提供多家第三方模型和自研 Nova；Google Vertex AI 以自研 Gemini 为核心并开放 Model Garden；Microsoft 依托与 OpenAI 的深度合作，在 Foundry 中提供 GPT 系列并扩展到其他模型；Oracle 将生成式 AI 与数据库（AI Vector Search）及 Fusion 企业应用结合；NVIDIA 通过 NIM 把模型推理“容器化”，可部署在任何云或本地数据中心，满足数据不出域的需求。</p>
+<h4>（3）收费差异</h4>
+<p>大模型 API 普遍按输入/输出 Token 计费，输出价格通常是输入的 3–5 倍；高稳定性需求可购买预置吞吐（AWS Provisioned Throughput、Azure PTU）；离线任务可用批处理获得约 50% 折扣。算力层面，按需 GPU 价格高且紧缺，长期训练更适合预约容量或 1–3 年承诺。NVIDIA 采用软件订阅（AI Enterprise）+ 云上算力租赁的模式。</p>
+
+<h3>3.3 AI 服务适用场景</h3>
+<table>
+<tr><th>场景</th><th>推荐方案</th><th>理由</th></tr>
+<tr><td>企业知识库问答</td><td>Bedrock Knowledge Bases + Claude；或 Foundry + Azure OpenAI + Azure AI Search</td><td>托管 RAG 全流程（切分、向量化、检索、生成），企业权限与合规完善</td></tr>
+<tr><td>办公与编程助手</td><td>Microsoft 365 Copilot / GitHub Copilot；Gemini Enterprise；Amazon Q Developer</td><td>与已有办公套件和开发工具直接集成，部署成本最低</td></tr>
+<tr><td>多模态内容生成</td><td>Vertex AI（Gemini、Imagen、Veo）</td><td>原生多模态、长上下文，图片/视频生成能力强</td></tr>
+<tr><td>大模型预训练</td><td>Google TPU Pod、AWS Trainium/P6 UltraCluster、OCI Supercluster、DGX Cloud</td><td>万卡级高速互联集群，可按需预约大规模算力</td></tr>
+<tr><td>ERP / 财务智能化</td><td>Oracle Fusion AI Agents + Oracle AI Database 向量检索</td><td>业务数据本就在 Oracle 数据库中，无需搬迁即可做 AI 分析</td></tr>
+<tr><td>私有化 / 混合部署</td><td>NVIDIA AI Enterprise + NIM + NeMo Guardrails</td><td>同一套容器可在本地机房与任意公有云运行，满足数据主权要求</td></tr>
+<tr><td>智能客服（语音）</td><td>Amazon Connect + Lex + Transcribe；或 Azure AI Speech + Copilot Studio</td><td>语音识别、对话管理、大模型生成与呼叫中心一体化</td></tr>
+</table>
+
+<h2>四、综合场景方案与选型建议</h2>
+<h3>4.1 综合案例：用户行为日志分析与实时推荐系统</h3>
+<p>以一个日活百万级的内容 App 为例，给出基于 Google Cloud 与 AWS 的两套等价架构：</p>
+<table>
+<tr><th>环节</th><th><span class="gcp">Google Cloud 方案</span></th><th><span class="aws">AWS 方案</span></th><th>说明</th></tr>
+<tr><td>数据采集</td><td>Pub/Sub</td><td>Kinesis Data Streams</td><td>接收客户端埋点事件，削峰填谷</td></tr>
+<tr><td>流处理</td><td>Dataflow / Cloud Run functions</td><td>Lambda / Managed Flink</td><td>清洗、去重、按会话聚合</td></tr>
+<tr><td>在线存储</td><td>Bigtable</td><td>DynamoDB</td><td>按“用户ID+时间”存储行为序列，毫秒级读取</td></tr>
+<tr><td>原始归档</td><td>Cloud Storage（Autoclass）</td><td>S3（Intelligent-Tiering）</td><td>低成本长期保存原始日志</td></tr>
+<tr><td>离线分析</td><td>BigQuery</td><td>Athena / Redshift</td><td>留存、漏斗、A/B 测试报表</td></tr>
+<tr><td>推荐模型</td><td>Vertex AI</td><td>SageMaker AI</td><td>训练推荐模型并部署在线推理</td></tr>
+<tr><td>业务数据库</td><td>Cloud SQL / AlloyDB</td><td>Aurora</td><td>用户、订单等强一致关系数据</td></tr>
+<tr><td>服务承载</td><td>GKE Autopilot</td><td>EKS / EC2 Auto Scaling</td><td>API 与推荐服务的弹性部署</td></tr>
+</table>
+
+<h3>4.2 选型建议</h3>
+<ul>
+  <li><b>按现有技术栈选</b>：Windows、.NET、SQL Server、Microsoft 365 用户优先 Azure；数据分析与 AI 驱动型团队优先 Google Cloud；需要最丰富服务与生态的通用场景优先 AWS；核心系统运行在 Oracle 数据库 / ERP 上的企业可考虑 OCI。</li>
+  <li><b>按工作负载特征选</b>：海量写入 + 范围扫描用 Bigtable；高并发键值访问用 DynamoDB；全球多活 + 多模型用 Cosmos DB；全球强一致事务用 Spanner。</li>
+  <li><b>按成本选</b>：稳定负载用预留/承诺折扣，弹性批处理用 Spot；对象存储开启自动分层；无服务器适合低频/突发流量，持续高负载时容器或虚拟机更便宜；警惕数据流出费用（Egress），这是多云架构中最容易被忽视的成本。</li>
+  <li><b>避免锁定</b>：优先采用 Kubernetes、S3 兼容 API、PostgreSQL、开放模型与 NIM 等开放标准，必要时采用多云 / 混合云策略。</li>
+</ul>
+
+<h2>五、总结</h2>
+<p>通过对比可以看出，三大云在核心服务上功能高度趋同，但设计理念各有侧重：<b>AWS</b> 以“服务最全、生态最大”见长，S3、Lambda、DynamoDB 等多项服务开创了行业品类；<b>Google Cloud</b> 将内部基础设施（Borg、Colossus、Bigtable、Spanner、TPU）产品化，在容器、大数据与 AI 方面技术领先；<b>Azure</b> 以企业市场和微软软件生态为核心，在混合云和办公 AI 落地方面最具优势。AI 领域中，<b>Oracle</b> 依托数据库和 GPU 超大集群快速崛起，<b>NVIDIA</b> 则掌握算力与软件栈底层，是所有云 AI 服务的共同基础。实际选型不存在“最好”的云，应结合业务场景、团队技能、成本结构与合规要求综合决策。</p>
+
+<h2>参考资料</h2>
+<ol style="font-size:9pt; padding-left:6mm">
+  <li>AWS 官方文档与定价：https://aws.amazon.com/ec2/pricing/ ，https://aws.amazon.com/s3/pricing/ ，https://aws.amazon.com/lambda/pricing/ ，https://aws.amazon.com/rds/ ，https://aws.amazon.com/dynamodb/pricing/ ，https://aws.amazon.com/bedrock/</li>
+  <li>Google Cloud 官方文档与定价：https://cloud.google.com/compute/all-pricing ，https://cloud.google.com/storage/pricing ，https://cloud.google.com/run/pricing ，https://cloud.google.com/sql/pricing ，https://cloud.google.com/bigtable/pricing ，https://cloud.google.com/vertex-ai</li>
+  <li>Microsoft Azure 官方文档与定价：https://azure.microsoft.com/pricing/details/virtual-machines/ ，https://azure.microsoft.com/pricing/details/storage/blobs/ ，https://azure.microsoft.com/pricing/details/functions/ ，https://azure.microsoft.com/pricing/details/azure-sql-database/ ，https://azure.microsoft.com/pricing/details/cosmos-db/</li>
+  <li>Oracle Cloud Infrastructure：https://www.oracle.com/cloud/ai/ ，https://www.oracle.com/artificial-intelligence/generative-ai/</li>
+  <li>NVIDIA：https://www.nvidia.com/en-us/data-center/dgx-cloud/ ，https://www.nvidia.com/en-us/ai/ (NIM) ，https://www.nvidia.com/en-us/data-center/products/ai-enterprise/</li>
+  <li>Chang F, Dean J, et al. Bigtable: A Distributed Storage System for Structured Data. OSDI, 2006.</li>
+  <li>DeCandia G, et al. Dynamo: Amazon's Highly Available Key-value Store. SOSP, 2007.</li>
+  <li>Corbett J C, et al. Spanner: Google's Globally-Distributed Database. OSDI, 2012.</li>
+  <li>Verbitski A, et al. Amazon Aurora: Design Considerations for High Throughput Cloud-Native Relational Databases. SIGMOD, 2017.</li>
+</ol>
+
+</body>
+</html>

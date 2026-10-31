@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>智慧客厅 · 物联网智能交互系统</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">◎</div>
+    <div>
+      <h1>智慧客厅 · 物联网智能交互系统</h1>
+      <p>感知 — 判断 — 响应 · WebSocket / HTTP 实时通信</p>
+    </div>
+  </div>
+  <div class="pipeline" id="pipeline">
+    <span class="stage" data-stage="感知">感知</span><i>→</i>
+    <span class="stage" data-stage="判断">判断</span><i>→</i>
+    <span class="stage" data-stage="响应">响应</span>
+  </div>
+  <div class="status">
+    <span class="pill" id="st-hub"><b class="dot"></b>中枢</span>
+    <span class="pill" id="st-dev"><b class="dot"></b>设备网关</span>
+    <span class="pill clock" id="st-clock">--:--</span>
+    <span class="pill" id="st-user">用户：访客</span>
+    <label class="pill switch-pill"><input type="checkbox" id="auto-toggle" checked><span>自动规则</span></label>
+  </div>
+</header>
+
+<main class="grid">
+  <!-- 左列：场景可视化 + 设备控制 -->
+  <section class="col">
+    <div class="card scene-card">
+      <div class="card-title">客厅实时场景 <small id="scene-sub">模拟设备 livingroom-gateway-01</small></div>
+      <svg id="room" viewBox="0 0 600 340" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop id="sky1" offset="0" stop-color="#0b1a3a"/>
+            <stop id="sky2" offset="1" stop-color="#22355f"/>
+          </linearGradient>
+          <radialGradient id="glow" cx="0.5" cy="0" r="0.9">
+            <stop id="glow-c" offset="0" stop-color="#ffd59a" stop-opacity="0.95"/>
+            <stop offset="1" stop-color="#ffd59a" stop-opacity="0"/>
+          </radialGradient>
+          <pattern id="tiles" width="40" height="40" patternUnits="userSpaceOnUse">
+            <rect width="40" height="40" fill="#3a3f4b"/><path d="M0 0H40V40" fill="none" stroke="#333844" stroke-width="2"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="600" height="270" fill="#5b6475"/>
+        <rect x="0" y="270" width="600" height="70" fill="url(#tiles)"/>
+        <!-- 窗户 -->
+        <g id="window">
+          <rect x="40" y="50" width="170" height="150" rx="4" fill="url(#sky)" stroke="#2a2f3a" stroke-width="6"/>
+          <g id="stars" fill="#fff"><circle cx="70" cy="80" r="1.4"/><circle cx="120" cy="66" r="1"/><circle cx="170" cy="95" r="1.3"/><circle cx="95" cy="120" r="1"/><circle cx="185" cy="140" r="1.2"/></g>
+          <circle id="sun" cx="160" cy="95" r="16" fill="#ffd34d"/>
+          <line x1="125" y1="50" x2="125" y2="200" stroke="#2a2f3a" stroke-width="4"/>
+          <rect id="curtain-l" x="40" y="44" width="10" height="160" fill="#a35d4a"/>
+          <rect id="curtain-r" x="200" y="44" width="10" height="160" fill="#a35d4a"/>
+          <rect x="30" y="40" width="190" height="6" rx="3" fill="#20242c"/>
+        </g>
+        <!-- 空调 -->
+        <g id="ac">
+          <rect x="420" y="40" width="150" height="44" rx="10" fill="#e9edf3"/>
+          <rect x="432" y="70" width="126" height="6" rx="3" fill="#c7ced9"/>
+          <text id="ac-text" x="545" y="62" font-size="13" text-anchor="end" fill="#6b7686">OFF</text>
+          <circle id="ac-led" cx="434" cy="54" r="4" fill="#9aa3b0"/>
+          <g id="ac-wind" stroke-linecap="round" fill="none" stroke-width="3">
+            <path d="M440 92 q 20 18 0 36"/><path d="M490 92 q 20 18 0 36"/><path d="M540 92 q 20 18 0 36"/>
+          </g>
+        </g>
+        <!-- 吊灯 -->
+        <g id="lamp">
+          <polygon id="light-cone" points="290,58 330,58 470,270 150,270" fill="url(#glow)"/>
+          <line x1="310" y1="0" x2="310" y2="34" stroke="#20242c" stroke-width="3"/>
+          <path d="M282 58 Q310 22 338 58 Z" fill="#2b303b"/>
+          <ellipse id="bulb" cx="310" cy="58" rx="12" ry="5" fill="#777"/>
+        </g>
+        <!-- 沙发 -->
+        <g>
+          <rect x="230" y="210" width="200" height="60" rx="14" fill="#556b8d"/>
+          <rect x="220" y="225" width="24" height="50" rx="10" fill="#4a5e7c"/>
+          <rect x="416" y="225" width="24" height="50" rx="10" fill="#4a5e7c"/>
+          <rect x="240" y="250" width="180" height="26" rx="8" fill="#617aa0"/>
+        </g>
+        <!-- 人 -->
+        <g id="person" opacity="0">
+          <circle cx="330" cy="168" r="17" fill="#f2c7a5"/>
+          <path d="M300 250 Q300 192 330 190 Q360 192 360 250 Z" fill="#e0794f"/>
+          <text id="person-name" x="330" y="146" font-size="14" text-anchor="middle" fill="#fff" font-weight="600"></text>
+        </g>
+        <!-- 风扇 -->
+        <g id="fan">
+          <line x1="520" y1="210" x2="520" y2="300" stroke="#bfc6d1" stroke-width="5"/>
+          <ellipse cx="520" cy="302" rx="26" ry="7" fill="#bfc6d1"/>
+          <circle cx="520" cy="190" r="34" fill="none" stroke="#bfc6d1" stroke-width="2.5"/>
+          <g id="fan-blades">
+            <g transform="translate(520 190)">
+              <path d="M0 0 C 8 -10 6 -28 0 -30 C -6 -28 -8 -10 0 0" fill="#8fd3ff"/>
+              <path d="M0 0 C 8 -10 6 -28 0 -30 C -6 -28 -8 -10 0 0" fill="#8fd3ff" transform="rotate(120)"/>
+              <path d="M0 0 C 8 -10 6 -28 0 -30 C -6 -28 -8 -10 0 0" fill="#8fd3ff" transform="rotate(240)"/>
+              <circle r="5" fill="#e9edf3"/>
+            </g>
+          </g>
+        </g>
+        <!-- 音箱 -->
+        <g id="speaker">
+          <rect x="90" y="226" width="44" height="64" rx="6" fill="#262a33"/>
+          <circle cx="112" cy="247" r="8" fill="#3c4250"/><circle cx="112" cy="272" r="12" fill="#3c4250"/>
+          <g id="notes" fill="#ffd166" font-size="18"><text x="140" y="230">♪</text><text x="150" y="214">♫</text></g>
+        </g>
+        <!-- 整体亮度遮罩：随照度变化 -->
+        <rect id="dim" x="0" y="0" width="600" height="340" fill="#05070c" opacity="0.5" pointer-events="none"/>
+        <g id="hud" font-size="13" fill="#fff">
+          <rect x="8" y="300" width="250" height="32" rx="8" fill="rgba(0,0,0,.45)"/>
+          <text id="hud-text" x="18" y="321">--</text>
+        </g>
+      </svg>
+      <div class="greet" id="greet"></div>
+    </div>
+
+    <div class="devices" id="devices">
+      <div class="card dev" id="card-light">
+        <div class="dev-head"><span class="ico">💡</span><b>灯光</b><label class="sw"><input type="checkbox" data-dev="light"><i></i></label></div>
+        <div class="row"><span>亮度</span><input type="range" min="1" max="100" data-dev="light" data-key="brightness"><em data-show="light.brightness">--</em></div>
+        <div class="row"><span>色温</span><input type="range" min="2700" max="6500" step="100" data-dev="light" data-key="color_temp" class="ct"><em data-show="light.color_temp">--</em></div>
+      </div>
+      <div class="card dev" id="card-ac">
+        <div class="dev-head"><span class="ico">❄️</span><b>空调</b><label class="sw"><input type="checkbox" data-dev="ac"><i></i></label></div>
+        <div class="row seg" data-dev="ac" data-key="mode">
+          <button data-val="cool">制冷</button><button data-val="heat">制热</button><button data-val="dry">除湿</button>
+        </div>
+        <div class="row"><span>目标</span><button class="mini" data-step="-1">−</button><em class="big" data-show="ac.target">--</em><button class="mini" data-step="1">＋</button></div>
+      </div>
+      <div class="card dev" id="card-fan">
+        <div class="dev-head"><span class="ico">🌀</span><b>风扇</b><label class="sw"><input type="checkbox" data-dev="fan"><i></i></label></div>
+        <div class="row seg" data-dev="fan" data-key="speed">
+          <button data-val="1">1 档</button><button data-val="2">2 档</button><button data-val="3">3 档</button>
+        </div>
+      </div>
+      <div class="card dev" id="card-curtain">
+        <div class="dev-head"><span class="ico">🪟</span><b>窗帘</b><em data-show="curtain.position">--</em></div>
+        <div class="row"><span>开合</span><input type="range" min="0" max="100" step="10" data-dev="curtain" data-key="position"></div>
+      </div>
+      <div class="card dev" id="card-speaker">
+        <div class="dev-head"><span class="ico">🎵</span><b>音箱</b><label class="sw"><input type="checkbox" data-dev="speaker"><i></i></label></div>
+        <div class="row"><span>曲目</span><em class="track" data-show="speaker.track">--</em><button class="mini" id="next-track">⏭</button></div>
+        <div class="row"><span>音量</span><input type="range" min="0" max="100" data-dev="speaker" data-key="volume"><em data-show="speaker.volume">--</em></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 中列：传感器 + 曲线 + 仿真控制 -->
+  <section class="col">
+    <div class="sensors">
+      <div class="card tile" id="t-temp"><span>室内温度</span><b id="v-temp">--</b><small>℃</small></div>
+      <div class="card tile" id="t-hum"><span>湿度</span><b id="v-hum">--</b><small>%</small></div>
+      <div class="card tile" id="t-lux"><span>光照</span><b id="v-lux">--</b><small>lux</small></div>
+      <div class="card tile" id="t-pir"><span>人体存在</span><b id="v-pir">--</b><small id="v-pir-sub"></small></div>
+    </div>
+    <div class="card">
+      <div class="card-title">实时数据曲线 <small><i class="lg t"></i>温度 ℃ <i class="lg l"></i>光照 lux · 室外 <span id="v-out">--</span>℃</small></div>
+      <canvas id="chart" height="190"></canvas>
+    </div>
+    <div class="card">
+      <div class="card-title">环境仿真控制 <small>模拟真实世界的变化</small></div>
+      <div class="sim-row">
+        <select id="sim-person"><option>小明</option><option>爸爸</option><option>妈妈</option><option>访客</option></select>
+        <button class="btn" id="sim-enter">🚶 人员进入</button>
+        <button class="btn ghost" id="sim-leave">人员离开</button>
+      </div>
+      <div class="sim-row">
+        <span class="lbl">时间跳转</span>
+        <button class="chip" data-time="420">07:00</button><button class="chip" data-time="720">12:00</button>
+        <button class="chip" data-time="840">14:00</button><button class="chip" data-time="1110">18:30</button>
+        <button class="chip" data-time="1200">20:00</button><button class="chip" data-time="1380">23:00</button>
+      </div>
+      <div class="sim-row">
+        <span class="lbl">室外天气</span>
+        <button class="chip" data-out="4">🔥 热浪 +4℃</button><button class="chip" data-out="-4">🌧 降温 −4℃</button>
+        <span class="lbl">时钟倍速</span>
+        <select id="sim-speed"><option value="1">1×</option><option value="3">3×</option><option value="6">6×</option></select>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">自动化规则 <small>上升沿触发 · 手动操作优先 60s</small></div>
+      <ul class="rules" id="rules"></ul>
+    </div>
+  </section>
+
+  <!-- 右列：对话交互 + 事件日志 -->
+  <section class="col">
+    <div class="card chat-card">
+      <div class="card-title">语音 / 文字交互 <small id="voice-tip"></small>
+        <label class="tts"><input type="checkbox" id="tts"> 语音播报</label></div>
+      <div class="chat" id="chat"></div>
+      <div class="quick" id="quick">
+        <button class="chip">打开灯</button><button class="chip">把灯调成暖光</button>
+        <button class="chip">我有点热</button><button class="chip">空调调到24度</button>
+        <button class="chip">打开风扇和音乐</button><button class="chip">太暗了</button>
+        <button class="chip">我要看电影</button><button class="chip">晚安</button>
+        <button class="chip">现在温度多少</button>
+      </div>
+      <form class="input" id="chat-form">
+        <button type="button" class="mic" id="mic" title="按下说话">🎤</button>
+        <input id="chat-input" autocomplete="off" placeholder="输入指令，如“把客厅灯调亮一点”">
+        <button class="btn" type="submit">发送</button>
+      </form>
+    </div>
+    <div class="card log-card">
+      <div class="card-title">交互事件流 <small>感知 / 判断 / 响应</small></div>
+      <ul class="log" id="log"></ul>
+    </div>
+  </section>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>

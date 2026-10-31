@@ -1,0 +1,34 @@
+
+① 设备接入与数据上报
+  [PASS] 设备网关在线 
+  [PASS] 收到遥测数据 29.05
+
+② 情形一：环境感知自动响应（人员进入 → 规则 R1 开灯）
+  [PASS] 感知到人员进入 
+  [PASS] 规则 R1 触发 
+  [PASS] 灯已打开且为暖光 {'on': True, 'brightness': 65, 'color_temp': 3000}
+  [PASS] 用户身份切换并加载偏好 
+
+③ 情形二：文字指令控制
+  [PASS] NLU 解析为设备控制 
+  [PASS] 空调开启且目标 25℃ {'on': True, 'mode': 'cool', 'target': 25}
+
+④ 情形三：模糊表达结合环境推理
+  [PASS] 意图为 feeling_dark 
+  [PASS] 灯光亮度提升 {'on': True, 'brightness': 95, 'color_temp': 3000}
+
+⑤ 情形四：场景联动（晚安 → 多设备）
+  [PASS] 灯光 10% 夜灯 
+  [PASS] 播放白噪音 
+
+⑥ 按钮控制 + HTTP REST 接口
+  [PASS] 按钮控制风扇 3 档 
+  [PASS] HTTP 指令接口 
+  [PASS] HTTP 状态查询接口 
+
+⑦ 人员离开 → 规则 R2 节能关闭
+  [PASS] 规则 R2 触发 
+  [PASS] 用电设备全部关闭 
+  [PASS] 所有命令均收到设备回执 15 条
+
+结果：18/18 项通过

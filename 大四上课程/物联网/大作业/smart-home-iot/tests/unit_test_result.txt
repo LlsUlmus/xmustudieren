@@ -1,0 +1,17 @@
+test_basic_on_off (test_nlu_rules.TestNLU) ... ok
+test_chinese_number (test_nlu_rules.TestNLU) ... ok
+test_context_aware_dark (test_nlu_rules.TestNLU) ... ok
+test_context_aware_hot (test_nlu_rules.TestNLU) ... ok
+test_multi_device_and_clause (test_nlu_rules.TestNLU) ... ok
+test_query_and_unknown (test_nlu_rules.TestNLU) ... ok
+test_relative_adjust_uses_current_state (test_nlu_rules.TestNLU) ... ok
+test_scene_uses_profile (test_nlu_rules.TestNLU) ... ok
+test_high_temp_and_disabled (test_nlu_rules.TestRules) ... ok
+test_manual_override (test_nlu_rules.TestRules) ... ok
+test_presence_light_rising_edge (test_nlu_rules.TestRules) ... ok
+test_vacant_turn_off (test_nlu_rules.TestRules) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.007s
+
+OK

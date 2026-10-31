@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>智慧番茄温室监测平台</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" class="logo" aria-hidden="true"><path d="M4 26 L16 8 L28 26 Z" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/><circle cx="16" cy="20" r="4.2" fill="#e5533d"/><path d="M14 15.5 q2 -2 4 0" stroke="#3a9d4f" stroke-width="2" fill="none"/></svg>
+    <div>
+      <h1>智慧番茄温室物联网监测平台</h1>
+      <p class="sub">日光温室番茄基地 · 3 栋大棚 · 土壤 / 灌溉 / 虫情 / 无人机 / 摄像头</p>
+    </div>
+  </div>
+  <div class="status-bar">
+    <span id="simClock" class="pill">模拟时刻 --:--</span>
+    <span id="simState" class="pill">模拟器 --</span>
+    <span id="msgCount" class="pill">消息 0</span>
+    <span id="conn" class="pill conn-off">● 未连接</span>
+  </div>
+</header>
+
+<nav id="ghTabs" class="gh-tabs"></nav>
+
+<main class="layout">
+  <section class="col-main">
+    <div class="card" id="secEnv">
+      <div class="card-h"><h2><span class="num">1</span>土壤与环境监测</h2><span class="hint" id="envDevice"></span></div>
+      <div class="kpis" id="envKpis"></div>
+      <div class="chart-wrap"><div class="chart-title">土壤湿度（实测 / 5点移动平均 / 灌溉阈值带）</div><div id="chartMoisture" class="chart"></div></div>
+      <div class="chart-wrap"><div class="chart-title">空气温度 / 空气湿度 / 土壤温度</div><div id="chartClimate" class="chart"></div></div>
+      <div class="analysis" id="envAnalysis"></div>
+    </div>
+
+    <div class="card" id="secIrr">
+      <div class="card-h"><h2><span class="num">2</span>灌溉设备状态与控制</h2><span class="hint" id="irrDevice"></span></div>
+      <div class="irr-grid">
+        <div class="irr-state" id="irrState"></div>
+        <div class="irr-ctrl">
+          <div class="row">
+            <label class="switch"><input type="checkbox" id="autoMode"><span></span></label>
+            <span>自动灌溉（湿度联动）</span>
+          </div>
+          <div class="row thr">
+            下限 <input type="number" id="thrLow" step="1" min="10" max="95"> %
+            上限 <input type="number" id="thrHigh" step="1" min="10" max="99"> %
+            <button class="btn ghost sm" id="saveThr">保存</button>
+          </div>
+          <div class="row">
+            <button class="btn primary" id="btnOpen">手动开阀</button>
+            <button class="btn" id="btnClose">手动关阀</button>
+            <button class="btn ghost" id="btnOpen30">定时 20s</button>
+          </div>
+          <div id="irrPending" class="pending"></div>
+        </div>
+      </div>
+      <div class="chart-wrap"><div class="chart-title">累计用水量（L，按加速时间折算） / 瞬时流量（L/min）</div><div id="chartWater" class="chart sm"></div></div>
+      <div class="analysis" id="irrAnalysis"></div>
+      <div class="table-wrap"><table class="tbl" id="cmdTable"></table></div>
+    </div>
+
+    <div class="card" id="secPest">
+      <div class="card-h"><h2><span class="num">3</span>病虫害监测（虫情测报灯）</h2><span class="hint" id="pestDevice"></span></div>
+      <div class="chart-wrap"><div class="chart-title">每 5 秒诱捕计数（堆叠）· 橙框=异常待核实 · 灰=判定误报 · 红=确认虫害</div><div id="chartPest" class="chart"></div></div>
+      <div class="analysis" id="pestAnalysis"></div>
+    </div>
+  </section>
+
+  <section class="col-side">
+    <div class="card" id="secDrone">
+      <div class="card-h"><h2><span class="num">4</span>无人机巡检与病虫害识别</h2>
+        <div class="btns"><button class="btn ghost sm" id="imgToggle">看原图</button><button class="btn primary sm" id="btnDrone">立即巡检</button></div></div>
+      <div class="drone-view" id="droneView"></div>
+      <div class="analysis" id="droneAnalysis"></div>
+      <div class="thumbs" id="droneThumbs"></div>
+    </div>
+
+    <div class="card" id="secCam">
+      <div class="card-h"><h2><span class="num">5</span>摄像头监控</h2>
+        <div class="btns"><button class="btn primary sm" id="btnSnap">抓拍</button></div></div>
+      <div class="cam-view" id="camView"><img id="camImg" alt="摄像头画面"><div id="camOverlay" class="cam-overlay hidden"></div></div>
+      <div class="chart-wrap"><div class="chart-title">画面变化率（帧差法，%）· 竖线=运动事件抓拍</div><div id="chartCam" class="chart xs"></div></div>
+      <div class="analysis" id="camAnalysis"></div>
+      <div class="snaps" id="camSnaps"></div>
+    </div>
+  </section>
+
+  <section class="col-ops">
+    <div class="card">
+      <div class="card-h"><h2>告警中心</h2><span class="badge" id="alarmCount">0</span></div>
+      <div id="alarmActive" class="alarm-list"></div>
+      <details class="hist"><summary>告警与恢复记录</summary><div id="alarmHist" class="alarm-list"></div></details>
+    </div>
+    <div class="card">
+      <div class="card-h"><h2>功能联动日志</h2></div>
+      <div id="linkLog" class="log"></div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h2>故障与场景模拟</h2><span class="hint" id="faultGh"></span></div>
+      <div id="faultPanel" class="fault-panel"></div>
+      <div class="scen">
+        <button class="btn sm" data-scen="dry">快速干旱</button>
+        <button class="btn sm warn" data-scen="pest_outbreak">真实虫害爆发</button>
+        <button class="btn sm ghost" data-scen="reset">全部恢复</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-h"><h2>设备状态</h2></div>
+      <div id="devList" class="dev-list"></div>
+    </div>
+  </section>
+</main>
+
+<div id="toasts" class="toasts"></div>
+<div id="lightbox" class="lightbox hidden"><img id="lbImg" alt=""></div>
+<script src="/static/charts.js"></script>
+<script src="/static/app.js"></script>
+</body>
+</html>

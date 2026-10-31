@@ -1,0 +1,96 @@
+# 4 个投票节点 + 1 个 Listener（只学习不投票），固定 IP，容器内监听 7000，映射到宿主机 7001-7004/7009。
+#   4 节点： MODE=multi docker compose -f docker/docker-compose.yml up -d --build
+#   3 节点： PEERS=1=172.28.0.11:7000,2=172.28.0.12:7000,3=172.28.0.13:7000 #            docker compose -f docker/docker-compose.yml up -d --build n1 n2 n3 l1
+# 可调变量：MODE=basic|multi|fast  FSYNC=0|1  PEERS  RETRY_MS  ELECTION_MS
+x-node: &node
+  build:
+    context: ..
+    dockerfile: docker/Dockerfile
+  image: paxos-node:latest
+  cap_add: [NET_ADMIN]            # 允许容器内执行 tc / iptables
+  entrypoint:
+    - sh
+    - -c
+    - >-
+      exec python -m paxos.node --id $$NODE_ID --peers $$PEERS --listeners $$LISTENERS
+      --bind 0.0.0.0 --mode $$MODE --fsync $$FSYNC --data-dir /data
+      --retry-ms $$RETRY_MS --election-ms $$ELECTION_MS
+
+x-env: &env
+  PEERS: "${PEERS:-1=172.28.0.11:7000,2=172.28.0.12:7000,3=172.28.0.13:7000,4=172.28.0.14:7000}"
+  LISTENERS: "9=172.28.0.21:7000"
+  MODE: "${MODE:-multi}"
+  FSYNC: "${FSYNC:-1}"
+  RETRY_MS: "${RETRY_MS:-200}"
+  ELECTION_MS: "${ELECTION_MS:-300}"
+
+services:
+  n1:
+    <<: *node
+    hostname: n1
+    environment:
+      <<: *env
+      NODE_ID: "1"
+    volumes: ["n1data:/data"]
+    ports: ["7001:7000"]
+    networks:
+      paxosnet:
+        ipv4_address: 172.28.0.11
+  n2:
+    <<: *node
+    hostname: n2
+    environment:
+      <<: *env
+      NODE_ID: "2"
+    volumes: ["n2data:/data"]
+    ports: ["7002:7000"]
+    networks:
+      paxosnet:
+        ipv4_address: 172.28.0.12
+  n3:
+    <<: *node
+    hostname: n3
+    environment:
+      <<: *env
+      NODE_ID: "3"
+    volumes: ["n3data:/data"]
+    ports: ["7003:7000"]
+    networks:
+      paxosnet:
+        ipv4_address: 172.28.0.13
+  n4:
+    <<: *node
+    hostname: n4
+    environment:
+      <<: *env
+      NODE_ID: "4"
+    volumes: ["n4data:/data"]
+    ports: ["7004:7000"]
+    networks:
+      paxosnet:
+        ipv4_address: 172.28.0.14
+  l1:
+    <<: *node
+    hostname: l1
+    environment:
+      <<: *env
+      NODE_ID: "9"
+    volumes: ["l1data:/data"]
+    ports: ["7009:7000"]
+    networks:
+      paxosnet:
+        ipv4_address: 172.28.0.21
+
+volumes:
+  n1data: {}
+  n2data: {}
+  n3data: {}
+  n4data: {}
+  l1data: {}
+
+networks:
+  paxosnet:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24

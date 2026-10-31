@@ -1,0 +1,5 @@
+flask>=2.3
+requests>=2.28
+# 以下仅用于自动截图/录制演示视频（可选）
+playwright>=1.40
+imageio-ffmpeg>=0.4

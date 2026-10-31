@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>智慧教室环境监测与节能控制</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"
+        onerror="this.onerror=null;this.src='https://cdn.bootcdn.net/ajax/libs/echarts/5.5.0/echarts.min.js'"></script>
+<style>
+  :root {
+    --bg: #0b1626; --panel: #12233a; --line: #1f3a5c; --text: #d7e4f5; --dim: #7f95b3;
+    --blue: #3aa0ff; --green: #2ed47a; --yellow: #ffc53d; --red: #ff5c5c; --off: #3b4c63;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font-family: "Microsoft YaHei", "PingFang SC", sans-serif; }
+  header { display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+           padding: 14px 24px; border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 20px; margin: 0; letter-spacing: 1px; flex: 1; min-width: 260px; }
+  header select { background: var(--panel); color: var(--text); border: 1px solid var(--line);
+                  border-radius: 6px; padding: 6px 10px; font-size: 14px; }
+  .meta { font-size: 13px; color: var(--dim); }
+  .meta b { color: var(--text); font-weight: normal; }
+  .tag { font-size: 12px; padding: 2px 8px; border-radius: 10px; border: 1px solid var(--yellow); color: var(--yellow); }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--off);
+         vertical-align: -1px; margin-right: 6px; transition: all .3s; }
+  .dot.on { background: var(--green); box-shadow: 0 0 10px var(--green); }
+  .dot.warn { background: var(--red); box-shadow: 0 0 10px var(--red); }
+
+  #banner { display: none; margin: 14px 24px 0; padding: 10px 16px; border-radius: 8px; font-size: 14px;
+            background: rgba(255,92,92,.15); border: 1px solid var(--red); color: #ffb3b3; }
+  #banner.show { display: block; }
+  #banner.err { background: rgba(255,197,61,.12); border-color: var(--yellow); color: var(--yellow); }
+
+  main { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; padding: 14px 24px 24px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .card h2 { font-size: 14px; font-weight: normal; color: var(--dim); margin: 0 0 6px; }
+  .g2 { grid-column: span 2; } .g3 { grid-column: span 3; }
+  .gauge { height: 210px; } .chart { height: 250px; }
+
+  .lights { display: grid; gap: 10px; }
+  .light-row { display: flex; align-items: center; justify-content: space-between;
+               padding: 8px 10px; background: rgba(255,255,255,.03); border-radius: 8px; font-size: 14px; }
+  .light-row .val { color: var(--dim); margin-left: auto; margin-right: 12px; font-size: 13px; }
+  button.sw { background: transparent; color: var(--blue); border: 1px solid var(--blue); border-radius: 6px;
+              padding: 4px 12px; cursor: pointer; font-size: 13px; }
+  button.sw:hover { background: rgba(58,160,255,.15); }
+  button.sw:disabled { opacity: .4; cursor: wait; }
+
+  .bar-item { margin-bottom: 18px; }
+  .bar-head { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 6px; }
+  .bar-head span:last-child { font-size: 20px; color: #fff; }
+  .bar-head small { font-size: 12px; color: var(--dim); margin-left: 4px; }
+  .bar { height: 12px; background: #0b1626; border-radius: 6px; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 0; border-radius: 6px; background: var(--blue);
+           transition: width .8s, background .8s; }
+
+  #log { list-style: none; margin: 0; padding: 0; font-size: 13px; height: 190px; overflow-y: auto; }
+  #log li { padding: 5px 0; border-bottom: 1px dashed var(--line); }
+  #log time { color: var(--dim); margin-right: 8px; }
+
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  @media (max-width: 1000px) { main { grid-template-columns: 1fr; } .g2, .g3 { grid-column: span 1; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>智慧教室环境监测与节能控制系统</h1>
+  <span id="offlineTag" class="tag" hidden>离线预览 · 未连接云平台</span>
+  <select id="deviceSel"></select>
+  <span class="meta"><span id="onlineDot" class="dot"></span><b id="onlineText">设备离线</b></span>
+  <span class="meta">最近上报 <b id="lastTime">--:--:--</b></span>
+  <span class="meta">累计接收 <b id="count">0</b> 条</span>
+</header>
+
+<div id="banner"></div>
+
+<main>
+  <div class="card g2"><h2>温度</h2><div id="gTemp" class="gauge"></div></div>
+  <div class="card g2"><h2>湿度</h2><div id="gHum" class="gauge"></div></div>
+  <div class="card g2"><h2>CO₂ 浓度</h2><div id="gCo2" class="gauge"></div></div>
+
+  <div class="card g3"><h2>温湿度实时曲线</h2><div id="cTH" class="chart"></div></div>
+  <div class="card g3"><h2>CO₂ 实时曲线</h2><div id="cCo2" class="chart"></div></div>
+
+  <div class="card g2">
+    <h2>设备状态与远程控制</h2>
+    <div class="lights">
+      <div class="light-row"><span><span id="dOcc" class="dot"></span>人员存在</span><span id="vOcc" class="val">--</span></div>
+      <div class="light-row"><span><span id="dAc" class="dot"></span>空调</span><span id="vAc" class="val">--</span><button class="sw" data-key="ac">切换</button></div>
+      <div class="light-row"><span><span id="dLight" class="dot"></span>灯光</span><span id="vLight" class="val">--</span><button class="sw" data-key="light">切换</button></div>
+      <div class="light-row"><span><span id="dFan" class="dot"></span>新风</span><span id="vFan" class="val">--</span><button class="sw" data-key="fan">切换</button></div>
+    </div>
+  </div>
+
+  <div class="card g2">
+    <h2>空气质量与光照</h2>
+    <div class="bar-item">
+      <div class="bar-head"><span>PM2.5</span><span><span id="vPm">--</span><small>μg/m³</small></span></div>
+      <div class="bar"><i id="bPm"></i></div>
+    </div>
+    <div class="bar-item">
+      <div class="bar-head"><span>光照强度</span><span><span id="vLux">--</span><small>lx</small></span></div>
+      <div class="bar"><i id="bLux"></i></div>
+    </div>
+    <div class="bar-item" style="margin-bottom:0">
+      <div class="bar-head"><span>CO₂ 达标程度</span><span><span id="vCo2Lvl">--</span></span></div>
+      <div class="bar"><i id="bCo2"></i></div>
+    </div>
+  </div>
+
+  <div class="card g2"><h2>状态变化记录</h2><ul id="log"></ul></div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+const C = { blue: '#3aa0ff', green: '#2ed47a', yellow: '#ffc53d', red: '#ff5c5c', dim: '#7f95b3', line: '#1f3a5c' };
+const NAMES = { occupied: '人员存在', ac: '空调', light: '灯光', fan: '新风' };
+
+function gauge(el, min, max, unit, stops) {
+  const chart = echarts.init($(el));
+  chart.setOption({
+    series: [{
+      type: 'gauge', min, max, radius: '95%', center: ['50%', '58%'], startAngle: 210, endAngle: -30,
+      axisLine: { lineStyle: { width: 14, color: stops } },
+      pointer: { length: '60%', width: 5, itemStyle: { color: 'auto' } },
+      axisTick: { distance: -14, length: 5, lineStyle: { color: '#0b1626' } },
+      splitLine: { distance: -14, length: 14, lineStyle: { color: '#0b1626', width: 2 } },
+      axisLabel: { color: C.dim, distance: 20, fontSize: 11 },
+      detail: { valueAnimation: true, formatter: v => v + ' ' + unit, color: '#fff', fontSize: 22, offsetCenter: [0, '70%'] },
+      data: [{ value: min }]
+    }]
+  });
+  return chart;
+}
+
+const gTemp = gauge('gTemp', 10, 40, '℃', [[0.27, C.blue], [0.6, C.green], [0.73, C.yellow], [1, C.red]]);
+const gHum = gauge('gHum', 0, 100, '%', [[0.3, C.yellow], [0.7, C.green], [1, C.blue]]);
+const gCo2 = gauge('gCo2', 400, 2000, 'ppm', [[0.375, C.green], [0.6875, C.yellow], [1, C.red]]);
+
+function lineBase(extra) {
+  return Object.assign({
+    grid: { left: 46, right: 46, top: 34, bottom: 28 },
+    tooltip: { trigger: 'axis' },
+    legend: { textStyle: { color: C.dim }, top: 0 },
+    xAxis: { type: 'category', data: [], axisLine: { lineStyle: { color: C.line } }, axisLabel: { color: C.dim } },
+  }, extra);
+}
+const yAxis = (name, min, max) => ({
+  type: 'value', name, min, max, nameTextStyle: { color: C.dim },
+  axisLabel: { color: C.dim }, splitLine: { lineStyle: { color: C.line, type: 'dashed' } }
+});
+
+const cTH = echarts.init($('cTH'));
+cTH.setOption(lineBase({
+  yAxis: [yAxis('℃', 15, 35), Object.assign(yAxis('%', 30, 80), { splitLine: { show: false } })],
+  series: [
+    { name: '温度', type: 'line', smooth: true, showSymbol: false, itemStyle: { color: C.red }, data: [] },
+    { name: '湿度', type: 'line', smooth: true, showSymbol: false, yAxisIndex: 1, itemStyle: { color: C.blue }, data: [] }
+  ]
+}));
+
+const cCo2 = echarts.init($('cCo2'));
+cCo2.setOption(lineBase({
+  yAxis: [yAxis('ppm', 400, v => Math.max(1600, Math.ceil(v.max / 200) * 200))],
+  series: [{
+    name: 'CO₂', type: 'line', smooth: true, showSymbol: false, itemStyle: { color: C.green },
+    areaStyle: { opacity: 0.15 }, data: [],
+    markLine: { silent: true, symbol: 'none', label: { color: C.dim, position: 'insideEndTop' }, data: [
+      { yAxis: 1000, name: '开新风', lineStyle: { color: C.yellow }, label: { formatter: '1000 开新风' } },
+      { yAxis: 1500, name: '告警', lineStyle: { color: C.red }, label: { formatter: '1500 告警' } }
+    ] }
+  }]
+}));
+
+window.addEventListener('resize', () => [gTemp, gHum, gCo2, cTH, cCo2].forEach(c => c.resize()));
+
+const fmt = ts => new Date(ts).toLocaleTimeString('zh-CN', { hour12: false });
+let device = '', lastTs = 0, prev = null, count = 0;
+
+function addLog(text, ts) {
+  const li = document.createElement('li');
+  li.innerHTML = `<time>${fmt(ts)}</time>${text}`;
+  $('log').prepend(li);
+  while ($('log').children.length > 30) $('log').lastChild.remove();
+}
+
+function setLight(dotId, valId, on, onText, offText, warn) {
+  $(dotId).className = 'dot' + (on ? (warn ? ' warn' : ' on') : '');
+  $(valId).textContent = on ? onText : offText;
+}
+
+function setBar(barId, pct, color) {
+  $(barId).style.width = Math.max(0, Math.min(100, pct)) + '%';
+  $(barId).style.background = color;
+}
+
+function showBanner(text, isErr) {
+  $('banner').className = text ? 'show' + (isErr ? ' err' : '') : '';
+  $('banner').textContent = text || '';
+}
+
+function render(s) {
+  $('onlineDot').className = 'dot' + (s.online ? ' on' : '');
+  $('onlineText').textContent = s.online ? '设备在线' : '设备离线';
+
+  const p = s.props;
+  if (s.error) return showBanner('云平台请求失败：' + s.error, true);
+  if (!s.ts) return showBanner('等待设备上报数据…', true);
+
+  if (p.co2 > 1500) showBanner(`⚠ CO₂ 浓度 ${p.co2} ppm，超过 1500 ppm 告警阈值，请立即通风`);
+  else if (p.co2 > 1000) showBanner(`CO₂ 浓度 ${p.co2} ppm 偏高，已联动开启新风`);
+  else showBanner('');
+
+  if (s.ts === lastTs) return;
+  if (lastTs) count++; else count = s.history.length;
+  lastTs = s.ts;
+  $('lastTime').textContent = fmt(s.ts);
+  $('count').textContent = count;
+
+  gTemp.setOption({ series: [{ data: [{ value: p.temperature }] }] });
+  gHum.setOption({ series: [{ data: [{ value: p.humidity }] }] });
+  gCo2.setOption({ series: [{ data: [{ value: p.co2 }] }] });
+
+  const x = s.history.map(h => fmt(h.ts));
+  cTH.setOption({ xAxis: { data: x }, series: [{ data: s.history.map(h => h.temperature) }, { data: s.history.map(h => h.humidity) }] });
+  cCo2.setOption({ xAxis: { data: x }, series: [{ data: s.history.map(h => h.co2) }] });
+
+  setLight('dOcc', 'vOcc', p.occupied, '有人', '无人');
+  setLight('dAc', 'vAc', p.ac, '运行中', '已关闭');
+  setLight('dLight', 'vLight', p.light, '已开启', '已关闭');
+  setLight('dFan', 'vFan', p.fan, '运行中', '已关闭');
+
+  $('vPm').textContent = p.pm25;
+  setBar('bPm', p.pm25 / 150 * 100, p.pm25 <= 35 ? C.green : p.pm25 <= 75 ? C.yellow : C.red);
+  $('vLux').textContent = p.lux;
+  setBar('bLux', p.lux / 800 * 100, C.blue);
+  $('vCo2Lvl').textContent = p.co2 <= 1000 ? '良好' : p.co2 <= 1500 ? '偏高' : '超标';
+  setBar('bCo2', (p.co2 - 400) / 1600 * 100, p.co2 <= 1000 ? C.green : p.co2 <= 1500 ? C.yellow : C.red);
+
+  if (prev) {
+    for (const k in NAMES) {
+      if (p[k] !== prev[k]) {
+        const word = k === 'occupied' ? (p[k] ? '检测到有人' : '变为无人') : (p[k] ? '开启' : '关闭');
+        addLog(k === 'occupied' ? `教室${word}` : `${NAMES[k]}${word}`, s.ts);
+      }
+    }
+    if (p.co2 > 1500 && prev.co2 <= 1500) addLog('CO₂ 超过 1500 ppm，触发告警', s.ts);
+  }
+  prev = p;
+}
+
+async function poll() {
+  try {
+    const r = await fetch('/api/state?device=' + encodeURIComponent(device));
+    render(await r.json());
+  } catch (e) {
+    showBanner('无法连接监控后端 server.py', true);
+  }
+}
+
+document.querySelectorAll('button.sw').forEach(btn => btn.addEventListener('click', async () => {
+  if (!prev) return;
+  const key = btn.dataset.key, value = !prev[key];
+  btn.disabled = true;
+  try {
+    const r = await fetch('/api/control', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ device, key, value })
+    });
+    const res = await r.json();
+    addLog(res.ok ? `已下发命令：${NAMES[key]}${value ? '开启' : '关闭'}` : `命令下发失败：${res.msg}`, Date.now());
+  } finally {
+    btn.disabled = false;
+  }
+}));
+
+$('deviceSel').addEventListener('change', e => {
+  device = e.target.value; lastTs = 0; prev = null; count = 0; $('log').innerHTML = '';
+  poll();
+});
+
+(async () => {
+  const info = await (await fetch('/api/devices')).json();
+  $('offlineTag').hidden = !info.offline;
+  $('deviceSel').innerHTML = info.devices.map(d => `<option>${d}</option>`).join('');
+  device = info.devices[0];
+  poll();
+  setInterval(poll, 2000);
+})();
+</script>
+</body>
+</html>

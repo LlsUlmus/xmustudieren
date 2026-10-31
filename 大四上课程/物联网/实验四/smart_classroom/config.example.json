@@ -1,0 +1,18 @@
+{
+  "product_id": "fn3UP6V7oc",
+  "product_access_key": "",
+
+  "user_id": "",
+  "user_access_key": "",
+
+  "devices": [
+    { "name": "classroom-101", "key": "" }
+  ],
+
+  "mqtt_host": "fn3UP6V7oc.mqtts.acc.cmcconenet.cn",
+  "mqtt_port": 1883,
+  "mqtt_ca_cert": "",
+
+  "api_base": "https://iot-api.heclouds.com",
+  "report_interval": 5
+}

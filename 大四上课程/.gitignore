@@ -1,0 +1,40 @@
+# 只保留源代码、配置与文档，排除提交物/产物/大文件
+
+# 办公文档、压缩包、媒体
+*.doc
+*.docx
+*.pdf
+*.zip
+*.mp4
+*.webm
+*.png
+*.jpg
+*.jpeg
+~$*
+
+# 数据库与实验数据
+*.db
+*.log
+云计算/作业五/data/
+云计算/作业四/hw4/data/
+物联网/实验五/energy-platform/data/
+物联网/实验六/agri-iot-platform/data/
+
+# 虚拟机磁盘与密钥
+云计算/vmdisk/
+云计算/vmkey/
+
+# 重复副本
+云计算/作业四/云原生实验_待命名/
+
+# 含真实云平台密钥的配置（见 config.example.json）
+物联网/实验四/smart_classroom/config.json
+
+# 环境与缓存
+.venv/
+venv/
+__pycache__/
+*.pyc
+.claude/
+.vscode/
+.idea/
